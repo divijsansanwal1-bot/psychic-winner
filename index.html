@@ -60,6 +60,7 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 .stat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.box{background:var(--pn);border:1px solid var(--ln);border-radius:12px;padding:12px;text-align:center}.big{font-size:28px;font-weight:700;color:var(--go)}.lbl{font-size:12px;color:var(--mu);margin-top:2px}
 .head{font-size:15px;font-weight:700;margin:14px 0 6px}.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;z-index:99}#modal>div{width:100%;max-width:640px;margin:0 auto;background:var(--bg);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));max-height:92%;overflow-y:auto}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;align-items:center;gap:4px;background:var(--pn);border:1px solid var(--go);border-radius:999px;padding:4px 4px 4px 12px;font-size:14px;color:var(--ink);margin-top:6px}.chip button{all:unset;cursor:pointer;padding:2px 8px;color:var(--mu)}.sg{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.sg button{background:var(--pn);border:1px solid var(--ln);color:var(--ink);border-radius:8px;padding:9px 12px;font:inherit;font-size:14px}
 .mtit{font-size:18px;font-weight:700;margin-bottom:10px}.fld{display:block;font-size:13px;color:var(--mu);margin-bottom:10px}.fld input,.fld select{display:block;width:100%;margin:4px 0 0;padding:10px;font:inherit;color:var(--ink);background:var(--pn);border:1px solid var(--ln);border-radius:8px}
 :focus-visible{outline:2px solid var(--go);outline-offset:2px}
 </style></head><body><main>
@@ -69,7 +70,6 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 <div id="v-draft"><div class="strip"><div class="col a"><h2>Allies</h2><div id="sa"></div></div><div class="col e"><h2>Enemies</h2><div id="se"></div></div></div>
 <div class="lanes" id="lanes"></div>
 <label class="opt"><input type="checkbox" id="off"> Include heroes from other roles</label>
-<label class="opt"><input type="checkbox" id="auto"> Auto-analyse after every pick</label>
 <section class="res"><h2>Best from your pool</h2><button class="go" data-a="go">Analyse draft</button><div id="res"></div>
 <button class="go alt" data-a="deep">Deep analysis (Gemini)</button><div id="deep"></div></section>
 <section class="pk"><h2>Pick heroes</h2>
@@ -261,10 +261,13 @@ function analyse(){
   const need=A.length?["c","f","g"].filter(k=>!A.some(n=>by[n].t.includes(k))).map(k=>({c:"CC",f:"a frontline",g:"a late-game carry"})[k]):[];
   res={out,e:E.length,a:A.length,lane:myLane,need};stale=false;
 }
+let dsig="";const sig=()=>JSON.stringify([E,A,myLane,off]);
 function renderRes(){
   const r=$("res");
+  if(dsig&&dsig!==sig()){$("deep").innerHTML='<div class="stale">Draft changed. Tap Deep analysis for a fresh read.</div>';dsig=""}
   if(!pool.size){r.innerHTML='<div class="msg">Your pool is empty. Open the My pool tab and tap the heroes you play.</div>';return}
   if(!res){r.innerHTML='<div class="msg">Add the picks you can see (none is fine), choose your lane, then tap Analyse draft.</div>';return}
+  if(stale){r.innerHTML='<div class="stale">Draft changed. Tap Analyse draft for fresh picks.</div>';return}
   const hd=(stale?'<div class="stale">Picks or lane changed since this analysis. Tap Analyse draft to refresh.</div>':'')+`<div class="note">Based on ${res.e} enemy and ${res.a} ally picks${res.lane?", lane: "+res.lane:""}. Scores will shift as more heroes are revealed.${res.need.length?" Your team still needs "+res.need.join(" and ")+".":""}</div>`;
   const top=res.out.slice(0,8);
   r.innerHTML=hd+(top.length?top.map((x,i)=>{
@@ -273,7 +276,7 @@ function renderRes(){
 }
 function matchList(){return H.filter(h=>h.n.toLowerCase().includes(q)).sort((a,b)=>b.n.toLowerCase().startsWith(q)-a.n.toLowerCase().startsWith(q))}
 function pickHero(v){const cur=mode=="E"?E:A,oth=mode=="E"?A:E,max=mode=="E"?5:4,i=cur.indexOf(v);if(i>-1)cur.splice(i,1);else if(cur.length<max&&!oth.includes(v))cur.push(v)}
-let auto=false;try{auto=localStorage.getItem("lp-auto")=="1";$("auto").checked=auto}catch(e){}
+try{localStorage.removeItem("lp-auto")}catch(e){}
 function renderGrid(){
   const cur=mode=="E"?E:mode=="A"?A:null,oth=mode=="E"?A:mode=="A"?E:[];
   $("grid").innerHTML=matchList().map(h=>{
@@ -313,7 +316,7 @@ Reply in plain text for a phone screen, under 450 words:
 async function deep(){
   const o=$("deep");
   if(!gkey){o.innerHTML='<div class="stale">Add your Gemini key first, in the Gemini key section below.</div>';return}
-  o.innerHTML='<div class="msg">Analysing the draft…</div>';
+  o.innerHTML='<div class="msg">Analysing the draft…</div>';dsig=sig();
   try{
     const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(gmodel)+":generateContent",{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":gkey},body:JSON.stringify({contents:[{parts:[{text:gprompt()}]}]})});
     const j=await r.json();
@@ -375,32 +378,53 @@ function render_hist(){
   o+='<div class="head">Recent matches</div>'+matches.slice(0,15).map((m,i)=>`<div class="card"><div class="row"><span class="nm">${hx(m.hero)} <span style="color:var(--${m.win?"go":"fo"})">${m.win?"Win":"Loss"}</span></span><button class="clr" data-a="delm" data-v="${i}" aria-label="Delete match">✕</button></div><div class="why">${hx(m.lane)}, ${new Date(m.date).toLocaleDateString()}<br>With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
   $("hlog").innerHTML=o;
 }
-function canon(str){return str.split(",").map(x=>x.trim()).filter(Boolean).map(x=>{const l=x.toLowerCase(),ex=H.find(h=>h.n.toLowerCase()==l);if(ex)return ex.n;const p=H.filter(h=>h.n.toLowerCase().startsWith(l));return p.length==1?p[0].n:x})}
+let ml={hero:"",team:[],enemy:[]};
+const MAXF={hero:1,team:4,enemy:5},FL={hero:"Your hero",team:"Your team (allies)",enemy:"Enemy team"};
+function msug(f){
+  const v=f=="hero"?(ml.hero?[ml.hero]:[]):ml[f],t=$("in-"+f).value.trim().toLowerCase();
+  if(!t||v.length>=MAXF[f])return[];
+  return H.filter(h=>h.n.toLowerCase().includes(t)&&!v.includes(h.n)).sort((a,b)=>(b.n.toLowerCase().startsWith(t)-a.n.toLowerCase().startsWith(t))||(pool.has(b.n)-pool.has(a.n))).slice(0,6).map(h=>h.n);
+}
+function mdraw(f){
+  const v=f=="hero"?(ml.hero?[ml.hero]:[]):ml[f];
+  $("ch-"+f).innerHTML=v.map(n=>`<span class="chip">${hx(n)}<button data-a="sx" data-v="${f}|${hx(n)}" aria-label="Remove ${hx(n)}">✕</button></span>`).join("");
+  $("in-"+f).style.display=v.length>=MAXF[f]?"none":"";
+  $("sg-"+f).innerHTML=msug(f).map(n=>`<button data-a="sg" data-v="${f}|${hx(n)}">${hx(n)}${pool.has(n)?" ★":""}</button>`).join("");
+}
+function msel(f,n){
+  if(f=="hero")ml.hero=n;else if(ml[f].length<MAXF[f]&&!ml[f].includes(n))ml[f].push(n);
+  const i=$("in-"+f);i.value="";mdraw(f);if(i.style.display!="none")i.focus();
+}
+function msx(f,n){if(f=="hero")ml.hero="";else ml[f]=ml[f].filter(x=>x!=n);mdraw(f)}
 function showModal(t){
   const old=$("modal");if(old)old.remove();
   if(t!="log")return;
-  const ps=[...pool].filter(n=>by[n]).sort(),rest=H.map(h=>h.n).filter(n=>!pool.has(n));
-  const opt=a=>a.map(n=>`<option>${hx(n)}</option>`).join("");
+  ml={hero:"",team:[...A],enemy:[...E]};
+  const fld=f=>`<div class="fld">${FL[f]}<div class="chips" id="ch-${f}"></div><input id="in-${f}" enterkeyhint="go" autocomplete="off" placeholder="Type 2 or 3 letters"><div class="sg" id="sg-${f}"></div></div>`;
   document.body.insertAdjacentHTML("beforeend",`<div id="modal"><div><div class="mtit">Log a match</div>
-<label class="fld">Your hero<select id="lh"><option value="">Choose hero</option><optgroup label="My pool">${opt(ps)}</optgroup><optgroup label="Other heroes">${opt(rest)}</optgroup></select></label>
+${fld("hero")}
 <div class="row2"><label class="fld">Lane<select id="ll"><option value="">Choose</option><option>roam</option><option>jungle</option><option>mid</option><option>EXP lane</option><option>gold</option></select></label><label class="fld">Result<select id="lr"><option value="">Choose</option><option value="1">Win</option><option value="0">Loss</option></select></label></div>
-<label class="fld">Your team (comma separated)<input id="lt" value="${hx(A.join(", "))}" placeholder="Layla, Tigreal"></label>
-<label class="fld">Enemy team (comma separated)<input id="le" value="${hx(E.join(", "))}" placeholder="Gusion, Khufra"></label>
+${fld("team")}${fld("enemy")}
 <label class="fld">Notes (optional)<input id="ln" placeholder="lag, hard carry, bad matchup"></label>
 <div class="row2"><button class="go" data-a="savem">Save match</button><button class="go alt" data-a="closem">Cancel</button></div></div></div>`);
+  ["hero","team","enemy"].forEach(f=>{
+    mdraw(f);
+    $("in-"+f).addEventListener("input",()=>mdraw(f));
+    $("in-"+f).addEventListener("keydown",e=>{if(e.key!="Enter")return;e.preventDefault();const n=msug(f)[0];if(n)msel(f,n)});
+  });
   if(myLane)$("ll").value=myLane;
 }
 function saveMatch(){
-  const h=$("lh").value,l=$("ll").value,r=$("lr").value;
+  const h=ml.hero,l=$("ll").value,r=$("lr").value;
   if(!h||!l||r===""){alert("Choose your hero, lane and the result.");return}
-  matches.unshift({hero:h,lane:l,win:r=="1",team:canon($("lt").value),enemy:canon($("le").value),notes:$("ln").value.trim(),date:new Date().toISOString()});
+  matches.unshift({hero:h,lane:l,win:r=="1",team:[...ml.team],enemy:[...ml.enemy],notes:$("ln").value.trim(),date:new Date().toISOString()});
   persist();showModal(null);render_hist();
 }
 function exportM(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(matches)],{type:"application/json"}));a.download="last-pick-matches.json";a.click()}
 document.addEventListener("click",e=>{
   const b=e.target.closest("[data-a]");if(!b)return;const v=b.dataset.v;
   const a=b.dataset.a;
-  if(a=="logm"){showModal("log");return}if(a=="savem"){saveMatch();return}if(a=="closem"){showModal(null);return}
+  if(a=="logm"){showModal("log");return}if(a=="savem"){saveMatch();return}if(a=="sg"||a=="sx"){const k=v.indexOf("|"),f=v.slice(0,k),n=v.slice(k+1);a=="sg"?msel(f,n):msx(f,n);return}if(a=="closem"){showModal(null);return}
   if(a=="delm"){if(confirm("Delete this match?")){matches.splice(+v,1);persist();render_hist()}return}if(a=="exp"){exportM();return}
   if(a=="view"){["draft","meta","hist"].forEach(n=>$("v-"+n).hidden=n!=v);document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.v==v));if(v=="meta")showMeta();if(v=="hist")render_hist();return}
   if(a=="mlane"){mLane=v;showMeta();return}if(a=="deep"){deep();return}if(a=="key"){saveKey();return}
@@ -413,12 +437,10 @@ document.addEventListener("click",e=>{
     const typing=q!=="";pickHero(v);
     if(typing){q="";const s=$("q");s.value="";s.focus()}
   }
-  if(auto&&(a=="rm"||a=="lane"||(a=="hero"&&mode!="P")))analyse();
   render();
 });
 $("imp").addEventListener("change",async ev=>{try{const j=JSON.parse(await ev.target.files[0].text());if(Array.isArray(j)){matches=j;persist();render_hist()}else throw 0}catch(x){alert("Could not read that backup file.")}ev.target.value=""});
-$("auto").addEventListener("change",e=>{auto=e.target.checked;try{localStorage.setItem("lp-auto",auto?"1":"0")}catch(x){}if(auto)analyse();render()});
-$("q").addEventListener("keydown",e=>{if(e.key!="Enter"||mode=="P")return;e.preventDefault();const cur=mode=="E"?E:A,oth=mode=="E"?A:E,f=matchList().find(h=>!cur.includes(h.n)&&!oth.includes(h.n));if(!f)return;pickHero(f.n);q="";e.target.value="";stale=true;if(auto)analyse();render()});
+$("q").addEventListener("keydown",e=>{if(e.key!="Enter"||mode=="P")return;e.preventDefault();const cur=mode=="E"?E:A,oth=mode=="E"?A:E,f=matchList().find(h=>!cur.includes(h.n)&&!oth.includes(h.n));if(!f)return;pickHero(f.n);q="";e.target.value="";stale=true;render()});
 $("off").addEventListener("change",e=>{off=e.target.checked;stale=true;render()});
 $("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();renderGrid()});
 render();
