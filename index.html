@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Last Pick – MLBB draft helper</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f8;--pn:#fff;--ink:#121a33;--mu:#5b6685;--al:#1f6fe0;--fo:#d2344a;--go:#a86a0a;--ln:#d5dbea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1226;--pn:#161d3a;--ink:#e8ecfa;--mu:#8e9ac0;--al:#4d9bff;--fo:#ff5a73;--go:#f2b84b;--ln:#263057}}
+:root[data-theme="dark"]{--bg:#0d1226;--pn:#161d3a;--ink:#e8ecfa;--mu:#8e9ac0;--al:#4d9bff;--fo:#ff5a73;--go:#f2b84b;--ln:#263057}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.4 'Chakra Petch',system-ui,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px 14px 40px}
+h1{font-size:26px;margin:0 0 2px;letter-spacing:.5px}
+.sub{color:var(--mu);margin:0 0 14px;font-size:13px}
+.strip{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ln);border-radius:12px;overflow:hidden;background:var(--pn)}
+.col{padding:10px}.col+.col{border-left:1px solid var(--ln)}
+.col h2{font-size:13px;margin:0 0 6px;font-weight:700}
+.col.a h2{color:var(--al)}.col.e h2{color:var(--fo)}
+.slot{height:30px;margin-bottom:5px;border-radius:6px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;font-size:13px;border:1px dashed var(--ln);color:var(--mu)}
+.slot.f{border-style:solid;color:var(--ink);font-weight:600}
+.a .slot.f{border-color:var(--al);background:color-mix(in srgb,var(--al) 12%,transparent)}
+.e .slot.f{border-color:var(--fo);background:color-mix(in srgb,var(--fo) 12%,transparent)}
+.slot button{all:unset;cursor:pointer;color:var(--mu);padding:4px}
+.res{margin:16px 0}
+.res h2,.pk h2{font-size:15px;margin:0 0 8px}
+.card{background:var(--pn);border:1px solid var(--ln);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.card.top{border:2px solid var(--go)}
+.row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.nm{font-weight:700;font-size:17px}.top .nm{font-size:22px}
+.sc{font-weight:700;color:var(--go);font-size:20px}
+.bar{height:5px;border-radius:3px;background:var(--ln);margin:6px 0}
+.bar i{display:block;height:100%;border-radius:3px;background:var(--go)}
+.why{font-size:12.5px;color:var(--mu)}.why b{color:var(--ink);font-weight:600}
+.msg{color:var(--mu);font-size:14px;padding:6px 0}
+.tabs{display:flex;gap:6px;margin-bottom:8px}
+.tabs button,.clr{font:600 13px 'Chakra Petch',system-ui,sans-serif;border:1px solid var(--ln);background:var(--pn);color:var(--ink);border-radius:8px;padding:8px 6px;flex:1;cursor:pointer}
+.tabs button.on[data-v="E"]{background:var(--fo);border-color:var(--fo);color:#fff}
+.tabs button.on[data-v="A"]{background:var(--al);border-color:var(--al);color:#fff}
+.tabs button.on[data-v="P"]{background:var(--go);border-color:var(--go);color:#fff}
+input{width:100%;font:inherit;padding:10px 12px;border-radius:8px;border:1px solid var(--ln);background:var(--pn);color:var(--ink);margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:6px}
+.h{font:inherit;font-size:13px;text-align:left;padding:8px;border-radius:8px;border:1px solid var(--ln);background:var(--pn);color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:6px;min-height:38px}
+.h s{width:8px;height:8px;border-radius:50%;flex:none;text-decoration:none}
+.h.on{outline:2px solid var(--go);font-weight:700}
+.h.tk{opacity:.35}
+.h em{margin-left:auto;font-style:normal;color:var(--go);font-size:11px}
+.foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;color:var(--mu);font-size:12px}
+.clr{flex:none;padding:6px 12px}
+.lanes{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px}.lanes b{width:100%;font-size:13px}.lanes button{font:600 13px 'Chakra Petch',system-ui,sans-serif;border:1px solid var(--ln);background:var(--pn);color:var(--ink);border-radius:8px;padding:8px 12px;cursor:pointer}.lanes button.on{background:var(--go);border-color:var(--go);color:#fff}
+.opt{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mu);margin-bottom:6px}.opt input{width:auto;margin:0}
+.go{width:100%;font:700 16px 'Chakra Petch',system-ui,sans-serif;padding:13px;border:0;border-radius:10px;background:var(--go);color:#fff;cursor:pointer;margin-bottom:10px}
+.stale{color:var(--fo);font-size:13px;margin-bottom:6px}.note{font-size:12.5px;color:var(--mu);margin-bottom:8px}
+.go.alt{background:transparent;color:var(--ink);border:2px solid var(--go)}.ans{white-space:pre-wrap;font-size:14px;line-height:1.55}
+details.set{margin-top:14px;font-size:13px}details.set summary{cursor:pointer;font-weight:600;margin-bottom:8px}details.set p{color:var(--mu);margin:6px 0}
+:focus-visible{outline:2px solid var(--go);outline-offset:2px}
+</style></head><body><main>
+<h1>Last Pick</h1>
+<p class="sub">Mark the draft, get your best hero from your pool.</p>
+<div class="strip"><div class="col a"><h2>Allies</h2><div id="sa"></div></div><div class="col e"><h2>Enemies</h2><div id="se"></div></div></div>
+<div class="lanes" id="lanes"></div>
+<label class="opt"><input type="checkbox" id="off"> Include heroes from other roles</label>
+<section class="res"><h2>Best from your pool</h2><button class="go" data-a="go">Analyse draft</button><div id="res"></div>
+<button class="go alt" data-a="deep">Deep analysis (Gemini)</button><div id="deep"></div></section>
+<section class="pk"><h2>Pick heroes</h2>
+<div class="tabs"><button data-a="mode" data-v="E">Enemy</button><button data-a="mode" data-v="A">Ally</button><button data-a="mode" data-v="P">My pool</button></div>
+<input id="q" type="search" placeholder="Search heroes" autocomplete="off" aria-label="Search heroes">
+<div class="grid" id="grid"></div>
+<details class="set"><summary>Gemini key for Deep analysis</summary><input id="gk" type="password" placeholder="Paste your Gemini API key" autocomplete="off" aria-label="Gemini API key"><input id="gm" placeholder="Model (default gemini-flash-latest)" aria-label="Gemini model"><button class="clr" data-a="key">Save</button> <span id="ks" class="why"></span><p>The key stays in this browser only. Deep analysis works when the app is hosted on your own site, not inside Claude.</p></details>
+<div class="foot"><span>Scores come from role, lane and trait rules, not live win rates.</span><button class="clr" data-a="clear">Clear draft</button></div>
+</section></main>
+<script>
+const D=`Tigreal|T|P|cf
+Franco|T|P|cf
+Atlas|T|M|cf
+Johnson|T|P|cfh
+Grock|T|P|cf
+Hylos|T|M|cfs
+Khufra|T|P|cfm
+Minotaur|T|P|cfh
+Gloo|T|P|fh
+Baxia|T|P|fs
+Belerick|T|P|f
+Uranus|T|P|fs
+Lolita|T|M|cfh
+Akai|T|P|cf
+Gatotkaca|T|P|cf
+Edith|T|B|cfp
+Barats|T|P|fs
+Angela|S|M|sh
+Estes|S|M|sh
+Rafaela|S|M|csh
+Diggie|S|M|ch
+Mathilda|S|M|mch
+Floryn|S|M|sh
+Faramis|S|M|s
+Carmilla|S|M|cs
+Kaja|S|P|c
+Layla|X|P|gp
+Miya|X|P|mg
+Bruno|X|P|bg
+Clint|X|P|pb
+Moskov|X|P|gt
+Karrie|X|P|gt
+Irithel|X|P|gw
+Hanabi|X|P|gs
+Claude|X|P|mg
+Lesley|X|P|bp
+Granger|X|P|bm
+Wanwan|X|P|mgt
+Popol and Kupa|X|P|c
+Brody|X|P|bm
+Beatrix|X|P|pb
+Natan|X|M|g
+Melissa|X|M|gc
+Ixia|X|P|gw
+Kimmy|X|M|pw
+Eudora|M|M|bc
+Gord|M|M|pcb
+Kagura|M|M|mb
+Aurora|M|M|cb
+Lunox|M|B|bs
+Vale|M|M|cw
+Harley|M|M|mb
+Vexana|M|M|cw
+Zhask|M|M|pwg
+Valentina|M|M|b
+Pharsa|M|M|pg
+Cecilion|M|M|gw
+Yve|M|M|pc
+Xavier|M|M|pc
+Odette|M|M|cbp
+Lylia|M|M|bm
+Alice|M|M|s
+Cyclops|M|M|cbm
+Luo Yi|M|M|c
+Chang'e|M|M|gw
+Valir|M|M|cw
+Harith|M|M|mbg
+Kadita|M|M|cb
+Novaria|M|M|p
+Esmeralda|M|M|sf
+Selena|M|M|cm
+Nana|M|M|cw
+Zhuxin|M|M|bc
+Alucard|F|P|bsm
+Zilong|F|P|mb
+Chou|F|P|cm
+Sun|F|P|w
+Bane|F|P|w
+Balmond|F|P|s
+Freya|F|P|b
+Alpha|F|P|s
+Ruby|F|P|cs
+Leomord|F|P|m
+Thamuz|F|P|s
+Martis|F|P|c
+Paquito|F|P|b
+Yu Zhong|F|P|cs
+Silvanna|F|M|cb
+X.Borg|F|M|s
+Masha|F|P|f
+Aldous|F|P|bm
+Badang|F|P|cb
+Jawhead|F|P|cbm
+Lapu-Lapu|F|P|s
+Dyrroth|F|P|b
+Guinevere|F|M|cbm
+Phoveus|F|P|c
+Arlott|F|P|b
+Cici|F|P|m
+Aulus|F|P|s
+Julian|F|B|bc
+Lukas|F|P|sb
+Khaleed|F|P|m
+Yin|F|P|cb
+Fredrinn|F|P|fs
+Terizla|F|P|cf
+Hilda|F|P|fs
+Roger|F|P|mb
+Joy|A|P|mb
+Benedetta|A|P|mb
+Ling|A|P|mb
+Hayabusa|A|P|mb
+Lancelot|A|P|mb
+Saber|A|P|bc
+Karina|A|M|b
+Helcurt|A|P|c
+Gusion|A|P|bm
+Natalia|A|P|b
+Hanzo|A|P|b
+Fanny|A|P|mb
+Nolan|A|P|b
+Suyou|A|P|b
+Aamon|A|P|b
+Yi Sun-shin|A|P|mb
+Zetian|M|M|cbw
+Minsitthar|F|P|cf
+Argus|F|P|s
+Kalea|S|M|csh
+Obsidia|M|M|pb
+Sora|F|P|mb
+Marcel|T|P|cf
+Hirara|M|M|mb
+Chip|S|M|mch`;
+const MY="Minotaur,Zetian,Masha,Gusion,Kagura,Sun,Cyclops,Alpha,Lapu-Lapu,Leomord,Selena,Aldous,Vale,Hanzo,Belerick,Kimmy,Thamuz,Minsitthar,Kadita,Faramis,Badang,Khufra,Granger,Guinevere,Esmeralda,Terizla,X.Borg,Ling,Dyrroth,Silvanna,Cici,Suyou,Lukas,Kalea,Obsidia,Sora,Marcel,Rafaela,Layla,Lolita,Hayabusa,Freya,Gord,Chou,Aurora,Vexana,Roger,Cecilion,Carmilla,Yu Zhong,Benedetta,Yve,Gloo,Phoveus,Aulus,Aamon,Valentina,Miya,Balmond,Saber,Alice,Nana,Tigreal,Karina,Franco,Bane,Clint,Floryn,Yin,Melissa,Xavier,Julian,Fredrinn,Novaria,Arlott,Ixia,Nolan,Alucard,Baxia,Lunox,Eudora,Kaja,Paquito,Hirara,Brody,Helcurt,Moskov,Argus,Odette,Lancelot,Hylos,Lesley,Angela,Valir,Martis,Hanabi,Chang'e".split(",");
+const H=D.split("\n").map(l=>{const[n,r,d,t]=l.split("|");return{n,r,d,t}}).sort((a,b)=>a.n.localeCompare(b.n));
+const by=Object.fromEntries(H.map(h=>[h.n,h]));
+const LN={T:"roam",S:"roam",A:"jungle",M:"mid",F:"EXP lane",X:"gold"};
+const RC={T:"#3aa6a0",S:"#8f7cd6",A:"#e0793a",M:"#4d8fe0",F:"#c4a23a",X:"#d65b8a"};
+let pool=new Set(),E=[],A=[],mode="E",q="",res=null,myLane="",off=false,stale=false;
+try{const sv=localStorage.getItem("lp-pool");pool=new Set(sv?JSON.parse(sv):MY)}catch(e){pool=new Set(MY)}
+const save=()=>{try{localStorage.setItem("lp-pool",JSON.stringify([...pool]))}catch(e){}};
+const $=id=>document.getElementById(id);
+
+function score(h){
+  const al=A.map(n=>by[n]),en=E.map(n=>by[n]);let s=50;const why=[];
+  const add=(v,t)=>{s+=v;why.push([v,t])};
+  const has=k=>al.some(x=>x.t.includes(k));
+  const lane=LN[h.r];
+  if(!myLane&&al.length){ if(al.some(x=>LN[x.r]==lane))add(-12,lane+" already taken");else add(10,"fills "+lane); }
+  if(myLane&&lane!=myLane)add(-15,"off-role for "+myLane);
+  if(al.length+en.length<5){const f=Math.min(6,h.t.length*2);if(f)add(f,"flexible while the draft is open")}
+  if(!has("c")&&h.t.includes("c"))add(8,"adds crowd control");
+  if(!has("f")&&h.t.includes("f"))add(8,"adds frontline");
+  if(!has("g")&&h.t.includes("g"))add(6,"late-game carry");
+  const ap=al.filter(x=>x.d=="P").length,am=al.filter(x=>x.d=="M").length;
+  if(ap>=2&&!am&&h.d!="P")add(7,"magic damage for a physical team");
+  if(am>=2&&!ap&&h.d!="M")add(7,"physical damage for a magic team");
+  const n=f=>en.filter(f).length,t2=en.length<3?1:2,t3=en.length<4?2:3;
+  if(n(x=>x.r=="A"||(x.t.includes("m")&&x.t.includes("b")))>=t2&&/[ch]/.test(h.t))add(7,"CC/peel vs divers");
+  if(n(x=>x.t.includes("f"))>=t2&&/[gt]/.test(h.t))add(7,"shreds their frontline");
+  if(n(x=>x.t.includes("p"))>=t2&&/[mb]/.test(h.t))add(6,"can dive their pokers");
+  if(n(x=>x.t.includes("s"))>=t2&&h.t.includes("b"))add(4,"burst beats sustain");
+  if(n(x=>"MXA".includes(x.r))>=t3&&/[bw]/.test(h.t))add(6,"kills their squishies");
+  if(n(x=>x.t.includes("c"))>=t2&&/[sm]/.test(h.t))add(4,"survives their CC");
+  if(n(x=>x.d=="P")>=t3&&h.r=="T")add(5,"tank vs physical team");
+  if(n(x=>x.d=="M")>=t3&&h.t.includes("s"))add(4,"sustain vs magic team");
+  return{h,s:Math.max(0,Math.min(100,s)),why};
+}
+function slots(list,max,side){
+  let o="";
+  for(let i=0;i<max;i++)o+=list[i]?`<div class="slot f"><span>${list[i]}</span><button data-a="rm" data-v="${list[i]}" aria-label="Remove ${list[i]}">✕</button></div>`:`<div class="slot">—</div>`;
+  return o;
+}
+function analyse(){
+  const out=[...pool].filter(n=>by[n]&&!E.includes(n)&&!A.includes(n)&&(!myLane||off||LN[by[n].r]==myLane)).map(n=>score(by[n])).sort((a,b)=>b.s-a.s);
+  const need=A.length?["c","f","g"].filter(k=>!A.some(n=>by[n].t.includes(k))).map(k=>({c:"CC",f:"a frontline",g:"a late-game carry"})[k]):[];
+  res={out,e:E.length,a:A.length,lane:myLane,need};stale=false;
+}
+function renderRes(){
+  const r=$("res");
+  if(!pool.size){r.innerHTML='<div class="msg">Your pool is empty. Open the My pool tab and tap the heroes you play.</div>';return}
+  if(!res){r.innerHTML='<div class="msg">Add the picks you can see (none is fine), choose your lane, then tap Analyse draft.</div>';return}
+  const hd=(stale?'<div class="stale">Picks or lane changed since this analysis. Tap Analyse draft to refresh.</div>':'')+`<div class="note">Based on ${res.e} enemy and ${res.a} ally picks${res.lane?", lane: "+res.lane:""}. Scores will shift as more heroes are revealed.${res.need.length?" Your team still needs "+res.need.join(" and ")+".":""}</div>`;
+  const top=res.out.slice(0,8);
+  r.innerHTML=hd+(top.length?top.map((x,i)=>{
+    const w=x.why.sort((a,b)=>b[0]-a[0]).map(([v,t])=>`<b>${v>0?"+":""}${v}</b> ${t}`).join(" · ");
+    return `<div class="card${i?"":" top"}"><div class="row"><span class="nm">${x.h.n}</span><span class="sc">${x.s}</span></div><div class="bar"><i style="width:${x.s}%"></i></div><div class="why">${w||"No strong signals, a neutral pick."}</div></div>`}).join(""):'<div class="msg">No pool heroes fit this lane. Tick "Include heroes from other roles".</div>');
+}
+function renderGrid(){
+  const cur=mode=="E"?E:mode=="A"?A:null,oth=mode=="E"?A:mode=="A"?E:[];
+  $("grid").innerHTML=H.filter(h=>h.n.toLowerCase().includes(q)).map(h=>{
+    const on=mode=="P"?pool.has(h.n):cur.includes(h.n),tk=!on&&(mode=="P"?false:oth.includes(h.n));
+    return `<button class="h${on?" on":""}${tk?" tk":""}" data-a="hero" data-v="${h.n}"><s style="background:${RC[h.r]}"></s>${h.n}${mode!="P"&&pool.has(h.n)?"<em>★</em>":""}</button>`}).join("");
+}
+function render(){
+  $("sa").innerHTML=slots(A,4);$("se").innerHTML=slots(E,5);
+  document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v==mode));
+  $("lanes").innerHTML="<b>Your lane</b>"+[["","Any"],["roam","Roam"],["jungle","Jungle"],["mid","Mid"],["EXP lane","EXP"],["gold","Gold"]].map(([v,t])=>`<button data-a="lane" data-v="${v}"${v==myLane?' class="on"':""}>${t}</button>`).join("");
+  renderRes();renderGrid();
+}
+
+let gkey="",gmodel="gemini-flash-latest";
+try{gkey=localStorage.getItem("lp-gkey")||"";gmodel=localStorage.getItem("lp-gmodel")||gmodel}catch(e){}
+$("gk").value=gkey;$("gm").value=gmodel;
+function saveKey(){gkey=$("gk").value.trim();gmodel=$("gm").value.trim()||"gemini-flash-latest";
+  try{localStorage.setItem("lp-gkey",gkey);localStorage.setItem("lp-gmodel",gmodel);$("ks").textContent="Saved"}catch(e){$("ks").textContent="Could not save in this browser"}}
+const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function gprompt(){
+  const pl=[...pool].filter(n=>by[n]&&!E.includes(n)&&!A.includes(n)&&(!myLane||off||LN[by[n].r]==myLane));
+  const top=res?res.out.slice(0,5).map(x=>x.h.n+" "+x.s).join(", "):"not run";
+  return `You are an expert Mobile Legends: Bang Bang draft coach. Be concrete and honest; if you are unsure about a hero's current patch changes, say so.
+Draft so far (it may be incomplete, I may be picking early):
+- My lane: ${myLane||"any"}
+- Enemy picks: ${E.join(", ")||"none yet"}
+- Ally picks: ${A.join(", ")||"none yet"}
+- Heroes I can pick (my pool): ${pl.join(", ")}
+- My app's rule-based top picks: ${top}
+Think through crowd control, sustain and healing, damage types, skills, mobility, team needs and the likely remaining enemy picks.
+Reply in plain text for a phone screen, under 450 words:
+1. My top 3 picks from the pool, with the reasons.
+2. For each pick: who counters it and who it counters in this draft.
+3. For each pick: how to play it (skill priority, build idea, laning, teamfight role).
+4. One warning about what could go wrong with the draft.`;
+}
+async function deep(){
+  const o=$("deep");
+  if(!gkey){o.innerHTML='<div class="stale">Add your Gemini key first, in the Gemini key section below.</div>';return}
+  o.innerHTML='<div class="msg">Analysing the draft…</div>';
+  try{
+    const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(gmodel)+":generateContent",{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":gkey},body:JSON.stringify({contents:[{parts:[{text:gprompt()}]}]})});
+    const j=await r.json();
+    if(!r.ok)throw new Error((j.error&&j.error.message)||("HTTP "+r.status));
+    const t=((j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[]).map(p=>p.text||"").join("");
+    o.innerHTML='<div class="card ans">'+esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>")+'</div><div class="note">AI advice can be wrong or out of date for the current patch. Trust your own recent games when they disagree.</div>';
+  }catch(e){
+    const m=String(e.message||e);
+    o.innerHTML='<div class="stale">Deep analysis failed: '+esc(m)+'. '+(/fetch|network/i.test(m)?'This usually means the app is open inside Claude, which blocks outside requests. Open it from your own hosting.':/quota|429|exhausted/i.test(m)?'You hit the free limit. Wait a minute and try again.':'Check your key and model name.')+'</div>';
+  }
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-a]");if(!b)return;const v=b.dataset.v;
+  const a=b.dataset.a;if(a=="deep"){deep();return}if(a=="key"){saveKey();return}if(a!="mode"&&a!="go")stale=true;
+  if(a=="go")analyse();else if(a=="lane")myLane=v;else if(a=="mode")mode=v;
+  else if(b.dataset.a=="clear"){E=[];A=[]}
+  else if(b.dataset.a=="rm"){E=E.filter(x=>x!=v);A=A.filter(x=>x!=v)}
+  else if(mode=="P"){pool.has(v)?pool.delete(v):pool.add(v);save()}
+  else{
+    const cur=mode=="E"?E:A,oth=mode=="E"?A:E,max=mode=="E"?5:4,i=cur.indexOf(v);
+    if(i>-1)cur.splice(i,1);else if(cur.length<max&&!oth.includes(v))cur.push(v);
+  }
+  render();
+});
+$("off").addEventListener("change",e=>{off=e.target.checked;stale=true;render()});
+$("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();renderGrid()});
+render();
+</script></body></html>
