@@ -61,24 +61,28 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 .head{font-size:15px;font-weight:700;margin:14px 0 6px}.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;z-index:99}#modal>div{width:100%;max-width:640px;margin:0 auto;background:var(--bg);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));max-height:92%;overflow-y:auto}
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;align-items:center;gap:4px;background:var(--pn);border:1px solid var(--go);border-radius:999px;padding:4px 4px 4px 12px;font-size:14px;color:var(--ink);margin-top:6px}.chip button{all:unset;cursor:pointer;padding:2px 8px;color:var(--mu)}.sg{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.sg button{background:var(--pn);border:1px solid var(--ln);color:var(--ink);border-radius:8px;padding:9px 12px;font:inherit;font-size:14px}
+.tg{font-size:12px;color:var(--mu);margin:2px 0 6px}.why b.neg{color:var(--fo)}.h.x{opacity:.4;text-decoration:line-through}.dh{margin-top:14px}.nav button{padding:9px 4px}
 .mtit{font-size:18px;font-weight:700;margin-bottom:10px}.fld{display:block;font-size:13px;color:var(--mu);margin-bottom:10px}.fld input,.fld select{display:block;width:100%;margin:4px 0 0;padding:10px;font:inherit;color:var(--ink);background:var(--pn);border:1px solid var(--ln);border-radius:8px}
 :focus-visible{outline:2px solid var(--go);outline-offset:2px}
 </style></head><body><main>
 <h1>Last Pick</h1>
 <p class="sub">Mark the draft, get your best hero from your pool.</p>
-<nav class="nav"><button class="on" data-a="view" data-v="draft">Draft</button><button data-a="view" data-v="meta">Meta</button><button data-a="view" data-v="hist">History</button></nav>
+<nav class="nav"><button class="on" data-a="view" data-v="draft">Draft</button><button data-a="view" data-v="pool">Pool</button><button data-a="view" data-v="meta">Meta</button><button data-a="view" data-v="hist">History</button></nav>
 <div id="v-draft"><div class="strip"><div class="col a"><h2>Allies</h2><div id="sa"></div></div><div class="col e"><h2>Enemies</h2><div id="se"></div></div></div>
 <div class="lanes" id="lanes"></div>
 <label class="opt"><input type="checkbox" id="off"> Include heroes from other roles</label>
 <section class="res"><h2>Best from your pool</h2><button class="go" data-a="go">Analyse draft</button><div id="res"></div>
-<button class="go alt" data-a="deep">Deep analysis (Gemini)</button><div id="deep"></div></section>
+<button class="go alt" data-a="deep">Deep analysis (Gemini)</button><div id="deep"></div>
+<div class="fld dh">Already know your hero? Analyse just that hero:<div class="chips" id="ch-dh"></div><input id="in-dh" enterkeyhint="go" autocomplete="off" placeholder="Type your hero (2 or 3 letters)" aria-label="Hero you will play"><div class="sg" id="sg-dh"></div></div>
+<button class="go alt" data-a="deephero">Deep analysis: my hero (Gemini)</button><div id="deep2"></div></section>
 <section class="pk"><h2>Pick heroes</h2>
 <div class="tabs"><button data-a="mode" data-v="E">Enemy</button><button data-a="mode" data-v="A">Ally</button><button data-a="mode" data-v="P">My pool</button></div>
 <input id="q" type="search" enterkeyhint="go" placeholder="Search heroes" autocomplete="off" aria-label="Search heroes">
 <div class="grid" id="grid"></div>
 <details class="set"><summary>Gemini key for Deep analysis</summary><input id="gk" type="password" placeholder="Paste your Gemini API key" autocomplete="off" aria-label="Gemini API key"><input id="gm" placeholder="Model (default gemini-flash-latest)" aria-label="Gemini model"><button class="clr" data-a="key">Save</button> <span id="ks" class="why"></span><p>The key stays in this browser only. Deep analysis works when the app is hosted on your own site, not inside Claude.</p></details>
-<div class="foot"><span>Scores come from role, lane and trait rules, not live win rates.</span><button class="clr" data-a="clear">Clear draft</button></div>
+<div class="foot"><span>Scores combine hero ratings, team and enemy needs, patch tiers and your own match history. Not live win rates.</span><button class="clr" data-a="clear">Clear draft</button></div>
 </section></div>
+<div id="v-pool" hidden><h2 style="font-size:15px;margin:0 0 4px">My pool by role</h2><p class="note" id="pnote"></p><div id="pout"></div></div>
 <div id="v-hist" hidden><h2 style="font-size:15px;margin:0 0 8px">Match history</h2><button class="go" data-a="logm">Log a match</button><div id="hlog"></div><div class="row2" style="margin-top:14px"><button class="clr" data-a="exp">Export backup</button><label class="clr" style="text-align:center">Import backup<input id="imp" type="file" accept=".json,application/json" hidden></label></div></div>
 <div id="v-meta" hidden><h2 style="font-size:15px;margin:0">Current meta by lane</h2><div class="lanes" id="mlanes"></div><div id="mout"></div></div>
 </main>
@@ -219,37 +223,228 @@ Chip|S|M|mch`;
 const MY="Minotaur,Zetian,Masha,Gusion,Kagura,Sun,Cyclops,Alpha,Lapu-Lapu,Leomord,Selena,Aldous,Vale,Hanzo,Belerick,Kimmy,Thamuz,Minsitthar,Kadita,Faramis,Badang,Khufra,Granger,Guinevere,Esmeralda,Terizla,X.Borg,Ling,Dyrroth,Silvanna,Cici,Suyou,Lukas,Kalea,Obsidia,Sora,Marcel,Rafaela,Layla,Lolita,Hayabusa,Freya,Gord,Chou,Aurora,Vexana,Roger,Cecilion,Carmilla,Yu Zhong,Benedetta,Yve,Gloo,Phoveus,Aulus,Aamon,Valentina,Miya,Balmond,Saber,Alice,Nana,Tigreal,Karina,Franco,Bane,Clint,Floryn,Yin,Melissa,Xavier,Julian,Fredrinn,Novaria,Arlott,Ixia,Nolan,Alucard,Baxia,Lunox,Eudora,Kaja,Paquito,Hirara,Brody,Helcurt,Moskov,Argus,Odette,Lancelot,Hylos,Lesley,Angela,Valir,Martis,Hanabi,Chang'e".split(",");
 const H=D.split("\n").map(l=>{const[n,r,d,t]=l.split("|");return{n,r,d,t}}).sort((a,b)=>a.n.localeCompare(b.n));
 const by=Object.fromEntries(H.map(h=>[h.n,h]));
+const XR=`Tigreal|2552|m|m|E
+Franco|2441|m|e|P
+Atlas|2551|m|m|E
+Johnson|2543|m|m|E
+Grock|2542|m|m|E
+Hylos|2533|m|m|E
+Khufra|2554|m|m|E
+Minotaur|2542|m|m|T
+Gloo|2422|m|m|S
+Baxia|2521|m|m|T
+Belerick|2532|m|m|T
+Uranus|2512|m|l|S
+Lolita|2532|m|m|T
+Akai|2543|m|m|E
+Gatotkaca|2543|m|m|E
+Edith|3543|m|m|E
+Barats|3532|m|m|S
+Angela|1212|r|m|H
+Estes|1221|r|m|H
+Rafaela|2232|r|m|H
+Diggie|2233|r|m|H
+Mathilda|2244|r|m|E
+Floryn|1224|r|m|H
+Faramis|3222|r|m|H
+Carmilla|2432|m|m|T
+Kaja|2243|r|m|P
+Layla|4101|r|l|P
+Miya|4112|r|l|S
+Bruno|4101|r|l|P
+Clint|4103|r|l|T
+Moskov|4111|r|l|P
+Karrie|4113|r|l|S
+Irithel|4122|r|l|S
+Hanabi|4113|r|l|S
+Claude|4213|r|l|S
+Lesley|5101|r|l|P
+Granger|4113|r|l|P
+Wanwan|4124|r|l|S
+Popol and Kupa|3233|r|m|S
+Brody|4113|r|m|S
+Beatrix|4103|r|l|N
+Natan|4113|r|l|S
+Melissa|4123|r|l|T
+Ixia|4113|r|l|S
+Kimmy|4104|r|l|S
+Eudora|5131|r|m|P
+Gord|4132|r|m|P
+Kagura|4134|r|m|S
+Aurora|4133|r|m|T
+Lunox|4213|r|m|T
+Vale|4132|r|m|T
+Harley|4124|r|m|S
+Vexana|4131|r|m|T
+Zhask|4121|r|l|T
+Valentina|4223|r|m|S
+Pharsa|5123|r|l|T
+Cecilion|4112|r|l|T
+Yve|4132|r|l|T
+Xavier|4122|r|m|T
+Odette|4132|r|m|T
+Lylia|4123|r|m|S
+Alice|3322|r|m|S
+Cyclops|4133|r|m|P
+Luo Yi|4242|r|m|T
+Chang'e|4123|r|l|T
+Valir|4132|r|m|T
+Harith|4224|r|l|S
+Kadita|4234|r|m|T
+Novaria|4111|r|l|G
+Esmeralda|4312|r|l|S
+Selena|4233|r|m|S
+Nana|3132|r|m|T
+Zhuxin|4132|r|m|T
+Alucard|4324|m|m|S
+Zilong|4324|m|m|S
+Chou|4355|m|m|P
+Sun|4324|m|m|S
+Bane|4422|r|m|T
+Balmond|4432|m|m|T
+Freya|4323|m|m|S
+Alpha|3423|m|m|S
+Ruby|3443|m|m|E
+Leomord|4323|m|m|S
+Thamuz|4323|m|m|S
+Martis|4343|m|m|P
+Paquito|4324|m|m|S
+Yu Zhong|4432|m|m|S
+Silvanna|4343|m|m|P
+X.Borg|4322|m|m|S
+Masha|4412|m|m|S
+Aldous|4335|m|l|G
+Badang|4343|m|m|T
+Jawhead|4444|m|m|E
+Lapu-Lapu|4322|m|m|S
+Dyrroth|5323|m|m|S
+Guinevere|4344|m|m|P
+Phoveus|4344|m|m|P
+Arlott|4334|m|m|P
+Cici|4324|m|m|S
+Aulus|4324|m|m|S
+Julian|4333|m|m|S
+Lukas|4433|m|m|S
+Khaleed|4334|m|m|S
+Yin|4335|m|l|P
+Fredrinn|4433|m|m|S
+Terizla|4542|m|m|E
+Hilda|4433|m|m|S
+Roger|4324|m|m|S
+Joy|4125|m|m|S
+Benedetta|4225|m|m|S
+Ling|5215|m|l|S
+Hayabusa|4125|m|m|S
+Lancelot|5225|m|m|S
+Saber|5134|m|m|P
+Karina|5124|m|m|P
+Helcurt|4133|m|m|T
+Gusion|5125|m|m|S
+Natalia|4133|m|m|S
+Hanzo|4113|m|m|S
+Fanny|5225|m|l|S
+Nolan|4114|m|m|P
+Suyou|4224|m|m|S
+Aamon|5134|m|m|S
+Yi Sun-shin|5114|r|m|G
+Zetian|4233|r|m|T
+Minsitthar|4542|m|m|E
+Argus|4411|m|m|S
+Kalea|3333|r|m|T
+Obsidia|4122|r|l|S
+Sora|4334|m|m|S
+Marcel|2542|m|m|E
+Hirara|4224|r|m|S
+Chip|2333|r|m|G`;
+const XRM={};XR.split("\n").forEach(l=>{const[n,k,r,sp,u]=l.split("|");XRM[n]={dmg:+k[0],tgh:+k[1],ctl:+k[2],mob:+k[3],rng:r,spk:sp,ult:u}});
+const XDEF={T:"2532|m|m|E",S:"1222|r|m|H",X:"4112|r|l|S",M:"4122|r|m|T",A:"4244|m|m|S",F:"4323|m|m|S"};
+H.forEach(h=>{let x=XRM[h.n];if(!x){const[k,r,sp,u]=XDEF[h.r].split("|");x={dmg:+k[0],tgh:+k[1],ctl:+k[2],mob:+k[3],rng:r,spk:sp,ult:u}}Object.assign(h,x)});
+const ULT={E:"engage ult",T:"teamfight ult",P:"pick-off ult",G:"global ult",S:"self-buff ult",H:"heal/save ult",N:"minor ult"},ROLEN={T:"Tank",S:"Support",F:"Fighter",M:"Mage",X:"Marksman",A:"Assassin"},SPK={e:"early",m:"mid",l:"late"};
+const tags=h=>ROLEN[h.r]+" · "+(h.rng=="r"?"ranged":"melee")+" · peaks "+SPK[h.spk]+" · "+ULT[h.ult];
 const LN={T:"roam",S:"roam",A:"jungle",M:"mid",F:"EXP lane",X:"gold"};
 const RC={T:"#3aa6a0",S:"#8f7cd6",A:"#e0793a",M:"#4d8fe0",F:"#c4a23a",X:"#d65b8a"};
 let pool=new Set(),E=[],A=[],mode="E",q="",res=null,myLane="",off=false,stale=false;
 try{const sv=localStorage.getItem("lp-pool");pool=new Set(sv?JSON.parse(sv):MY)}catch(e){pool=new Set(MY)}
+let dis=new Set();try{const dv=localStorage.getItem("lp-dis");if(dv)dis=new Set(JSON.parse(dv))}catch(e){}
+const savedis=()=>{try{localStorage.setItem("lp-dis",JSON.stringify([...dis]))}catch(e){}};
 const save=()=>{try{localStorage.setItem("lp-pool",JSON.stringify([...pool]))}catch(e){}};
 const $=id=>document.getElementById(id);
 
+function tierOf(n,l){const L=META.lanes[l];if(!L)return"";const m=L.list.split(",").map(x=>x.trim().match(/^(.+)\s+([SABCD])$/)).find(m=>m&&m[1]==n);return m?m[2]:""}
+const canLane=(h,l)=>LN[h.r]==l||!!tierOf(h.n,l);
+function prof(list){
+  const o={n:0,dmg:0,tgh:0,ctl:0,mob:0,ph:0,mg:0,rng:0,mel:0,sp:{e:0,m:0,l:0},u:{},heal:0,w:0,tr:0,burst:0,sus:0,poke:0,div:0};
+  list.forEach(n=>{const h=by[n];if(!h)return;o.n++;o.dmg+=h.dmg;o.tgh+=h.tgh;o.ctl+=h.ctl;o.mob+=h.mob;
+    if(h.d=="P")o.ph+=h.dmg;else if(h.d=="M")o.mg+=h.dmg;else{o.ph+=h.dmg/2;o.mg+=h.dmg/2}
+    if(h.rng=="r")o.rng++;else o.mel++;o.sp[h.spk]++;o.u[h.ult]=(o.u[h.ult]||0)+1;
+    if(h.t.includes("h")||h.ult=="H")o.heal++;if(h.t.includes("w"))o.w++;if(h.t.includes("t"))o.tr++;if(h.t.includes("b"))o.burst++;if(h.t.includes("s"))o.sus++;if(h.t.includes("p"))o.poke++;
+    if(h.mob>=4&&h.rng=="m"&&h.tgh<=3)o.div++});
+  return o;
+}
 function score(h){
-  const al=A.map(n=>by[n]),en=E.map(n=>by[n]);let s=50;const why=[];
-  const add=(v,t)=>{s+=v;why.push([v,t])};
-  const has=k=>al.some(x=>x.t.includes(k));
-  const lane=LN[h.r];
-  if(!myLane&&al.length){ if(al.some(x=>LN[x.r]==lane))add(-12,lane+" already taken");else add(10,"fills "+lane); }
-  if(myLane&&lane!=myLane)add(-15,"off-role for "+myLane);
-  if(al.length+en.length<5){const f=Math.min(6,h.t.length*2);if(f)add(f,"flexible while the draft is open")}
-  if(!has("c")&&h.t.includes("c"))add(8,"adds crowd control");
-  if(!has("f")&&h.t.includes("f"))add(8,"adds frontline");
-  if(!has("g")&&h.t.includes("g"))add(6,"late-game carry");
-  const ap=al.filter(x=>x.d=="P").length,am=al.filter(x=>x.d=="M").length;
-  if(ap>=2&&!am&&h.d!="P")add(7,"magic damage for a physical team");
-  if(am>=2&&!ap&&h.d!="M")add(7,"physical damage for a magic team");
-  const n=f=>en.filter(f).length,t2=en.length<3?1:2,t3=en.length<4?2:3;
-  if(n(x=>x.r=="A"||(x.t.includes("m")&&x.t.includes("b")))>=t2&&/[ch]/.test(h.t))add(7,"CC/peel vs divers");
-  if(n(x=>x.t.includes("f"))>=t2&&/[gt]/.test(h.t))add(7,"shreds their frontline");
-  if(n(x=>x.t.includes("p"))>=t2&&/[mb]/.test(h.t))add(6,"can dive their pokers");
-  if(n(x=>x.t.includes("s"))>=t2&&h.t.includes("b"))add(4,"burst beats sustain");
-  if(n(x=>"MXA".includes(x.r))>=t3&&/[bw]/.test(h.t))add(6,"kills their squishies");
-  if(n(x=>x.t.includes("c"))>=t2&&/[sm]/.test(h.t))add(4,"survives their CC");
-  if(n(x=>x.d=="P")>=t3&&h.r=="T")add(5,"tank vs physical team");
-  if(n(x=>x.d=="M")>=t3&&h.t.includes("s"))add(4,"sustain vs magic team");
-  return{h,s:Math.max(0,Math.min(100,s)),why};
+  const al=prof(A),en=prof(E),nA=al.n,nE=en.n,lane=LN[h.r];
+  let s=50;const why=[];
+  const add=(v,t)=>{if(!isFinite(v)||Math.abs(v)<0.05)return;s+=v;if(Math.abs(v)>=0.4)why.push([Math.round(v*10)/10,t])};
+  const wa=Math.min(1,(nA+1)/3.5),we=Math.min(1,nE/3);
+  const taken=A.map(n=>LN[by[n].r]);
+  /* lane */
+  if(myLane){if(lane==myLane)add(5,"your lane");else if(tierOf(h.n,myLane))add(1,"meta pick in "+myLane);else add(-16,"off-role for "+myLane)}
+  else if(nA){const open=["roam","jungle","mid","EXP lane","gold"].filter(l=>!taken.includes(l));
+    if(taken.includes(lane))add(-9,"lane already taken ("+lane+")");else add(open.length<=2?9:6,"fills "+lane)}
+  /* patch meta */
+  const tr=tierOf(h.n,myLane||lane);
+  if(tr)add({S:3.2,A:2.1,B:1.1,C:0,D:-1}[tr]*(myLane?1:.7),tr+"-tier in "+(myLane||lane)+" this patch");
+  /* what my team needs */
+  add(wa*Math.max(0,1-al.ctl/9)*h.ctl*1.7,"adds crowd control");
+  add(wa*Math.max(0,1-al.tgh/9)*Math.max(0,h.tgh-2)*2.7,"adds frontline");
+  add(wa*Math.max(0,1-al.dmg/16)*Math.max(0,h.dmg-2)*2.2,"adds damage");
+  const tot=al.ph+al.mg;
+  if(tot>0){const sk=(al.ph-al.mg)/tot,ti=h.d=="P"?1:h.d=="M"?-1:0,v=-sk*ti*7*Math.min(1,tot/8);
+    add(v,v>0?(ti<0?"magic":"physical")+" damage for a "+(ti<0?"physical":"magic")+" team":"stacks "+(ti>0?"physical":"magic")+" damage")}
+  if(nA>=2){
+    if(!al.sp.l&&h.spk=="l")add(4*wa,"late-game scaling your team lacks");
+    if(al.sp.l>=2&&!al.sp.e&&h.spk=="e")add(3.5,"early pressure for a late-game team");
+    if(al.sp.e>=3&&h.spk=="e")add(-2.5,"team is already early-game heavy");
+    const eng=al.u.E||0;
+    if(!eng&&h.ult=="E")add(5*wa,"engage your team lacks");else if(eng>=2&&h.ult=="E")add(-2.5,"team already has engage");
+    if(!al.heal&&(h.ult=="H"||h.t.includes("h")))add(4*wa,"healing and sustain for the team");
+  }
+  if(nA>=3){
+    if(al.mel>=3&&h.rng=="r"&&h.dmg>=3)add(2.5,"ranged damage behind your frontline");
+    if(al.rng>=3&&h.rng=="m"&&h.tgh>=3)add(2.5,"melee frontline for a ranged team");
+    if(!al.w&&h.t.includes("w"))add(2,"wave clear");
+  }
+  if(nA+nE<5)add(Math.min(3,(h.t.length+(h.ult=="N"?0:1))*0.6),"flexible while the draft is open");
+  /* what the enemy is doing */
+  if(nE){
+    const divR=en.div/nE,tghA=en.tgh/nE,ctlA=en.ctl/nE,pSh=en.ph/((en.ph+en.mg)||1);
+    add(we*divR*1.8*(h.ctl*1.5+(h.tgh>=4?2:0)+(h.ult=="H"?2:0)),"peel and CC vs their divers");
+    add(we*Math.max(0,tghA-2.4)/2.2*((h.t.includes("t")?5:0)+(h.t.includes("g")?2.5:0)+(h.dmg>=4&&h.rng=="r"?1.5:0)),"shreds their frontline");
+    add(we*Math.max(0,2.6-tghA)/1.4*((h.t.includes("b")?3:0)+(h.mob>=4?3:0)+(h.ult=="P"||h.ult=="S"?1.5:0)),"kills their squishies");
+    add(we*((en.poke+Math.max(0,en.rng-2))/nE)*((h.mob>=4?4:h.mob>=3?2:0)+(h.ult=="E"?3:0)+(h.tgh>=4?2:0)),"closes the gap on their ranged team");
+    add(we*Math.max(0,ctlA-1.4)/2*(h.mob*1.1+(h.t.includes("s")?2:0)+(h.tgh>=4?1.5:0)),"survives their CC");
+    if(h.tgh>=3)add(we*Math.abs(pSh-.5)*2*(h.tgh-2)*1.6,pSh>.5?"tanky vs a physical team":"tanky vs a magic team");
+    if(en.heal+en.sus>=2&&h.t.includes("b"))add(we*2.5,"burst beats their sustain");
+    if(en.sp.l>=3&&h.spk=="e")add(we*3.5,"early pressure vs their late-game team");
+    if(en.sp.e>=3&&(h.spk=="l"||h.tgh>=4))add(we*3,"safe scaling vs their early-game team");
+    if((en.u.E||0)>=2&&h.ctl>=3)add(we*2,"CC to stop their engage");
+  }
+  /* my own match history */
+  const g=matches.filter(m=>m.hero==h.n);
+  if(g.length){const w=g.filter(m=>m.win).length;add(((w+2)/(g.length+4)-.5)*18,"your record: "+w+"-"+(g.length-w)+" with "+h.n);
+    if(myLane){const gl=g.filter(m=>m.lane==myLane);if(gl.length){const w2=gl.filter(m=>m.win).length;add(((w2+1)/(gl.length+2)-.5)*8,w2+"-"+(gl.length-w2)+" in "+myLane)}}
+    let mv=0;const bits=[];
+    E.forEach(e=>{const gm=g.filter(m=>m.enemy.includes(e));if(gm.length){const w3=gm.filter(m=>m.win).length;mv+=((w3+1)/(gm.length+2)-.5)*10;bits.push(e+" "+w3+"-"+(gm.length-w3))}});
+    if(bits.length)add(Math.max(-5,Math.min(5,mv)),"your history vs "+bits.join(", "));
+  }
+  s+=(h.dmg+h.tgh+h.ctl+h.mob)*0.01;
+  return{h,s:Math.round(Math.max(0,Math.min(100,s))*10)/10,why};
+}
+function needs(){
+  const al=prof(A);if(al.n<2)return[];const o=[];
+  if(al.ctl<7)o.push("crowd control");if(al.tgh<7)o.push("a frontline");if(!al.sp.l)o.push("a late-game carry");if(!al.heal)o.push("healing");if(!al.u.E)o.push("an engage");
+  const t=al.ph+al.mg;if(t>0){const sk=(al.ph-al.mg)/t;if(sk>.6)o.push("magic damage");else if(sk<-.6)o.push("physical damage")}
+  return o.slice(0,4);
 }
 function slots(list,max,side){
   let o="";
@@ -257,22 +452,22 @@ function slots(list,max,side){
   return o;
 }
 function analyse(){
-  const out=[...pool].filter(n=>by[n]&&!E.includes(n)&&!A.includes(n)&&(!myLane||off||LN[by[n].r]==myLane)).map(n=>score(by[n])).sort((a,b)=>b.s-a.s);
-  const need=A.length?["c","f","g"].filter(k=>!A.some(n=>by[n].t.includes(k))).map(k=>({c:"CC",f:"a frontline",g:"a late-game carry"})[k]):[];
-  res={out,e:E.length,a:A.length,lane:myLane,need};stale=false;
+  const out=[...pool].filter(n=>by[n]&&!dis.has(n)&&!E.includes(n)&&!A.includes(n)&&(!myLane||off||canLane(by[n],myLane))).map(n=>score(by[n])).sort((a,b)=>b.s-a.s);
+  res={out,e:E.length,a:A.length,lane:myLane,need:needs()};stale=false;
 }
-let dsig="";const sig=()=>JSON.stringify([E,A,myLane,off]);
+let dsig="";const sig=()=>JSON.stringify([E,A,myLane,off,[...dis]]);
 function renderRes(){
   const r=$("res");
   if(dsig&&dsig!==sig()){$("deep").innerHTML='<div class="stale">Draft changed. Tap Deep analysis for a fresh read.</div>';dsig=""}
+  if(dsig2&&dsig2!==sig2()){$("deep2").innerHTML='<div class="stale">Draft or hero changed. Tap Deep analysis: my hero for a fresh read.</div>';dsig2=""}
   if(!pool.size){r.innerHTML='<div class="msg">Your pool is empty. Open the My pool tab and tap the heroes you play.</div>';return}
   if(!res){r.innerHTML='<div class="msg">Add the picks you can see (none is fine), choose your lane, then tap Analyse draft.</div>';return}
   if(stale){r.innerHTML='<div class="stale">Draft changed. Tap Analyse draft for fresh picks.</div>';return}
-  const hd=(stale?'<div class="stale">Picks or lane changed since this analysis. Tap Analyse draft to refresh.</div>':'')+`<div class="note">Based on ${res.e} enemy and ${res.a} ally picks${res.lane?", lane: "+res.lane:""}. Scores will shift as more heroes are revealed.${res.need.length?" Your team still needs "+res.need.join(" and ")+".":""}</div>`;
+  const hd=`<div class="note">Based on ${res.e} enemy and ${res.a} ally picks${res.lane?", lane: "+res.lane:""}. Scores shift as more heroes are revealed.${res.need.length?" Your team still needs "+res.need.join(", ")+".":""}</div>`;
   const top=res.out.slice(0,8);
   r.innerHTML=hd+(top.length?top.map((x,i)=>{
-    const w=x.why.sort((a,b)=>b[0]-a[0]).map(([v,t])=>`<b>${v>0?"+":""}${v}</b> ${t}`).join(" · ");
-    return `<div class="card${i?"":" top"}"><div class="row"><span class="nm">${x.h.n}</span><span class="sc">${x.s}</span></div><div class="bar"><i style="width:${x.s}%"></i></div><div class="why">${w||"No strong signals, a neutral pick."}</div></div>`}).join(""):'<div class="msg">No pool heroes fit this lane. Tick "Include heroes from other roles".</div>');
+    const w=x.why.sort((a,b)=>Math.abs(b[0])-Math.abs(a[0])).slice(0,5).map(([v,t])=>`<b class="${v<0?"neg":""}">${v>0?"+":"−"}${Math.abs(v).toFixed(1)}</b> ${hx(t)}`).join(" · ");
+    return `<div class="card${i?"":" top"}"><div class="row"><span class="nm">${x.h.n}</span><span class="sc">${x.s.toFixed(1)}</span></div><div class="bar"><i style="width:${x.s}%"></i></div><div class="tg">${tags(x.h)}</div><div class="why">${w||"No strong signals, a neutral pick."}</div></div>`}).join(""):'<div class="msg">No active pool heroes fit this lane. Tick "Include heroes from other roles" or switch heroes on in the Pool tab.</div>');
 }
 function matchList(){return H.filter(h=>h.n.toLowerCase().includes(q)).sort((a,b)=>b.n.toLowerCase().startsWith(q)-a.n.toLowerCase().startsWith(q))}
 function pickHero(v){const cur=mode=="E"?E:A,oth=mode=="E"?A:E,max=mode=="E"?5:4,i=cur.indexOf(v);if(i>-1)cur.splice(i,1);else if(cur.length<max&&!oth.includes(v))cur.push(v)}
@@ -297,7 +492,7 @@ function saveKey(){gkey=$("gk").value.trim();gmodel=$("gm").value.trim()||"gemin
   try{localStorage.setItem("lp-gkey",gkey);localStorage.setItem("lp-gmodel",gmodel);$("ks").textContent="Saved"}catch(e){$("ks").textContent="Could not save in this browser"}}
 const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 function gprompt(){
-  const pl=[...pool].filter(n=>by[n]&&!E.includes(n)&&!A.includes(n)&&(!myLane||off||LN[by[n].r]==myLane));
+  const pl=[...pool].filter(n=>by[n]&&!dis.has(n)&&!E.includes(n)&&!A.includes(n)&&(!myLane||off||canLane(by[n],myLane)));
   const top=res?res.out.slice(0,5).map(x=>x.h.n+" "+x.s).join(", "):"not run";
   return `You are an expert Mobile Legends: Bang Bang draft coach. Be concrete and honest; if you are unsure about a hero's current patch changes, say so.
 Draft so far (it may be incomplete, I may be picking early):
@@ -313,20 +508,46 @@ Reply in plain text for a phone screen, under 450 words:
 3. For each pick: how to play it (skill priority, build idea, laning, teamfight role).
 4. One warning about what could go wrong with the draft.`;
 }
-async function deep(){
-  const o=$("deep");
+async function gcall(o,prompt,wait){
   if(!gkey){o.innerHTML='<div class="stale">Add your Gemini key first, in the Gemini key section below.</div>';return}
-  o.innerHTML='<div class="msg">Analysing the draft…</div>';dsig=sig();
+  o.innerHTML='<div class="msg">'+wait+'</div>';
   try{
-    const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(gmodel)+":generateContent",{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":gkey},body:JSON.stringify({contents:[{parts:[{text:gprompt()}]}]})});
+    const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(gmodel)+":generateContent",{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":gkey},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
     const j=await r.json();
     if(!r.ok)throw new Error((j.error&&j.error.message)||("HTTP "+r.status));
     const t=((j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[]).map(p=>p.text||"").join("");
     o.innerHTML='<div class="card ans">'+esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>")+'</div><div class="note">AI advice can be wrong or out of date for the current patch. Trust your own recent games when they disagree.</div>';
   }catch(e){
     const m=String(e.message||e);
-    o.innerHTML='<div class="stale">Deep analysis failed: '+esc(m)+'. '+(/fetch|network/i.test(m)?'This usually means the app is open inside Claude, which blocks outside requests. Open it from your own hosting.':/quota|429|exhausted/i.test(m)?'You hit the free limit. Wait a minute and try again.':'Check your key and model name.')+'</div>';
+    o.innerHTML='<div class="stale">Deep analysis failed: '+esc(m)+'. '+(/fetch|network/i.test(m)?'This usually means the app is open inside Claude, which blocks outside requests. Open it from your own hosting.':/quota|429|exhausted/i.test(m)?'You hit the free limit. Wait a minute and try again.':/demand|overload|unavailable|503/i.test(m)?'Google is overloaded right now. Try again in a minute, or switch to a Lite model in the Gemini key section.':'Check your key and model name.')+'</div>';
   }
+}
+function deep(){dsig=sig();gcall($("deep"),gprompt(),"Analysing the draft…")}
+let dh="",dsig2="";const sig2=()=>JSON.stringify([E,A,myLane,dh]);
+function hprompt(){
+  return `You are an expert Mobile Legends: Bang Bang coach. Be concrete and honest; if you are unsure about a hero's current patch changes, say so.
+
+I have decided to play ${dh}${myLane?" in the "+myLane:""}. Analyse ONLY this hero in this draft and do not suggest other heroes.
+- Enemy picks: ${E.join(", ")||"none yet"}
+- Ally picks: ${A.join(", ")||"none yet"}
+If the draft is incomplete, say what to watch for from the missing picks.
+
+Reply in plain text for a phone screen, under 450 words:
+1. Verdict: how good is ${dh} in this draft (strong, fine or risky) and the main reason.
+2. Against each enemy hero: threat level and how to handle them (name every enemy).
+3. With each ally: synergy or conflict (name every ally).
+4. Game plan: skill priority, ultimate use, build core, battle spell, and what to do early, mid and late game.
+5. The one biggest risk and how to avoid it.`;
+}
+function deepHero(){
+  if(!dh){$("deep2").innerHTML='<div class="stale">Pick your hero first: type 2 or 3 letters above the button.</div>';return}
+  dsig2=sig2();gcall($("deep2"),hprompt(),"Analysing "+hx(dh)+"…");
+}
+function dhsug(){const t=$("in-dh").value.trim().toLowerCase();if(!t||dh)return[];return H.filter(h=>h.n.toLowerCase().includes(t)).sort((a,b)=>(b.n.toLowerCase().startsWith(t)-a.n.toLowerCase().startsWith(t))||(pool.has(b.n)-pool.has(a.n))).slice(0,6).map(h=>h.n)}
+function dhdraw(){
+  $("ch-dh").innerHTML=dh?`<span class="chip">${hx(dh)}<button data-a="dhx" aria-label="Remove ${hx(dh)}">✕</button></span>`:"";
+  $("in-dh").style.display=dh?"none":"";
+  $("sg-dh").innerHTML=dhsug().map(n=>`<button data-a="dhs" data-v="${hx(n)}">${hx(n)}${pool.has(n)?" ★":""}</button>`).join("");
 }
 
 /* ===== META DATA: edit this block after each patch. Each lane is a comma list "Hero Tier", strongest first (tier S, A, B, C or D). ===== */
@@ -396,6 +617,16 @@ function msel(f,n){
   const i=$("in-"+f);i.value="";mdraw(f);if(i.style.display!="none")i.focus();
 }
 function msx(f,n){if(f=="hero")ml.hero="";else ml[f]=ml[f].filter(x=>x!=n);mdraw(f)}
+const ROLES=[["T","Tank"],["F","Fighter"],["A","Assassin"],["M","Mage"],["X","Marksman"],["S","Support"]];
+function render_pool(){
+  const mine=[...pool].filter(n=>by[n]);
+  $("pnote").textContent=mine.filter(n=>!dis.has(n)).length+" of "+mine.length+" heroes are on. Tap a hero to switch it off: it stays in your pool but is never recommended. To add or remove heroes from your pool, use Draft, then My pool.";
+  $("pout").innerHTML=ROLES.map(([r,t])=>{
+    const L=mine.filter(n=>by[n].r==r).sort();if(!L.length)return"";
+    const k=L.filter(n=>!dis.has(n)).length;
+    return `<div class="row" style="margin-top:14px;align-items:center"><div class="head" style="color:${RC[r]};margin:0">${t} (${k}/${L.length})</div><button class="clr" data-a="pgrp" data-v="${r}">${k?"All off":"All on"}</button></div><div class="grid" style="margin-top:6px">`+L.map(n=>`<button class="h${dis.has(n)?" x":""}" data-a="ptog" data-v="${hx(n)}"><s style="background:${RC[r]}"></s>${hx(n)}</button>`).join("")+"</div>";
+  }).join("")||'<div class="msg">Your pool is empty. Add heroes from Draft, then My pool.</div>';
+}
 function showModal(t){
   const old=$("modal");if(old)old.remove();
   if(t!="log")return;
@@ -425,8 +656,11 @@ document.addEventListener("click",e=>{
   const b=e.target.closest("[data-a]");if(!b)return;const v=b.dataset.v;
   const a=b.dataset.a;
   if(a=="logm"){showModal("log");return}if(a=="savem"){saveMatch();return}if(a=="sg"||a=="sx"){const k=v.indexOf("|"),f=v.slice(0,k),n=v.slice(k+1);a=="sg"?msel(f,n):msx(f,n);return}if(a=="closem"){showModal(null);return}
+  if(a=="ptog"){dis.has(v)?dis.delete(v):dis.add(v);savedis();stale=true;render_pool();return}
+  if(a=="pgrp"){const L=[...pool].filter(n=>by[n]&&by[n].r==v),anyOn=L.some(n=>!dis.has(n));L.forEach(n=>anyOn?dis.add(n):dis.delete(n));savedis();stale=true;render_pool();return}
+  if(a=="dhs"){dh=v;$("in-dh").value="";dhdraw();render();return}if(a=="dhx"){dh="";dhdraw();render();return}if(a=="deephero"){deepHero();return}
   if(a=="delm"){if(confirm("Delete this match?")){matches.splice(+v,1);persist();render_hist()}return}if(a=="exp"){exportM();return}
-  if(a=="view"){["draft","meta","hist"].forEach(n=>$("v-"+n).hidden=n!=v);document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.v==v));if(v=="meta")showMeta();if(v=="hist")render_hist();return}
+  if(a=="view"){["draft","pool","meta","hist"].forEach(n=>$("v-"+n).hidden=n!=v);document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.v==v));if(v=="meta")showMeta();if(v=="hist")render_hist();if(v=="pool")render_pool();if(v=="draft")render();return}
   if(a=="mlane"){mLane=v;showMeta();return}if(a=="deep"){deep();return}if(a=="key"){saveKey();return}
   if(a!="mode"&&a!="go")stale=true;
   if(a=="go")analyse();else if(a=="lane")myLane=v;else if(a=="mode")mode=v;
@@ -443,5 +677,8 @@ $("imp").addEventListener("change",async ev=>{try{const j=JSON.parse(await ev.ta
 $("q").addEventListener("keydown",e=>{if(e.key!="Enter"||mode=="P")return;e.preventDefault();const cur=mode=="E"?E:A,oth=mode=="E"?A:E,f=matchList().find(h=>!cur.includes(h.n)&&!oth.includes(h.n));if(!f)return;pickHero(f.n);q="";e.target.value="";stale=true;render()});
 $("off").addEventListener("change",e=>{off=e.target.checked;stale=true;render()});
 $("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();renderGrid()});
+$("in-dh").addEventListener("input",dhdraw);
+$("in-dh").addEventListener("keydown",e=>{if(e.key!="Enter")return;e.preventDefault();const n=dhsug()[0];if(n){dh=n;$("in-dh").value="";dhdraw();render()}});
+dhdraw();
 render();
 </script></body></html>
