@@ -69,11 +69,12 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 <div id="v-draft"><div class="strip"><div class="col a"><h2>Allies</h2><div id="sa"></div></div><div class="col e"><h2>Enemies</h2><div id="se"></div></div></div>
 <div class="lanes" id="lanes"></div>
 <label class="opt"><input type="checkbox" id="off"> Include heroes from other roles</label>
+<label class="opt"><input type="checkbox" id="auto"> Auto-analyse after every pick</label>
 <section class="res"><h2>Best from your pool</h2><button class="go" data-a="go">Analyse draft</button><div id="res"></div>
 <button class="go alt" data-a="deep">Deep analysis (Gemini)</button><div id="deep"></div></section>
 <section class="pk"><h2>Pick heroes</h2>
 <div class="tabs"><button data-a="mode" data-v="E">Enemy</button><button data-a="mode" data-v="A">Ally</button><button data-a="mode" data-v="P">My pool</button></div>
-<input id="q" type="search" placeholder="Search heroes" autocomplete="off" aria-label="Search heroes">
+<input id="q" type="search" enterkeyhint="go" placeholder="Search heroes" autocomplete="off" aria-label="Search heroes">
 <div class="grid" id="grid"></div>
 <details class="set"><summary>Gemini key for Deep analysis</summary><input id="gk" type="password" placeholder="Paste your Gemini API key" autocomplete="off" aria-label="Gemini API key"><input id="gm" placeholder="Model (default gemini-flash-latest)" aria-label="Gemini model"><button class="clr" data-a="key">Save</button> <span id="ks" class="why"></span><p>The key stays in this browser only. Deep analysis works when the app is hosted on your own site, not inside Claude.</p></details>
 <div class="foot"><span>Scores come from role, lane and trait rules, not live win rates.</span><button class="clr" data-a="clear">Clear draft</button></div>
@@ -270,9 +271,12 @@ function renderRes(){
     const w=x.why.sort((a,b)=>b[0]-a[0]).map(([v,t])=>`<b>${v>0?"+":""}${v}</b> ${t}`).join(" · ");
     return `<div class="card${i?"":" top"}"><div class="row"><span class="nm">${x.h.n}</span><span class="sc">${x.s}</span></div><div class="bar"><i style="width:${x.s}%"></i></div><div class="why">${w||"No strong signals, a neutral pick."}</div></div>`}).join(""):'<div class="msg">No pool heroes fit this lane. Tick "Include heroes from other roles".</div>');
 }
+function matchList(){return H.filter(h=>h.n.toLowerCase().includes(q)).sort((a,b)=>b.n.toLowerCase().startsWith(q)-a.n.toLowerCase().startsWith(q))}
+function pickHero(v){const cur=mode=="E"?E:A,oth=mode=="E"?A:E,max=mode=="E"?5:4,i=cur.indexOf(v);if(i>-1)cur.splice(i,1);else if(cur.length<max&&!oth.includes(v))cur.push(v)}
+let auto=false;try{auto=localStorage.getItem("lp-auto")=="1";$("auto").checked=auto}catch(e){}
 function renderGrid(){
   const cur=mode=="E"?E:mode=="A"?A:null,oth=mode=="E"?A:mode=="A"?E:[];
-  $("grid").innerHTML=H.filter(h=>h.n.toLowerCase().includes(q)).map(h=>{
+  $("grid").innerHTML=matchList().map(h=>{
     const on=mode=="P"?pool.has(h.n):cur.includes(h.n),tk=!on&&(mode=="P"?false:oth.includes(h.n));
     return `<button class="h${on?" on":""}${tk?" tk":""}" data-a="hero" data-v="${h.n}"><s style="background:${RC[h.r]}"></s>${h.n}${mode!="P"&&pool.has(h.n)?"<em>★</em>":""}</button>`}).join("");
 }
@@ -406,12 +410,15 @@ document.addEventListener("click",e=>{
   else if(b.dataset.a=="rm"){E=E.filter(x=>x!=v);A=A.filter(x=>x!=v)}
   else if(mode=="P"){pool.has(v)?pool.delete(v):pool.add(v);save()}
   else{
-    const cur=mode=="E"?E:A,oth=mode=="E"?A:E,max=mode=="E"?5:4,i=cur.indexOf(v);
-    if(i>-1)cur.splice(i,1);else if(cur.length<max&&!oth.includes(v))cur.push(v);
+    const typing=q!=="";pickHero(v);
+    if(typing){q="";const s=$("q");s.value="";s.focus()}
   }
+  if(auto&&(a=="rm"||a=="lane"||(a=="hero"&&mode!="P")))analyse();
   render();
 });
 $("imp").addEventListener("change",async ev=>{try{const j=JSON.parse(await ev.target.files[0].text());if(Array.isArray(j)){matches=j;persist();render_hist()}else throw 0}catch(x){alert("Could not read that backup file.")}ev.target.value=""});
+$("auto").addEventListener("change",e=>{auto=e.target.checked;try{localStorage.setItem("lp-auto",auto?"1":"0")}catch(x){}if(auto)analyse();render()});
+$("q").addEventListener("keydown",e=>{if(e.key!="Enter"||mode=="P")return;e.preventDefault();const cur=mode=="E"?E:A,oth=mode=="E"?A:E,f=matchList().find(h=>!cur.includes(h.n)&&!oth.includes(h.n));if(!f)return;pickHero(f.n);q="";e.target.value="";stale=true;if(auto)analyse();render()});
 $("off").addEventListener("change",e=>{off=e.target.checked;stale=true;render()});
 $("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();renderGrid()});
 render();
