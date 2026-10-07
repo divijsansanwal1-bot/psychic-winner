@@ -395,11 +395,12 @@ function score(h){
   const tr=tierOf(h.n,myLane||lane);
   if(tr)add({S:3.2,A:2.1,B:1.1,C:0,D:-1}[tr]*(myLane?1:.7),tr+"-tier in "+(myLane||lane)+" this patch");
   /* what my team needs */
-  add(wa*Math.max(0,1-al.ctl/9)*h.ctl*1.7,"adds crowd control");
-  add(wa*Math.max(0,1-al.tgh/9)*Math.max(0,h.tgh-2)*2.7,"adds frontline");
-  add(wa*Math.max(0,1-al.dmg/16)*Math.max(0,h.dmg-2)*2.2,"adds damage");
+  const k5=(nA+1)/5,dfc=(t,have)=>Math.max(0,t*k5-have);
+  add(1.5*Math.min(h.ctl,dfc(10,al.ctl)),"adds crowd control");
+  add(1.7*Math.min(Math.max(0,h.tgh-1),dfc(12,al.tgh)),"adds frontline");
+  add(1.2*Math.min(Math.max(0,h.dmg-1),dfc(18,al.dmg)),"adds damage");
   const tot=al.ph+al.mg;
-  if(tot>0){const sk=(al.ph-al.mg)/tot,ti=h.d=="P"?1:h.d=="M"?-1:0,v=-sk*ti*7*Math.min(1,tot/8);
+  if(tot>0){const sk=(al.ph-al.mg)/tot,ti=h.d=="P"?1:h.d=="M"?-1:0,v=-sk*ti*5*Math.min(1,tot/8);
     add(v,v>0?(ti<0?"magic":"physical")+" damage for a "+(ti<0?"physical":"magic")+" team":"stacks "+(ti>0?"physical":"magic")+" damage")}
   if(nA>=2){
     if(!al.sp.l&&h.spk=="l")add(4*wa,"late-game scaling your team lacks");
@@ -417,14 +418,17 @@ function score(h){
   if(nA+nE<5)add(Math.min(3,(h.t.length+(h.ult=="N"?0:1))*0.6),"flexible while the draft is open");
   /* what the enemy is doing */
   if(nE){
-    const divR=en.div/nE,tghA=en.tgh/nE,ctlA=en.ctl/nE,pSh=en.ph/((en.ph+en.mg)||1);
+    const divR=en.div/nE,ctlA=en.ctl/nE,fl=E.filter(n=>by[n].tgh>=4).length,sqC=E.filter(n=>by[n].tgh<=2).length,pSh=en.ph/((en.ph+en.mg)||1);
     add(we*divR*1.8*(h.ctl*1.5+(h.tgh>=4?2:0)+(h.ult=="H"?2:0)),"peel and CC vs their divers");
-    add(we*Math.max(0,tghA-2.4)/2.2*((h.t.includes("t")?5:0)+(h.t.includes("g")?2.5:0)+(h.dmg>=4&&h.rng=="r"?1.5:0)),"shreds their frontline");
-    add(we*Math.max(0,2.6-tghA)/1.4*((h.t.includes("b")?3:0)+(h.mob>=4?3:0)+(h.ult=="P"||h.ult=="S"?1.5:0)),"kills their squishies");
+    const fk=we*Math.min(1,fl/2);
+    add(fk*((h.t.includes("t")?5:0)+(h.t.includes("g")?2.5:0)+(h.dmg>=4&&h.rng=="r"?1.5:0)),"shreds their frontline");
+    add(fk*((h.tgh>=4&&h.dmg>=4?3.5:0)+(h.t.includes("s")?2:0)),"out-trades their tanks");
+    if(h.t.includes("b")&&!h.t.includes("s")&&h.tgh<=3)add(-fk*3.5,"burst falls off against their tanks");
+    add(we*(sqC/nE)*((h.t.includes("b")?3:0)+(h.mob>=4?3:0)+(h.ult=="P"||h.ult=="S"?1.5:0)),"kills their squishies");
     add(we*((en.poke+Math.max(0,en.rng-2))/nE)*((h.mob>=4?4:h.mob>=3?2:0)+(h.ult=="E"?3:0)+(h.tgh>=4?2:0)),"closes the gap on their ranged team");
     add(we*Math.max(0,ctlA-1.4)/2*(h.mob*1.1+(h.t.includes("s")?2:0)+(h.tgh>=4?1.5:0)),"survives their CC");
     if(h.tgh>=3)add(we*Math.abs(pSh-.5)*2*(h.tgh-2)*1.6,pSh>.5?"tanky vs a physical team":"tanky vs a magic team");
-    if(en.heal+en.sus>=2&&h.t.includes("b"))add(we*2.5,"burst beats their sustain");
+    if(en.heal>=2&&h.t.includes("b"))add(we*2.5,"burst beats their healing");
     if(en.sp.l>=3&&h.spk=="e")add(we*3.5,"early pressure vs their late-game team");
     if(en.sp.e>=3&&(h.spk=="l"||h.tgh>=4))add(we*3,"safe scaling vs their early-game team");
     if((en.u.E||0)>=2&&h.ctl>=3)add(we*2,"CC to stop their engage");
