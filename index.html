@@ -56,36 +56,11 @@ details.set{margin-top:14px;font-size:13px}details.set summary{cursor:pointer;fo
 [hidden]{display:none!important}
 .nav{display:flex;gap:6px;margin-bottom:12px}.nav button{flex:1;font:700 14px 'Chakra Petch',system-ui,sans-serif;padding:9px;border-radius:8px;border:1px solid var(--ln);background:var(--pn);color:var(--ink);cursor:pointer}.nav button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .tier{font-weight:700;font-size:18px}.tS{color:var(--go)}.tA{color:var(--al)}.tB{color:var(--mu)}.note a{color:var(--al)}
-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px}table th{text-align:left;font-weight:700;padding:8px;border-bottom:2px solid var(--ln)}table td{padding:8px;border-bottom:1px solid var(--ln)}table tr:hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}
-.stat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
-.box{background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:12px;text-align:center}
-.big{font-size:28px;font-weight:700;color:var(--go)}
-.lbl{font-size:12px;color:var(--mu);margin-top:4px}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
-.form.full{grid-template-columns:1fr}
-input,select{font:inherit;padding:8px;border-radius:6px;border:1px solid var(--ln);background:var(--pn);color:var(--ink)}
-select{width:100%}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.head{font-size:15px;font-weight:700;margin:12px 0 8px}
-.empt{color:var(--mu);font-size:13px;padding:8px}
-input[type=checkbox]{width:14px;height:14px;cursor:pointer}
-label{display:flex;align-items:center;gap:6px;font-size:13px}
-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px}table th{text-align:left;font-weight:700;padding:8px;border-bottom:2px solid var(--ln)}table td{padding:8px;border-bottom:1px solid var(--ln)}table tr:hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}
-.stat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
-.box{background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:12px;text-align:center}
-.big{font-size:28px;font-weight:700;color:var(--go)}
-.lbl{font-size:12px;color:var(--mu);margin-top:4px}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
-.form.full{grid-template-columns:1fr}
-input,select{font:inherit;padding:8px;border-radius:6px;border:1px solid var(--ln);background:var(--pn);color:var(--ink)}
-select{width:100%}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.head{font-size:15px;font-weight:700;margin:12px 0 8px}
-.empt{color:var(--mu);font-size:13px;padding:8px}
-#modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;z-index:999}#modal>div{width:100%;background:var(--pn);border-radius:16px 16px 0 0;padding:16px;max-height:90vh;overflow-y:auto;padding-bottom:max(16px,env(safe-area-inset-bottom))}
-.mtit{font-size:17px;font-weight:700;margin-bottom:12px}
-input[type=checkbox]{width:14px;height:14px;cursor:pointer}
-label{display:flex;align-items:center;gap:6px;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{text-align:left;font-weight:700;padding:8px;border-bottom:2px solid var(--ln)}td{padding:8px;border-bottom:1px solid var(--ln)}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.box{background:var(--pn);border:1px solid var(--ln);border-radius:12px;padding:12px;text-align:center}.big{font-size:28px;font-weight:700;color:var(--go)}.lbl{font-size:12px;color:var(--mu);margin-top:2px}
+.head{font-size:15px;font-weight:700;margin:14px 0 6px}.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;z-index:99}#modal>div{width:100%;max-width:640px;margin:0 auto;background:var(--bg);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));max-height:92%;overflow-y:auto}
+.mtit{font-size:18px;font-weight:700;margin-bottom:10px}.fld{display:block;font-size:13px;color:var(--mu);margin-bottom:10px}.fld input,.fld select{display:block;width:100%;margin:4px 0 0;padding:10px;font:inherit;color:var(--ink);background:var(--pn);border:1px solid var(--ln);border-radius:8px}
 :focus-visible{outline:2px solid var(--go);outline-offset:2px}
 </style></head><body><main>
 <h1>Last Pick</h1>
@@ -96,93 +71,17 @@ label{display:flex;align-items:center;gap:6px;font-size:13px}
 <label class="opt"><input type="checkbox" id="off"> Include heroes from other roles</label>
 <section class="res"><h2>Best from your pool</h2><button class="go" data-a="go">Analyse draft</button><div id="res"></div>
 <button class="go alt" data-a="deep">Deep analysis (Gemini)</button><div id="deep"></div></section>
-<div id="v-hist" hidden><h2 style="font-size:15px;margin:0 0 12px">Match history & stats</h2>
-<div class="form full"><button class="go" data-a="logm">Log a match</button></div>
-<div id="hlog"></div></div><section class="pk"><h2>Pick heroes</h2>
+<section class="pk"><h2>Pick heroes</h2>
 <div class="tabs"><button data-a="mode" data-v="E">Enemy</button><button data-a="mode" data-v="A">Ally</button><button data-a="mode" data-v="P">My pool</button></div>
 <input id="q" type="search" placeholder="Search heroes" autocomplete="off" aria-label="Search heroes">
 <div class="grid" id="grid"></div>
 <details class="set"><summary>Gemini key for Deep analysis</summary><input id="gk" type="password" placeholder="Paste your Gemini API key" autocomplete="off" aria-label="Gemini API key"><input id="gm" placeholder="Model (default gemini-flash-latest)" aria-label="Gemini model"><button class="clr" data-a="key">Save</button> <span id="ks" class="why"></span><p>The key stays in this browser only. Deep analysis works when the app is hosted on your own site, not inside Claude.</p></details>
 <div class="foot"><span>Scores come from role, lane and trait rules, not live win rates.</span><button class="clr" data-a="clear">Clear draft</button></div>
 </section></div>
-<div id="v-hist" hidden><h2 style="font-size:15px;margin:0 0 12px">Match history & stats</h2>
-<div class="form full"><button class="go" data-a="logm">Log a match</button></div>
-<div id="hlog"></div></div>
+<div id="v-hist" hidden><h2 style="font-size:15px;margin:0 0 8px">Match history</h2><button class="go" data-a="logm">Log a match</button><div id="hlog"></div><div class="row2" style="margin-top:14px"><button class="clr" data-a="exp">Export backup</button><label class="clr" style="text-align:center">Import backup<input id="imp" type="file" accept=".json,application/json" hidden></label></div></div>
 <div id="v-meta" hidden><h2 style="font-size:15px;margin:0">Current meta by lane</h2><div class="lanes" id="mlanes"></div><div id="mout"></div></div>
 </main>
 <script>
-let matches=[];
-function savematches(){try{localStorage.setItem("lp-matches",JSON.stringify(matches))}catch(e){}}
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
-function render_hist(){
-  const h=$("hlog");
-  const st={};
-  matches.forEach(m=>{
-    const k=m.hero;
-    if(!st[k])st[k]={w:0,l:0,lanes:{}};
-    if(m.win)st[k].w++;else st[k].l++;
-    const ln=m.lane;
-    if(!st[k].lanes[ln])st[k].lanes[ln]={w:0,l:0};
-    if(m.win)st[k].lanes[ln].w++;else st[k].lanes[ln].l++;
-  });
-  const oppw={},oppl={};
-  matches.forEach(m=>{
-    m.enemy.forEach(en=>{
-      if(m.win)oppw[en]=(oppw[en]||0)+1;
-      else oppl[en]=(oppl[en]||0)+1;
-    });
-  });
-  const tw=matches.filter(m=>m.win).length,tl=matches.length-tw;
-  let o=`<div class="stat"><div class="box"><div class="big">${tw}</div><div class="lbl">Wins</div></div><div class="box"><div class="big">${tl}</div><div class="lbl">Losses</div></div></div>`;
-  o+=`<div class="stat"><div class="box"><div class="big">${matches.length?Math.round(100*tw/(tw+tl)):0}%</div><div class="lbl">Win rate</div></div><div class="box"><div class="big">${matches.length}</div><div class="lbl">Total matches</div></div></div>`;
-  if(matches.length){
-    o+=`<div class="head">By hero</div><table><tr><th>Hero<th>W<th>L<th>WR`;
-    Object.entries(st).sort((a,b)=>{const wr_b=(b[1].w/(b[1].w+b[1].l))||0,wr_a=(a[1].w/(a[1].w+a[1].l))||0;return wr_b-wr_a}).forEach(([h,x])=>{
-      const wr=Math.round(100*x.w/(x.w+x.l));o+=`<tr><td>${esc(h)}<td>${x.w}<td>${x.l}<td>${wr}%`;
-    });o+='</table>';
-    o+=`<div class="head">Enemy matchups (W-L)</div><table><tr><th>Enemy<th>Record`;
-    const all=new Set([...Object.keys(oppw),...Object.keys(oppl)]);
-    [...all].sort((a,b)=>{const c_b=(oppw[b]||0)+(oppl[b]||0),c_a=(oppw[a]||0)+(oppl[a]||0);return c_b-c_a}).forEach(en=>{
-      const w=oppw[en]||0,l=oppl[en]||0;o+=`<tr><td>${esc(en)}<td>${w}-${l}`;
-    });o+='</table>';
-    o+=`<div class="head">Lane win rates</div><table><tr><th>Lane<th>W<th>L<th>WR`;
-    const ln={};matches.forEach(m=>{if(!ln[m.lane])ln[m.lane]={w:0,l:0};ln[m.lane][m.win?"w":"l"]++});
-    Object.entries(ln).sort((a,b)=>b[1].w/(b[1].w+b[1].l)-a[1].w/(a[1].w+a[1].l)).forEach(([l,x])=>{
-      const wr=Math.round(100*x.w/(x.w+x.l));o+=`<tr><td>${esc(l)}<td>${x.w}<td>${x.l}<td>${wr}%`;
-    });o+='</table>';
-    o+=`<div class="head">Recent matches (last 10)</div><table><tr><th>Date<th>Hero<th>Lane<th>Result<th>Notes`;
-    matches.slice(0,10).forEach(m=>{
-      const d=new Date(m.date).toLocaleDateString();const r=m.win?'<span style="color:var(--go)">W</span>':'<span style="color:var(--fo)">L</span>';
-      o+=`<tr><td>${esc(d)}<td>${esc(m.hero)}<td>${esc(m.lane)}<td>${r}<td>${esc(m.notes||"")}`;
-    });o+='</table>';
-  }else{o+='<div class="empt">No matches logged yet. Tap Log a match to start.</div>'}
-  h.innerHTML=o;
-}
-let modal=null;
-function showModal(t){
-  if(modal){const el=$("modal");if(el)el.remove();modal=null}
-  if(t==="log"){
-    const mh=[...new Set(matches.map(m=>m.hero)),...pool].filter(Boolean).sort();
-    let md=`<div id="modal"><div><div class="mtit">Log match</div>
-<div class="form full"><label>Hero<select id="lh"><option value="">Choose hero`;
-    mh.forEach(h=>{md+=`<option value="${esc(h)}">${esc(h)}`});md+=`<option value="other">Other</select></label></div>
-<div class="row2"><label>Lane<select id="ll"><option value=""><option>roam<option>jungle<option>mid<option>EXP lane<option>gold</select></label><label>Result<select id="lr"><option value=""><option value="1">Win<option value="0">Loss</select></label></div>
-<div class="form full"><label>Team (comma list)<input id="lt" placeholder="ally1, ally2, ally3, ally4"></label></div>
-<div class="form full"><label>Enemy (comma list)<input id="le" placeholder="en1, en2, en3, en4, en5"></label></div>
-<div class="form full"><label>Notes<input id="ln" placeholder="lag, bad team, hard carry, etc."></label></div>
-<div class="row2"><button class="clr" data-a="savem" style="flex:1">Save</button><button class="clr" data-a="closem" style="flex:1">Cancel</button></div></div></div>`;
-    document.body.insertAdjacentHTML("beforeend",md);modal="log";
-  }
-}
-function saveMatch(){
-  const h=$("lh").value,l=$("ll").value,r=$("lr").value,t=$("lt").value,e=$("le").value;
-  if(!h||!l||r===""||!t||!e){alert("Fill: hero, lane, result, team, enemy");return}
-  const m={hero:h,lane:l,win:r==="1",team:t.split(",").map(x=>x.trim()).filter(Boolean),enemy:e.split(",").map(x=>x.trim()).filter(Boolean),notes:$("ln").value,date:new Date().toISOString()};
-  matches.unshift(m);savematches();showModal(null);render_hist();
-}
-
-try{const mj=localStorage.getItem("lp-matches");matches=mj?JSON.parse(mj):[];if(matches.length)render_hist()}catch(e){}
-
 const D=`Tigreal|T|P|cf
 Franco|T|P|cf
 Atlas|T|M|cf
@@ -385,7 +284,7 @@ function render(){
 }
 
 let gkey="",gmodel="gemini-flash-latest";
-try{gkey=localStorage.getItem("lp-gkey")||"";gmodel=localStorage.getItem("lp-gmodel")||gmodel;const mj=localStorage.getItem("lp-matches");matches=mj?JSON.parse(mj):[]}catch(e){}
+try{gkey=localStorage.getItem("lp-gkey")||"";gmodel=localStorage.getItem("lp-gmodel")||gmodel}catch(e){}
 $("gk").value=gkey;$("gm").value=gmodel;
 function saveKey(){gkey=$("gk").value.trim();gmodel=$("gm").value.trim()||"gemini-flash-latest";
   try{localStorage.setItem("lp-gkey",gkey);localStorage.setItem("lp-gmodel",gmodel);$("ks").textContent="Saved"}catch(e){$("ks").textContent="Could not save in this browser"}}
@@ -435,7 +334,7 @@ const META={
     "gold":{list:"Obsidia S, Hanabi A, Beatrix B, Clint B, Brody B, Moskov B, Ixia B, Miya B",ban:"Obsidia 10%"}
   }
 };
-let mLane="gold",matches=[],modal=null;
+let mLane="gold";
 const LB=[["roam","Roam"],["jungle","Jungle"],["mid","Mid"],["EXP lane","EXP"],["gold","Gold"]];
 function showMeta(){
   $("mlanes").innerHTML=LB.map(([v,t])=>`<button data-a="mlane" data-v="${v}"${v==mLane?' class="on"':""}>${t}</button>`).join("");
@@ -445,68 +344,64 @@ function showMeta(){
   $("mout").innerHTML=`<div class="note">${esc(META.patch)}, updated ${esc(META.updated)}. ★ = in your pool. Source: ${esc(META.source)}.</div>`+rows+`<div class="note">Most banned in this lane: ${esc(L.ban)}. ${esc(META.note)}</div>`;
 }
 
-function savematches(){try{localStorage.setItem("lp-matches",JSON.stringify(matches))}catch(e){}}
-function e(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
-function render_hist(){
-  const h=$("hlog");
-  const st={h:{},l:{},tm:{},en:{}};
-  matches.forEach(m=>{
-    const k=m.hero;st.h[k]={w:(st.h[k]?.w||0)+(m.win?1:0),l:(st.h[k]?.l||0)+(m.win?0:1),ln:{}}};
-    const ln=m.lane;st.h[k].ln[ln]={w:(st.h[k].ln[ln]?.w||0)+(m.win?1:0),l:(st.h[k].ln[ln]?.l||0)+(m.win?0:1)};
-    (m.win?st.tm:st.en)[m.opp]=(m.win?st.tm:st.en)[m.opp]||0;if(m.win)st.tm[m.opp]++;else st.en[m.opp]++;
-  });
-  const tw=Object.values(st.h).reduce((a,x)=>a+x.w,0),tl=Object.values(st.h).reduce((a,x)=>a+x.l,0);
-  let o=`<div class="stat"><div class="box"><div class="big">${tw}</div><div class="lbl">Wins</div></div><div class="box"><div class="big">${tl}</div><div class="lbl">Losses</div></div></div><div class="stat"><div class="box"><div class="big">${matches.length?Math.round(100*tw/(tw+tl)):0}%</div><div class="lbl">Win rate</div></div><div class="box"><div class="big">${matches.length}</div><div class="lbl">Total matches</div></div></div>`;
-  if(matches.length){
-    o+=`<div class="head">By hero</div><table><th>Hero<th>W<th>L<th>WR`;
-    Object.entries(st.h).sort((a,b)=>(b[1].w/(b[1].w+b[1].l)||0)-(a[1].w/(a[1].w+a[1].l)||0)).forEach(([h,x])=>{
-      const wr=Math.round(100*x.w/(x.w+x.l));
-      o+=`<tr><td>${e(h)}<td>${x.w}<td>${x.l}<td>${wr}%`;
-    });
-    o+='</table>';
-    o+=`<div class="head">Most picked enemies (win vs loss)</div><table><th>Hero<th>Faced<th>Record`;
-    const oe=Object.entries({...st.tm,...st.en}).sort((a,b)=>b[1]-a[1]);
-    oe.forEach(([en,ct])=>{
-      const w=st.tm[en]||0,l=st.en[en]||0;
-      o+=`<tr><td>${e(en)}<td>${w+l}<td>${w}-${l}`;
-    });
-    o+='</table>';
-    o+=`<div class="head">Lane stats</div><table><th>Lane<th>W<th>L<th>WR`;
-    const ln={};matches.forEach(m=>{if(!ln[m.lane])ln[m.lane]={w:0,l:0};ln[m.lane][m.win?"w":"l"]++});
-    Object.entries(ln).sort((a,b)=>b[1].w/(b[1].w+b[1].l)-a[1].w/(a[1].w+a[1].l)).forEach(([l,x])=>{
-      const wr=Math.round(100*x.w/(x.w+x.l));
-      o+=`<tr><td>${e(l)}<td>${x.w}<td>${x.l}<td>${wr}%`;
-    });
-    o+='</table>';
-  }else{o+='<div class="empt">No matches logged yet. Tap Log a match to start.</div>'}
-  h.innerHTML=o;
+let matches=[],modal=null;
+try{const mj=localStorage.getItem("lp-matches");if(mj)matches=JSON.parse(mj)}catch(e){}
+const persist=()=>{try{localStorage.setItem("lp-matches",JSON.stringify(matches))}catch(e){}};
+const hx=x=>esc(String(x));
+const pct=(w,l)=>w+l?Math.round(100*w/(w+l)):0;
+function tally(fn){const t={};matches.forEach(m=>{(fn(m)||[]).forEach(k=>{if(!t[k])t[k]={w:0,l:0};t[k][m.win?"w":"l"]++})});return t}
+function tbl(title,t,min,lim){
+  const rows=Object.entries(t).filter(([k,x])=>x.w+x.l>=min).sort((a,b)=>(b[1].w+b[1].l)-(a[1].w+a[1].l)||pct(b[1].w,b[1].l)-pct(a[1].w,a[1].l)).slice(0,lim);
+  return rows.length?`<div class="head">${title}</div><table><tr><th>Name</th><th>W-L</th><th>WR</th></tr>`+rows.map(([k,x])=>`<tr><td>${hx(k)}</td><td>${x.w}-${x.l}</td><td>${pct(x.w,x.l)}%</td></tr>`).join("")+"</table>":"";
 }
+function pick(t,min,best){return Object.entries(t).filter(([k,x])=>x.w+x.l>=min).sort((a,b)=>best?pct(b[1].w,b[1].l)-pct(a[1].w,a[1].l):pct(a[1].w,a[1].l)-pct(b[1].w,b[1].l))[0]}
+function render_hist(){
+  const w=matches.filter(m=>m.win).length,l=matches.length-w;
+  let sk=0,sw=null;for(const m of matches){if(sw===null)sw=m.win;if(m.win===sw)sk++;else break}
+  const byH=tally(m=>[m.hero]),byE=tally(m=>m.enemy),byT=tally(m=>m.team);
+  let o=`<div class="stat"><div class="box"><div class="big">${pct(w,l)}%</div><div class="lbl">Win rate</div></div><div class="box"><div class="big">${w}-${l}</div><div class="lbl">Wins and losses</div></div></div>`;
+  if(!matches.length){$("hlog").innerHTML=o+'<div class="msg">No matches yet. Tap Log a match after your next game.</div>';return}
+  const ins=[`Current streak: ${sk} ${sw?"win":"loss"}${sk>1?(sw?"s":"es"):""}.`];
+  const bh=pick(byH,3,true),he=pick(byE,2,false),bt=pick(byT,2,true);
+  if(bh)ins.push(`Best hero (3+ games): ${hx(bh[0])}, ${pct(bh[1].w,bh[1].l)}%.`);
+  if(he)ins.push(`Hardest enemy (2+ games): ${hx(he[0])}, ${pct(he[1].w,he[1].l)}% for you.`);
+  if(bt)ins.push(`Best teammate (2+ games): ${hx(bt[0])}, ${pct(bt[1].w,bt[1].l)}%.`);
+  o+=`<div class="note">${ins.join(" ")}</div>`;
+  o+=tbl("By hero",byH,1,12)+tbl("By lane",tally(m=>[m.lane]),1,5)+tbl("Against enemy heroes (2+ games)",byE,2,12)+tbl("With teammates (2+ games)",byT,2,12);
+  o+='<div class="head">Recent matches</div>'+matches.slice(0,15).map((m,i)=>`<div class="card"><div class="row"><span class="nm">${hx(m.hero)} <span style="color:var(--${m.win?"go":"fo"})">${m.win?"Win":"Loss"}</span></span><button class="clr" data-a="delm" data-v="${i}" aria-label="Delete match">✕</button></div><div class="why">${hx(m.lane)}, ${new Date(m.date).toLocaleDateString()}<br>With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
+  $("hlog").innerHTML=o;
+}
+function canon(str){return str.split(",").map(x=>x.trim()).filter(Boolean).map(x=>{const l=x.toLowerCase(),ex=H.find(h=>h.n.toLowerCase()==l);if(ex)return ex.n;const p=H.filter(h=>h.n.toLowerCase().startsWith(l));return p.length==1?p[0].n:x})}
 function showModal(t){
-  if(modal){$("modal").remove();modal=null}
-  if(t==="log"){
-    const lns=["roam","jungle","mid","EXP lane","gold"];
-    const mh=[...new Set(matches.map(m=>m.hero)),...pool].filter(Boolean).sort();
-    const md=`<div id="modal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;z-index:999"><div style="width:100%;background:var(--pn);border-radius:16px 16px 0 0;padding:16px;max-height:90vh;overflow-y:auto;padding-bottom:max(16px,env(safe-area-inset-bottom))"><div style="font-size:17px;font-weight:700;margin-bottom:12px">Log match</div>
-<div class="form full"><label>Hero<select id="lh"><option value="">Choose hero<option value="other">Other</select></label></div>
-<div class="row2"><label>Lane<select id="ll"><option value="">Choose<option>roam<option>jungle<option>mid<option>EXP lane<option>gold</select></label><label>Result<select id="lr"><option value="">Win or loss<option value="1">Win<option value="0">Loss</select></label></div>
-<div class="form full"><label>Team (comma list)<input id="lt" placeholder="ally1, ally2, ally3, ally4"></label></div>
-<div class="form full"><label>Enemy (comma list)<input id="le" placeholder="en1, en2, en3, en4, en5"></label></div>
-<div class="form full"><label>Notes<input id="ln" placeholder="Optional"></label></div>
-<div class="row2"><button class="clr" data-a="save-match" style="flex:1">Save</button><button class="clr" data-a="close-modal" style="flex:1">Cancel</button></div></div></div>`;
-    document.body.insertAdjacentHTML("beforeend",md);modal="log";
-    $("lh").value="";$("ll").value="";$("lr").value="";$("lt").value="";$("le").value="";$("ln").value="";
-  }
+  const old=$("modal");if(old)old.remove();
+  if(t!="log")return;
+  const ps=[...pool].filter(n=>by[n]).sort(),rest=H.map(h=>h.n).filter(n=>!pool.has(n));
+  const opt=a=>a.map(n=>`<option>${hx(n)}</option>`).join("");
+  document.body.insertAdjacentHTML("beforeend",`<div id="modal"><div><div class="mtit">Log a match</div>
+<label class="fld">Your hero<select id="lh"><option value="">Choose hero</option><optgroup label="My pool">${opt(ps)}</optgroup><optgroup label="Other heroes">${opt(rest)}</optgroup></select></label>
+<div class="row2"><label class="fld">Lane<select id="ll"><option value="">Choose</option><option>roam</option><option>jungle</option><option>mid</option><option>EXP lane</option><option>gold</option></select></label><label class="fld">Result<select id="lr"><option value="">Choose</option><option value="1">Win</option><option value="0">Loss</option></select></label></div>
+<label class="fld">Your team (comma separated)<input id="lt" value="${hx(A.join(", "))}" placeholder="Layla, Tigreal"></label>
+<label class="fld">Enemy team (comma separated)<input id="le" value="${hx(E.join(", "))}" placeholder="Gusion, Khufra"></label>
+<label class="fld">Notes (optional)<input id="ln" placeholder="lag, hard carry, bad matchup"></label>
+<div class="row2"><button class="go" data-a="savem">Save match</button><button class="go alt" data-a="closem">Cancel</button></div></div></div>`);
+  if(myLane)$("ll").value=myLane;
 }
 function saveMatch(){
-  const h=$("lh").value,l=$("ll").value,r=$("lr").value,t=$("lt").value,e=$("le").value;
-  if(!h||!l||r===""||!t||!e){alert("Fill hero, lane, result, team, and enemy");return}
-  const m={hero:h,lane:l,win:r==="1",team:t.split(",").map(x=>x.trim()).filter(Boolean),enemy:e.split(",").map(x=>x.trim()).filter(Boolean),notes:$("ln").value,date:new Date().toISOString()};
-  matches.unshift(m);savematches();showModal(null);render_hist();
+  const h=$("lh").value,l=$("ll").value,r=$("lr").value;
+  if(!h||!l||r===""){alert("Choose your hero, lane and the result.");return}
+  matches.unshift({hero:h,lane:l,win:r=="1",team:canon($("lt").value),enemy:canon($("le").value),notes:$("ln").value.trim(),date:new Date().toISOString()});
+  persist();showModal(null);render_hist();
 }
+function exportM(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(matches)],{type:"application/json"}));a.download="last-pick-matches.json";a.click()}
 document.addEventListener("click",e=>{
   const b=e.target.closest("[data-a]");if(!b)return;const v=b.dataset.v;
-  const a=b.dataset.a;if(a=="logm"){showModal("log");return}if(a=="save-match"){saveMatch();return}if(a=="close-modal"){showModal(null);return}if(a=="view"){$("v-draft").hidden=v!="draft";$("v-meta").hidden=v!="meta";document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.v==v));if(v=="meta")showMeta();if(v=="hist")render_hist();return}if(a=="mlane"){mLane=v;showMeta();return}if(a=="deep"){deep();return}if(a=="key"){saveKey();return}if(a!="mode"&&a!="go")stale=true;
-  if(a=="go")analyse();else if(a=="lane")myLane=v;else if(a=="mode")mode=v;else if(a=="view"){document.querySelectorAll("#v-draft,#v-meta,#v-hist").forEach(el=>el.hidden=el.id!=="v-"+v);document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.v==v));if(v=="hist"){showModal(null);render_hist()}return;}
+  const a=b.dataset.a;
+  if(a=="logm"){showModal("log");return}if(a=="savem"){saveMatch();return}if(a=="closem"){showModal(null);return}
+  if(a=="delm"){if(confirm("Delete this match?")){matches.splice(+v,1);persist();render_hist()}return}if(a=="exp"){exportM();return}
+  if(a=="view"){["draft","meta","hist"].forEach(n=>$("v-"+n).hidden=n!=v);document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.v==v));if(v=="meta")showMeta();if(v=="hist")render_hist();return}
+  if(a=="mlane"){mLane=v;showMeta();return}if(a=="deep"){deep();return}if(a=="key"){saveKey();return}
+  if(a!="mode"&&a!="go")stale=true;
+  if(a=="go")analyse();else if(a=="lane")myLane=v;else if(a=="mode")mode=v;
   else if(b.dataset.a=="clear"){E=[];A=[]}
   else if(b.dataset.a=="rm"){E=E.filter(x=>x!=v);A=A.filter(x=>x!=v)}
   else if(mode=="P"){pool.has(v)?pool.delete(v):pool.add(v);save()}
@@ -516,6 +411,7 @@ document.addEventListener("click",e=>{
   }
   render();
 });
+$("imp").addEventListener("change",async ev=>{try{const j=JSON.parse(await ev.target.files[0].text());if(Array.isArray(j)){matches=j;persist();render_hist()}else throw 0}catch(x){alert("Could not read that backup file.")}ev.target.value=""});
 $("off").addEventListener("change",e=>{off=e.target.checked;stale=true;render()});
 $("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();renderGrid()});
 render();
