@@ -53,23 +53,136 @@ input{width:100%;font:inherit;padding:10px 12px;border-radius:8px;border:1px sol
 .stale{color:var(--fo);font-size:13px;margin-bottom:6px}.note{font-size:12.5px;color:var(--mu);margin-bottom:8px}
 .go.alt{background:transparent;color:var(--ink);border:2px solid var(--go)}.ans{white-space:pre-wrap;font-size:14px;line-height:1.55}
 details.set{margin-top:14px;font-size:13px}details.set summary{cursor:pointer;font-weight:600;margin-bottom:8px}details.set p{color:var(--mu);margin:6px 0}
+[hidden]{display:none!important}
+.nav{display:flex;gap:6px;margin-bottom:12px}.nav button{flex:1;font:700 14px 'Chakra Petch',system-ui,sans-serif;padding:9px;border-radius:8px;border:1px solid var(--ln);background:var(--pn);color:var(--ink);cursor:pointer}.nav button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tier{font-weight:700;font-size:18px}.tS{color:var(--go)}.tA{color:var(--al)}.tB{color:var(--mu)}.note a{color:var(--al)}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px}table th{text-align:left;font-weight:700;padding:8px;border-bottom:2px solid var(--ln)}table td{padding:8px;border-bottom:1px solid var(--ln)}table tr:hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.box{background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:12px;text-align:center}
+.big{font-size:28px;font-weight:700;color:var(--go)}
+.lbl{font-size:12px;color:var(--mu);margin-top:4px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
+.form.full{grid-template-columns:1fr}
+input,select{font:inherit;padding:8px;border-radius:6px;border:1px solid var(--ln);background:var(--pn);color:var(--ink)}
+select{width:100%}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.head{font-size:15px;font-weight:700;margin:12px 0 8px}
+.empt{color:var(--mu);font-size:13px;padding:8px}
+input[type=checkbox]{width:14px;height:14px;cursor:pointer}
+label{display:flex;align-items:center;gap:6px;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px}table th{text-align:left;font-weight:700;padding:8px;border-bottom:2px solid var(--ln)}table td{padding:8px;border-bottom:1px solid var(--ln)}table tr:hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.box{background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:12px;text-align:center}
+.big{font-size:28px;font-weight:700;color:var(--go)}
+.lbl{font-size:12px;color:var(--mu);margin-top:4px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
+.form.full{grid-template-columns:1fr}
+input,select{font:inherit;padding:8px;border-radius:6px;border:1px solid var(--ln);background:var(--pn);color:var(--ink)}
+select{width:100%}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.head{font-size:15px;font-weight:700;margin:12px 0 8px}
+.empt{color:var(--mu);font-size:13px;padding:8px}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;z-index:999}#modal>div{width:100%;background:var(--pn);border-radius:16px 16px 0 0;padding:16px;max-height:90vh;overflow-y:auto;padding-bottom:max(16px,env(safe-area-inset-bottom))}
+.mtit{font-size:17px;font-weight:700;margin-bottom:12px}
+input[type=checkbox]{width:14px;height:14px;cursor:pointer}
+label{display:flex;align-items:center;gap:6px;font-size:13px}
 :focus-visible{outline:2px solid var(--go);outline-offset:2px}
 </style></head><body><main>
 <h1>Last Pick</h1>
 <p class="sub">Mark the draft, get your best hero from your pool.</p>
-<div class="strip"><div class="col a"><h2>Allies</h2><div id="sa"></div></div><div class="col e"><h2>Enemies</h2><div id="se"></div></div></div>
+<nav class="nav"><button class="on" data-a="view" data-v="draft">Draft</button><button data-a="view" data-v="meta">Meta</button><button data-a="view" data-v="hist">History</button></nav>
+<div id="v-draft"><div class="strip"><div class="col a"><h2>Allies</h2><div id="sa"></div></div><div class="col e"><h2>Enemies</h2><div id="se"></div></div></div>
 <div class="lanes" id="lanes"></div>
 <label class="opt"><input type="checkbox" id="off"> Include heroes from other roles</label>
 <section class="res"><h2>Best from your pool</h2><button class="go" data-a="go">Analyse draft</button><div id="res"></div>
 <button class="go alt" data-a="deep">Deep analysis (Gemini)</button><div id="deep"></div></section>
-<section class="pk"><h2>Pick heroes</h2>
+<div id="v-hist" hidden><h2 style="font-size:15px;margin:0 0 12px">Match history & stats</h2>
+<div class="form full"><button class="go" data-a="logm">Log a match</button></div>
+<div id="hlog"></div></div><section class="pk"><h2>Pick heroes</h2>
 <div class="tabs"><button data-a="mode" data-v="E">Enemy</button><button data-a="mode" data-v="A">Ally</button><button data-a="mode" data-v="P">My pool</button></div>
 <input id="q" type="search" placeholder="Search heroes" autocomplete="off" aria-label="Search heroes">
 <div class="grid" id="grid"></div>
 <details class="set"><summary>Gemini key for Deep analysis</summary><input id="gk" type="password" placeholder="Paste your Gemini API key" autocomplete="off" aria-label="Gemini API key"><input id="gm" placeholder="Model (default gemini-flash-latest)" aria-label="Gemini model"><button class="clr" data-a="key">Save</button> <span id="ks" class="why"></span><p>The key stays in this browser only. Deep analysis works when the app is hosted on your own site, not inside Claude.</p></details>
 <div class="foot"><span>Scores come from role, lane and trait rules, not live win rates.</span><button class="clr" data-a="clear">Clear draft</button></div>
-</section></main>
+</section></div>
+<div id="v-hist" hidden><h2 style="font-size:15px;margin:0 0 12px">Match history & stats</h2>
+<div class="form full"><button class="go" data-a="logm">Log a match</button></div>
+<div id="hlog"></div></div>
+<div id="v-meta" hidden><h2 style="font-size:15px;margin:0">Current meta by lane</h2><div class="lanes" id="mlanes"></div><div id="mout"></div></div>
+</main>
 <script>
+let matches=[];
+function savematches(){try{localStorage.setItem("lp-matches",JSON.stringify(matches))}catch(e){}}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function render_hist(){
+  const h=$("hlog");
+  const st={};
+  matches.forEach(m=>{
+    const k=m.hero;
+    if(!st[k])st[k]={w:0,l:0,lanes:{}};
+    if(m.win)st[k].w++;else st[k].l++;
+    const ln=m.lane;
+    if(!st[k].lanes[ln])st[k].lanes[ln]={w:0,l:0};
+    if(m.win)st[k].lanes[ln].w++;else st[k].lanes[ln].l++;
+  });
+  const oppw={},oppl={};
+  matches.forEach(m=>{
+    m.enemy.forEach(en=>{
+      if(m.win)oppw[en]=(oppw[en]||0)+1;
+      else oppl[en]=(oppl[en]||0)+1;
+    });
+  });
+  const tw=matches.filter(m=>m.win).length,tl=matches.length-tw;
+  let o=`<div class="stat"><div class="box"><div class="big">${tw}</div><div class="lbl">Wins</div></div><div class="box"><div class="big">${tl}</div><div class="lbl">Losses</div></div></div>`;
+  o+=`<div class="stat"><div class="box"><div class="big">${matches.length?Math.round(100*tw/(tw+tl)):0}%</div><div class="lbl">Win rate</div></div><div class="box"><div class="big">${matches.length}</div><div class="lbl">Total matches</div></div></div>`;
+  if(matches.length){
+    o+=`<div class="head">By hero</div><table><tr><th>Hero<th>W<th>L<th>WR`;
+    Object.entries(st).sort((a,b)=>{const wr_b=(b[1].w/(b[1].w+b[1].l))||0,wr_a=(a[1].w/(a[1].w+a[1].l))||0;return wr_b-wr_a}).forEach(([h,x])=>{
+      const wr=Math.round(100*x.w/(x.w+x.l));o+=`<tr><td>${esc(h)}<td>${x.w}<td>${x.l}<td>${wr}%`;
+    });o+='</table>';
+    o+=`<div class="head">Enemy matchups (W-L)</div><table><tr><th>Enemy<th>Record`;
+    const all=new Set([...Object.keys(oppw),...Object.keys(oppl)]);
+    [...all].sort((a,b)=>{const c_b=(oppw[b]||0)+(oppl[b]||0),c_a=(oppw[a]||0)+(oppl[a]||0);return c_b-c_a}).forEach(en=>{
+      const w=oppw[en]||0,l=oppl[en]||0;o+=`<tr><td>${esc(en)}<td>${w}-${l}`;
+    });o+='</table>';
+    o+=`<div class="head">Lane win rates</div><table><tr><th>Lane<th>W<th>L<th>WR`;
+    const ln={};matches.forEach(m=>{if(!ln[m.lane])ln[m.lane]={w:0,l:0};ln[m.lane][m.win?"w":"l"]++});
+    Object.entries(ln).sort((a,b)=>b[1].w/(b[1].w+b[1].l)-a[1].w/(a[1].w+a[1].l)).forEach(([l,x])=>{
+      const wr=Math.round(100*x.w/(x.w+x.l));o+=`<tr><td>${esc(l)}<td>${x.w}<td>${x.l}<td>${wr}%`;
+    });o+='</table>';
+    o+=`<div class="head">Recent matches (last 10)</div><table><tr><th>Date<th>Hero<th>Lane<th>Result<th>Notes`;
+    matches.slice(0,10).forEach(m=>{
+      const d=new Date(m.date).toLocaleDateString();const r=m.win?'<span style="color:var(--go)">W</span>':'<span style="color:var(--fo)">L</span>';
+      o+=`<tr><td>${esc(d)}<td>${esc(m.hero)}<td>${esc(m.lane)}<td>${r}<td>${esc(m.notes||"")}`;
+    });o+='</table>';
+  }else{o+='<div class="empt">No matches logged yet. Tap Log a match to start.</div>'}
+  h.innerHTML=o;
+}
+let modal=null;
+function showModal(t){
+  if(modal){const el=$("modal");if(el)el.remove();modal=null}
+  if(t==="log"){
+    const mh=[...new Set(matches.map(m=>m.hero)),...pool].filter(Boolean).sort();
+    let md=`<div id="modal"><div><div class="mtit">Log match</div>
+<div class="form full"><label>Hero<select id="lh"><option value="">Choose hero`;
+    mh.forEach(h=>{md+=`<option value="${esc(h)}">${esc(h)}`});md+=`<option value="other">Other</select></label></div>
+<div class="row2"><label>Lane<select id="ll"><option value=""><option>roam<option>jungle<option>mid<option>EXP lane<option>gold</select></label><label>Result<select id="lr"><option value=""><option value="1">Win<option value="0">Loss</select></label></div>
+<div class="form full"><label>Team (comma list)<input id="lt" placeholder="ally1, ally2, ally3, ally4"></label></div>
+<div class="form full"><label>Enemy (comma list)<input id="le" placeholder="en1, en2, en3, en4, en5"></label></div>
+<div class="form full"><label>Notes<input id="ln" placeholder="lag, bad team, hard carry, etc."></label></div>
+<div class="row2"><button class="clr" data-a="savem" style="flex:1">Save</button><button class="clr" data-a="closem" style="flex:1">Cancel</button></div></div></div>`;
+    document.body.insertAdjacentHTML("beforeend",md);modal="log";
+  }
+}
+function saveMatch(){
+  const h=$("lh").value,l=$("ll").value,r=$("lr").value,t=$("lt").value,e=$("le").value;
+  if(!h||!l||r===""||!t||!e){alert("Fill: hero, lane, result, team, enemy");return}
+  const m={hero:h,lane:l,win:r==="1",team:t.split(",").map(x=>x.trim()).filter(Boolean),enemy:e.split(",").map(x=>x.trim()).filter(Boolean),notes:$("ln").value,date:new Date().toISOString()};
+  matches.unshift(m);savematches();showModal(null);render_hist();
+}
+
+try{const mj=localStorage.getItem("lp-matches");matches=mj?JSON.parse(mj):[];if(matches.length)render_hist()}catch(e){}
+
 const D=`Tigreal|T|P|cf
 Franco|T|P|cf
 Atlas|T|M|cf
@@ -272,7 +385,7 @@ function render(){
 }
 
 let gkey="",gmodel="gemini-flash-latest";
-try{gkey=localStorage.getItem("lp-gkey")||"";gmodel=localStorage.getItem("lp-gmodel")||gmodel}catch(e){}
+try{gkey=localStorage.getItem("lp-gkey")||"";gmodel=localStorage.getItem("lp-gmodel")||gmodel;const mj=localStorage.getItem("lp-matches");matches=mj?JSON.parse(mj):[]}catch(e){}
 $("gk").value=gkey;$("gm").value=gmodel;
 function saveKey(){gkey=$("gk").value.trim();gmodel=$("gm").value.trim()||"gemini-flash-latest";
   try{localStorage.setItem("lp-gkey",gkey);localStorage.setItem("lp-gmodel",gmodel);$("ks").textContent="Saved"}catch(e){$("ks").textContent="Could not save in this browser"}}
@@ -309,10 +422,91 @@ async function deep(){
     o.innerHTML='<div class="stale">Deep analysis failed: '+esc(m)+'. '+(/fetch|network/i.test(m)?'This usually means the app is open inside Claude, which blocks outside requests. Open it from your own hosting.':/quota|429|exhausted/i.test(m)?'You hit the free limit. Wait a minute and try again.':'Check your key and model name.')+'</div>';
   }
 }
+
+/* ===== META DATA: edit this block after each patch. Each lane is a comma list "Hero Tier", strongest first (tier S, A, B, C or D). ===== */
+const META={
+  patch:"Patch 2.2.16, Season 42",updated:"6 Oct 2026",source:"mlbbhub.com ranked data, all ranks",
+  note:"Patch changes: nerfed Marcel, Melissa, Miya, Hanabi, Paquito, Yi Sun-shin, Sun; buffed Argus, Aldous, Lukas, Aulus, Alpha, Cici, Karina.",
+  lanes:{
+    "roam":{list:"Rafaela S, Minotaur S, Floryn S, Gloo S, Carmilla S, Estes S, Belerick A, Atlas A",ban:"Belerick 56%"},
+    "jungle":{list:"Aulus S, Hirara S, Lukas A, Ling A, Sun A, Barats A, Fredrinn B, Alice B",ban:"Hirara 66%"},
+    "mid":{list:"Valir A, Gord A, Kagura A, Kadita A, Eudora A, Cyclops B, Cecilion B, Zetian B",ban:"Eudora 59%"},
+    "EXP lane":{list:"Aulus S, Masha S, Argus S, Gloo S, Lukas A, Sun A, Barats A, Guinevere A",ban:"Paquito 43%"},
+    "gold":{list:"Obsidia S, Hanabi A, Beatrix B, Clint B, Brody B, Moskov B, Ixia B, Miya B",ban:"Obsidia 10%"}
+  }
+};
+let mLane="gold",matches=[],modal=null;
+const LB=[["roam","Roam"],["jungle","Jungle"],["mid","Mid"],["EXP lane","EXP"],["gold","Gold"]];
+function showMeta(){
+  $("mlanes").innerHTML=LB.map(([v,t])=>`<button data-a="mlane" data-v="${v}"${v==mLane?' class="on"':""}>${t}</button>`).join("");
+  const L=META.lanes[mLane];
+  const rows=L.list.split(",").map(x=>{const m=x.trim().match(/^(.+)\s+([SABCD])$/);if(!m)return"";const n=m[1],t=m[2];
+    return `<div class="card"><div class="row"><span class="nm">${esc(n)}${pool.has(n)?" ★":""}</span><span class="tier t${t=="S"||t=="A"?t:"B"}">${t}</span></div></div>`}).join("");
+  $("mout").innerHTML=`<div class="note">${esc(META.patch)}, updated ${esc(META.updated)}. ★ = in your pool. Source: ${esc(META.source)}.</div>`+rows+`<div class="note">Most banned in this lane: ${esc(L.ban)}. ${esc(META.note)}</div>`;
+}
+
+function savematches(){try{localStorage.setItem("lp-matches",JSON.stringify(matches))}catch(e){}}
+function e(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function render_hist(){
+  const h=$("hlog");
+  const st={h:{},l:{},tm:{},en:{}};
+  matches.forEach(m=>{
+    const k=m.hero;st.h[k]={w:(st.h[k]?.w||0)+(m.win?1:0),l:(st.h[k]?.l||0)+(m.win?0:1),ln:{}}};
+    const ln=m.lane;st.h[k].ln[ln]={w:(st.h[k].ln[ln]?.w||0)+(m.win?1:0),l:(st.h[k].ln[ln]?.l||0)+(m.win?0:1)};
+    (m.win?st.tm:st.en)[m.opp]=(m.win?st.tm:st.en)[m.opp]||0;if(m.win)st.tm[m.opp]++;else st.en[m.opp]++;
+  });
+  const tw=Object.values(st.h).reduce((a,x)=>a+x.w,0),tl=Object.values(st.h).reduce((a,x)=>a+x.l,0);
+  let o=`<div class="stat"><div class="box"><div class="big">${tw}</div><div class="lbl">Wins</div></div><div class="box"><div class="big">${tl}</div><div class="lbl">Losses</div></div></div><div class="stat"><div class="box"><div class="big">${matches.length?Math.round(100*tw/(tw+tl)):0}%</div><div class="lbl">Win rate</div></div><div class="box"><div class="big">${matches.length}</div><div class="lbl">Total matches</div></div></div>`;
+  if(matches.length){
+    o+=`<div class="head">By hero</div><table><th>Hero<th>W<th>L<th>WR`;
+    Object.entries(st.h).sort((a,b)=>(b[1].w/(b[1].w+b[1].l)||0)-(a[1].w/(a[1].w+a[1].l)||0)).forEach(([h,x])=>{
+      const wr=Math.round(100*x.w/(x.w+x.l));
+      o+=`<tr><td>${e(h)}<td>${x.w}<td>${x.l}<td>${wr}%`;
+    });
+    o+='</table>';
+    o+=`<div class="head">Most picked enemies (win vs loss)</div><table><th>Hero<th>Faced<th>Record`;
+    const oe=Object.entries({...st.tm,...st.en}).sort((a,b)=>b[1]-a[1]);
+    oe.forEach(([en,ct])=>{
+      const w=st.tm[en]||0,l=st.en[en]||0;
+      o+=`<tr><td>${e(en)}<td>${w+l}<td>${w}-${l}`;
+    });
+    o+='</table>';
+    o+=`<div class="head">Lane stats</div><table><th>Lane<th>W<th>L<th>WR`;
+    const ln={};matches.forEach(m=>{if(!ln[m.lane])ln[m.lane]={w:0,l:0};ln[m.lane][m.win?"w":"l"]++});
+    Object.entries(ln).sort((a,b)=>b[1].w/(b[1].w+b[1].l)-a[1].w/(a[1].w+a[1].l)).forEach(([l,x])=>{
+      const wr=Math.round(100*x.w/(x.w+x.l));
+      o+=`<tr><td>${e(l)}<td>${x.w}<td>${x.l}<td>${wr}%`;
+    });
+    o+='</table>';
+  }else{o+='<div class="empt">No matches logged yet. Tap Log a match to start.</div>'}
+  h.innerHTML=o;
+}
+function showModal(t){
+  if(modal){$("modal").remove();modal=null}
+  if(t==="log"){
+    const lns=["roam","jungle","mid","EXP lane","gold"];
+    const mh=[...new Set(matches.map(m=>m.hero)),...pool].filter(Boolean).sort();
+    const md=`<div id="modal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;z-index:999"><div style="width:100%;background:var(--pn);border-radius:16px 16px 0 0;padding:16px;max-height:90vh;overflow-y:auto;padding-bottom:max(16px,env(safe-area-inset-bottom))"><div style="font-size:17px;font-weight:700;margin-bottom:12px">Log match</div>
+<div class="form full"><label>Hero<select id="lh"><option value="">Choose hero<option value="other">Other</select></label></div>
+<div class="row2"><label>Lane<select id="ll"><option value="">Choose<option>roam<option>jungle<option>mid<option>EXP lane<option>gold</select></label><label>Result<select id="lr"><option value="">Win or loss<option value="1">Win<option value="0">Loss</select></label></div>
+<div class="form full"><label>Team (comma list)<input id="lt" placeholder="ally1, ally2, ally3, ally4"></label></div>
+<div class="form full"><label>Enemy (comma list)<input id="le" placeholder="en1, en2, en3, en4, en5"></label></div>
+<div class="form full"><label>Notes<input id="ln" placeholder="Optional"></label></div>
+<div class="row2"><button class="clr" data-a="save-match" style="flex:1">Save</button><button class="clr" data-a="close-modal" style="flex:1">Cancel</button></div></div></div>`;
+    document.body.insertAdjacentHTML("beforeend",md);modal="log";
+    $("lh").value="";$("ll").value="";$("lr").value="";$("lt").value="";$("le").value="";$("ln").value="";
+  }
+}
+function saveMatch(){
+  const h=$("lh").value,l=$("ll").value,r=$("lr").value,t=$("lt").value,e=$("le").value;
+  if(!h||!l||r===""||!t||!e){alert("Fill hero, lane, result, team, and enemy");return}
+  const m={hero:h,lane:l,win:r==="1",team:t.split(",").map(x=>x.trim()).filter(Boolean),enemy:e.split(",").map(x=>x.trim()).filter(Boolean),notes:$("ln").value,date:new Date().toISOString()};
+  matches.unshift(m);savematches();showModal(null);render_hist();
+}
 document.addEventListener("click",e=>{
   const b=e.target.closest("[data-a]");if(!b)return;const v=b.dataset.v;
-  const a=b.dataset.a;if(a=="deep"){deep();return}if(a=="key"){saveKey();return}if(a!="mode"&&a!="go")stale=true;
-  if(a=="go")analyse();else if(a=="lane")myLane=v;else if(a=="mode")mode=v;
+  const a=b.dataset.a;if(a=="logm"){showModal("log");return}if(a=="save-match"){saveMatch();return}if(a=="close-modal"){showModal(null);return}if(a=="view"){$("v-draft").hidden=v!="draft";$("v-meta").hidden=v!="meta";document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.v==v));if(v=="meta")showMeta();if(v=="hist")render_hist();return}if(a=="mlane"){mLane=v;showMeta();return}if(a=="deep"){deep();return}if(a=="key"){saveKey();return}if(a!="mode"&&a!="go")stale=true;
+  if(a=="go")analyse();else if(a=="lane")myLane=v;else if(a=="mode")mode=v;else if(a=="view"){document.querySelectorAll("#v-draft,#v-meta,#v-hist").forEach(el=>el.hidden=el.id!=="v-"+v);document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("on",b.dataset.v==v));if(v=="hist"){showModal(null);render_hist()}return;}
   else if(b.dataset.a=="clear"){E=[];A=[]}
   else if(b.dataset.a=="rm"){E=E.filter(x=>x!=v);A=A.filter(x=>x!=v)}
   else if(mode=="P"){pool.has(v)?pool.delete(v):pool.add(v);save()}
