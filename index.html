@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -62,6 +63,7 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;z-index:99}#modal>div{width:100%;max-width:640px;margin:0 auto;background:var(--bg);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));max-height:92%;overflow-y:auto}
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;align-items:center;gap:4px;background:var(--pn);border:1px solid var(--go);border-radius:999px;padding:4px 4px 4px 12px;font-size:14px;color:var(--ink);margin-top:6px}.chip button{all:unset;cursor:pointer;padding:2px 8px;color:var(--mu)}.sg{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.sg button{background:var(--pn);border:1px solid var(--ln);color:var(--ink);border-radius:8px;padding:9px 12px;font:inherit;font-size:14px}
 .tg{font-size:12px;color:var(--mu);margin:2px 0 6px}.why b.neg{color:var(--fo)}.h.x{opacity:.4;text-decoration:line-through}.dh{margin-top:14px}.nav button{padding:9px 4px}
+.slot .sn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.slot .lc{font-size:10.5px;border:1px solid var(--ln);border-radius:6px;padding:2px 6px;margin:0 2px 0 4px;color:var(--mu);font-weight:400}.a .slot .lc.on{color:var(--al);border-color:var(--al);font-weight:700}.e .slot .lc.on{color:var(--fo);border-color:var(--fo);font-weight:700}
 .mtit{font-size:18px;font-weight:700;margin-bottom:10px}.fld{display:block;font-size:13px;color:var(--mu);margin-bottom:10px}.fld input,.fld select{display:block;width:100%;margin:4px 0 0;padding:10px;font:inherit;color:var(--ink);background:var(--pn);border:1px solid var(--ln);border-radius:8px}
 :focus-visible{outline:2px solid var(--go);outline-offset:2px}
 </style></head><body><main>
@@ -69,6 +71,7 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 <p class="sub">Mark the draft, get your best hero from your pool.</p>
 <nav class="nav"><button class="on" data-a="view" data-v="draft">Draft</button><button data-a="view" data-v="pool">Pool</button><button data-a="view" data-v="meta">Meta</button><button data-a="view" data-v="hist">History</button></nav>
 <div id="v-draft"><div class="strip"><div class="col a"><h2>Allies</h2><div id="sa"></div></div><div class="col e"><h2>Enemies</h2><div id="se"></div></div></div>
+<p class="note" style="margin:6px 0 0">Optional: tap "lane" on a hero to set their lane. Skip it if you do not know yet.</p>
 <div class="lanes" id="lanes"></div>
 <label class="opt"><input type="checkbox" id="off"> Include heroes from other roles</label>
 <section class="res"><h2>Best from your pool</h2><button class="go" data-a="go">Analyse draft</button><div id="res"></div>
@@ -240,15 +243,15 @@ Akai|2543|m|m|E
 Gatotkaca|2543|m|m|E
 Edith|3543|m|m|E
 Barats|3532|m|m|S
-Angela|1212|r|m|H
-Estes|1221|r|m|H
-Rafaela|2232|r|m|H
-Diggie|2233|r|m|H
-Mathilda|2244|r|m|E
-Floryn|1224|r|m|H
-Faramis|3222|r|m|H
-Carmilla|2432|m|m|T
-Kaja|2243|r|m|P
+Angela|1312|r|m|H
+Estes|1321|r|m|H
+Rafaela|2332|r|m|H
+Diggie|2333|r|m|H
+Mathilda|2344|r|m|E
+Floryn|1324|r|m|H
+Faramis|3322|r|m|H
+Carmilla|2442|m|m|T
+Kaja|2343|r|m|P
 Layla|4101|r|l|P
 Miya|4112|r|l|S
 Bruno|4101|r|l|P
@@ -357,10 +360,16 @@ Marcel|2542|m|m|E
 Hirara|4224|r|m|S
 Chip|2333|r|m|G`;
 const XRM={};XR.split("\n").forEach(l=>{const[n,k,r,sp,u]=l.split("|");XRM[n]={dmg:+k[0],tgh:+k[1],ctl:+k[2],mob:+k[3],rng:r,spk:sp,ult:u}});
-const XDEF={T:"2532|m|m|E",S:"1222|r|m|H",X:"4112|r|l|S",M:"4122|r|m|T",A:"4244|m|m|S",F:"4323|m|m|S"};
+const XDEF={T:"2532|m|m|E",S:"1322|r|m|H",X:"4112|r|l|S",M:"4122|r|m|T",A:"4244|m|m|S",F:"4323|m|m|S"};
 H.forEach(h=>{let x=XRM[h.n];if(!x){const[k,r,sp,u]=XDEF[h.r].split("|");x={dmg:+k[0],tgh:+k[1],ctl:+k[2],mob:+k[3],rng:r,spk:sp,ult:u}}Object.assign(h,x)});
+/* ===== SKILL DATA (estimates; edit if wrong). Name:flags:ultCD. Flags: K hard CC, G hook/pull, I immunity/untargetable, U team cleanse/shield, R save/heal ult, D anti-dash, V stealth, C channeled ult, X reset/execute, A anti-heal. Ult CD 1 short, 2 medium, 3 long ===== */
+const KIT="Tigreal:K;Franco:KG:2;Atlas:KG;Johnson:K;Grock:KD;Hylos:K:2;Khufra:KD:2;Minotaur:K;Gloo:K:2;Baxia:A:2;Belerick:K;Uranus::2;Lolita:KU;Akai:K;Gatotkaca:K;Edith:K;Barats:KG:2;Angela:RU:2;Estes:R;Rafaela:RK;Diggie:UR;Mathilda:U;Floryn:R;Faramis:R;Carmilla:K;Kaja:KGD:2;Kalea:KR;Chip:U;Miya:I;Moskov:K;Hanabi:I;Lesley:VX;Wanwan:IX:1;Popol and Kupa:K:3;Brody:K;Beatrix::1;Eudora:K;Gord:KC:3;Kagura:K:1;Aurora:K:3;Lunox:I:1;Vale:K;Vexana:K:3;Zhask::3;Pharsa:C:3;Yve:C:3;Odette:KC:3;Lylia::1;Alice:K;Cyclops:K;Luo Yi:K:3;Valir:KI:3;Kadita:KI:3;Selena:K;Nana:K;Zhuxin:K;Harley::1;Novaria::3;Zilong:G;Chou:KI;Freya:K;Alpha:K;Ruby:KG;Thamuz:G;Martis:KXI:1;Paquito:K:1;Yu Zhong:K:3;Silvanna:KD;Aldous:X:3;Badang:K;Jawhead:KG;Lapu-Lapu:K;Guinevere:K;Phoveus:KD;Arlott:KX:1;Julian:K:1;Lukas:K;Khaleed:K;Yin:K:3;Fredrinn:K;Terizla:K:3;Hilda:K;Roger::1;Minsitthar:KDG:3;Argus:I;Cici::1;Joy:IX:1;Benedetta:I:1;Ling:IX:1;Hayabusa:IX;Lancelot:IX:1;Saber:KX;Karina:X:1;Helcurt:VK:3;Gusion:X:1;Natalia:V;Fanny:X:1;Nolan:X:1;Suyou:X;Aamon:VX:1;Hanzo::2;Zetian:K";
+const KM={};KIT.split(";").forEach(e=>{const[n,f,c]=e.split(":");KM[n]={kit:f||"",cd:c?+c:0}});
+const CDDEF={T:3,S:3,M:2,X:2,F:2,A:2};
+H.forEach(h=>{const k=KM[h.n]||{kit:"",cd:0};h.kit=k.kit;h.cd=k.cd||CDDEF[h.r]});
+const KITN={K:"hard CC",G:"hook",I:"immunity",U:"team protect",R:"save ult",D:"anti-dash",V:"stealth",C:"channeled ult",X:"resets",A:"anti-heal"};
 const ULT={E:"engage ult",T:"teamfight ult",P:"pick-off ult",G:"global ult",S:"self-buff ult",H:"heal/save ult",N:"minor ult"},ROLEN={T:"Tank",S:"Support",F:"Fighter",M:"Mage",X:"Marksman",A:"Assassin"},SPK={e:"early",m:"mid",l:"late"};
-const tags=h=>ROLEN[h.r]+" · "+(h.rng=="r"?"ranged":"melee")+" · peaks "+SPK[h.spk]+" · "+ULT[h.ult];
+const tags=h=>ROLEN[h.r]+" · "+(h.rng=="r"?"ranged":"melee")+" · peaks "+SPK[h.spk]+" · "+ULT[h.ult]+" ("+["","short","medium","long"][h.cd]+" CD)"+(h.kit?" · "+[...h.kit].map(f=>KITN[f]).join(", "):"");
 const LN={T:"roam",S:"roam",A:"jungle",M:"mid",F:"EXP lane",X:"gold"};
 const RC={T:"#3aa6a0",S:"#8f7cd6",A:"#e0793a",M:"#4d8fe0",F:"#c4a23a",X:"#d65b8a"};
 let pool=new Set(),E=[],A=[],mode="E",q="",res=null,myLane="",off=false,stale=false;
@@ -370,6 +379,21 @@ const savedis=()=>{try{localStorage.setItem("lp-dis",JSON.stringify([...dis]))}c
 const save=()=>{try{localStorage.setItem("lp-pool",JSON.stringify([...pool]))}catch(e){}};
 const $=id=>document.getElementById(id);
 
+const LANES=["roam","jungle","mid","EXP lane","gold"],LAB={roam:"Roam",jungle:"Jungle",mid:"Mid","EXP lane":"EXP",gold:"Gold"};
+let AL={},EL={};
+function cycleLane(side,n){
+  const M=side=="A"?AL:EL,list=side=="A"?A:E;
+  const used=new Set(list.filter(x=>x!=n&&M[x]).map(x=>M[x]));
+  const seq=[...LANES.filter(l=>!used.has(l)),""],i=seq.indexOf(M[n]||""),nx=seq[(i+1)%seq.length];
+  if(nx)M[n]=nx;else delete M[n];
+}
+function allyLanes(){const as=new Set(A.map(n=>AL[n]).filter(Boolean));return A.map(n=>AL[n]||(!as.has(LN[by[n].r])?LN[by[n].r]:null)).filter(Boolean)}
+function inferLane(){
+  if(myLane)return myLane;
+  if(A.length==4&&A.every(n=>AL[n])){const u=new Set(A.map(n=>AL[n]));if(u.size==4)return LANES.find(l=>!u.has(l))||""}
+  return"";
+}
+const fmtL=(l,M)=>l.map(n=>n+(M[n]?" ("+M[n]+")":"")).join(", ");
 function tierOf(n,l){const L=META.lanes[l];if(!L)return"";const m=L.list.split(",").map(x=>x.trim().match(/^(.+)\s+([SABCD])$/)).find(m=>m&&m[1]==n);return m?m[2]:""}
 const canLane=(h,l)=>LN[h.r]==l||!!tierOf(h.n,l);
 function prof(list){
@@ -386,7 +410,7 @@ function score(h){
   let s=50;const why=[];
   const add=(v,t)=>{if(!isFinite(v)||Math.abs(v)<0.05)return;s+=v;if(Math.abs(v)>=0.4)why.push([Math.round(v*10)/10,t])};
   const wa=Math.min(1,(nA+1)/3.5),we=Math.min(1,nE/3);
-  const taken=A.map(n=>LN[by[n].r]);
+  const taken=allyLanes();
   /* lane */
   if(myLane){if(lane==myLane)add(5,"your lane");else if(tierOf(h.n,myLane))add(1,"meta pick in "+myLane);else add(-16,"off-role for "+myLane)}
   else if(nA){const open=["roam","jungle","mid","EXP lane","gold"].filter(l=>!taken.includes(l));
@@ -418,7 +442,7 @@ function score(h){
   if(nA+nE<5)add(Math.min(3,(h.t.length+(h.ult=="N"?0:1))*0.6),"flexible while the draft is open");
   /* what the enemy is doing */
   if(nE){
-    const divR=en.div/nE,ctlA=en.ctl/nE,fl=E.filter(n=>by[n].tgh>=4).length,sqC=E.filter(n=>by[n].tgh<=2).length,pSh=en.ph/((en.ph+en.mg)||1);
+    const divR=en.div/nE,ctlA=en.ctl/nE,fl=E.filter(n=>by[n].tgh>=4).length,sqC=E.filter(n=>by[n].tgh<=1).length,pSh=en.ph/((en.ph+en.mg)||1);
     add(we*divR*1.8*(h.ctl*1.5+(h.tgh>=4?2:0)+(h.ult=="H"?2:0)),"peel and CC vs their divers");
     const fk=we*Math.min(1,fl/2);
     add(fk*((h.t.includes("t")?5:0)+(h.t.includes("g")?2.5:0)+(h.dmg>=4&&h.rng=="r"?1.5:0)),"shreds their frontline");
@@ -432,6 +456,76 @@ function score(h){
     if(en.sp.l>=3&&h.spk=="e")add(we*3.5,"early pressure vs their late-game team");
     if(en.sp.e>=3&&(h.spk=="l"||h.tgh>=4))add(we*3,"safe scaling vs their early-game team");
     if((en.u.E||0)>=2&&h.ctl>=3)add(we*2,"CC to stop their engage");
+  }
+  /* skills, ultimates and cooldowns */
+  const kE=E.map(n=>by[n]),kA=A.map(n=>by[n]),kh=(l,f)=>l.filter(x=>x.kit.includes(f)),hk=f=>h.kit.includes(f);
+  const nm=l=>[...new Set(l.map(x=>x.n))].slice(0,3).join(", ");
+  if(nE){
+    const cc=kh(kE,"K"),hooks=kh(kE,"G"),imm=kh(kE,"I"),sav=kE.filter(x=>/[RU]/.test(x.kit)),ad=kh(kE,"D"),ch=kh(kE,"C"),st=kh(kE,"V"),rs=kh(kE,"X"),dash=kE.filter(x=>x.mob>=4);
+    const allyU=kA.some(x=>x.kit.includes("U"));
+    const ccW=cc.length+hooks.length*.5+kE.filter(x=>x.ult=="E").length*.5;
+    if(ccW>=2.5){const f=Math.min(1.5,(ccW-1.5)/2)*(allyU?.6:1);
+      if(hk("I"))add(f*4.5,"immunity in kit vs their CC ("+nm(cc)+")");else if(h.tgh>=4)add(f*2,"tanky enough for their CC chain");
+      if(hk("C"))add(-f*4,"channeled ult gets interrupted by "+nm(cc));
+      if(h.mob<=1&&h.tgh<=2)add(-f*3.5,"immobile and squishy vs "+nm(cc))}
+    if(hooks.length&&h.mob<=1&&h.tgh<=2&&!hk("I"))add(-2*Math.min(2,hooks.length),"easy hook target for "+nm(hooks));
+    if(dash.length>=2&&hk("D"))add(Math.min(6,dash.length*1.7),"anti-dash kit vs "+nm(dash));
+    if(ad.length&&h.mob>=4)add(-Math.min(6,ad.length*3)*(hk("I")?.6:1),nm(ad)+" shut down your dashes");
+    if(imm.length>=2&&h.ctl>=4&&h.dmg<=3)add(-2.5,"their immunity ("+nm(imm)+") wastes your CC");
+    if(sav.length){const k=Math.min(2,sav.length);
+      if(hk("A"))add(3*k,"anti-heal vs "+nm(sav));
+      if(hk("X"))add(1.5*k,"executes through "+nm(sav)+"'s saves");
+      if(h.ult=="P")add(1.2*k,"picks a target before "+nm(sav)+" can save");
+      if(h.t.includes("p")&&!h.t.includes("b")&&k>=2)add(-2.5,"poke gets out-healed by "+nm(sav))}
+    if(ch.length&&hk("K")&&(h.mob>=3||h.rng=="r"))add(Math.min(4,2*ch.length),"interrupts "+nm(ch)+"'s channeled ult");
+    if(st.length&&(h.ult=="T"||h.t.includes("w")))add(1.5,"AoE finds "+nm(st)+" in stealth");
+    if(rs.length>=2){if(h.tgh>=4||hk("U"))add(2,"hard to burst for "+nm(rs));else if(h.tgh<=2&&h.mob<=1)add(-2.5,"easy prey for "+nm(rs))}
+    const ecd=kE.reduce((a,x)=>a+x.cd,0)/nE;
+    if(nE>=2&&ecd>=2.5&&h.cd==1)add(2,"short cooldowns: fight again while their ults are down");
+    if(h.cd==3&&(h.ult=="E"||h.ult=="T")&&imm.length+sav.length>=2)add(-2,"long-cooldown ult can be baited by "+nm(imm.concat(sav)));
+    if(hk("C")&&dash.length>=2)add(-2,"channeled ult vs divers "+nm(dash));
+  }
+  if(nA){
+    const eng=kA.filter(x=>x.ult=="E"||x.kit.includes("G")),hg=kh(kA,"G"),prot=kA.filter(x=>/[RU]/.test(x.kit));
+    if(eng.length&&(h.ult=="T"||(h.rng=="r"&&h.t.includes("b"))))add(3,"follows up "+nm(eng)+"'s engage");
+    if(eng.length&&hk("C"))add(1.5,"channel safely after "+nm(eng)+" locks them");
+    if(hg.length&&(hk("X")||h.t.includes("b")))add(2,"bursts whoever "+nm(hg)+" hooks");
+    if(prot.length&&h.mob>=4&&h.rng=="m")add(2,nm(prot)+" keeps you alive while diving");
+    if(/[RU]/.test(h.kit)&&kA.filter(x=>x.mob>=4&&x.rng=="m").length>=2)add(2,"protects your divers");
+    if(hk("G")&&kA.filter(x=>x.t.includes("b")).length>=2)add(2,"your hook sets up your team's burst");
+  }
+  /* lanes: only used for heroes you tagged */
+  const myL=inferLane();
+  if(myL){
+    const opp=E.find(n=>EL[n]==myL),o=opp?by[opp]:null;
+    if(o){
+      const on=(v,t)=>add(v,t.replace("{o}",o.n));
+      if(h.spk=="e"&&o.spk=="l")on(2.5,"wins early vs lane opponent {o}");
+      if(h.spk=="l"&&o.spk=="e")on(-1.5,"{o} is stronger early in lane");
+      if(h.mob>=4&&o.mob<=2)on(1.5,"out-moves {o}");
+      if(h.mob<=1&&o.mob>=4&&!hk("I"))on(-2,"{o} can dive or kite you");
+      if(h.rng=="r"&&o.rng=="m"&&o.mob<=2)on(2,"outranges {o}");
+      if(h.rng=="m"&&o.rng=="r"&&o.t.includes("p")&&h.mob<=2)on(-2,"{o} pokes you from range");
+      if(o.kit.includes("K")&&hk("I"))on(2,"immunity beats {o}'s CC");
+      if(hk("D")&&o.mob>=4)on(1.5,"anti-dash vs {o}");
+      if(h.t.includes("b")&&o.tgh<=2)on(2,"bursts down {o}");
+      if(o.t.includes("b")&&h.tgh<=2&&h.mob<=2&&!hk("I"))on(-2.5,"{o} bursts you");
+      if(h.dmg>=4&&h.tgh>=4&&o.tgh<=3)on(1.5,"out-trades {o}");
+    }
+    const ej=E.find(n=>EL[n]=="jungle"&&myL!="jungle"),j=ej?by[ej]:null;
+    if(j){
+      const gk=/[KG]/.test(j.kit)||j.mob>=4;
+      if(gk&&h.mob<=1&&h.tgh<=2&&!hk("I"))add(-2,j.n+" can gank you");
+      else if(gk&&(h.mob>=4||hk("I")))add(1.2,"can escape "+j.n+"'s ganks");
+    }
+    const pair={gold:"roam",roam:"gold",mid:"jungle",jungle:"mid"}[myL];
+    const pa=pair&&A.map(n=>by[n]).find(x=>AL[x.n]==pair);
+    if(pa){
+      if(myL=="gold"&&(/[KRU]/.test(pa.kit)||pa.ult=="E"))add(2,"your roamer "+pa.n+" sets up and protects you");
+      if(myL=="roam"&&pa.rng=="r"&&pa.dmg>=4&&(/[KRU]/.test(h.kit)||h.ctl>=3))add(2,"protects your gold laner "+pa.n);
+      if(myL=="mid"&&(/[KG]/.test(pa.kit)||pa.ult=="E")&&h.t.includes("b"))add(1.5,"bursts after "+pa.n+"'s CC");
+      if(myL=="jungle"&&(pa.t.includes("b")||pa.t.includes("p"))&&/[KG]/.test(h.kit))add(1.5,"your CC sets up "+pa.n+"'s damage");
+    }
   }
   /* my own match history */
   const g=matches.filter(m=>m.hero==h.n);
@@ -451,15 +545,15 @@ function needs(){
   return o.slice(0,4);
 }
 function slots(list,max,side){
-  let o="";
-  for(let i=0;i<max;i++)o+=list[i]?`<div class="slot f"><span>${list[i]}</span><button data-a="rm" data-v="${list[i]}" aria-label="Remove ${list[i]}">✕</button></div>`:`<div class="slot">—</div>`;
+  const M=side=="A"?AL:EL;let o="";
+  for(let i=0;i<max;i++){const n=list[i];o+=n?`<div class="slot f"><span class="sn">${hx(n)}</span><button class="lc${M[n]?" on":""}" data-a="sl" data-v="${side}|${hx(n)}" aria-label="Set lane for ${hx(n)}">${M[n]?LAB[M[n]]:"lane"}</button><button data-a="rm" data-v="${hx(n)}" aria-label="Remove ${hx(n)}">✕</button></div>`:`<div class="slot">—</div>`}
   return o;
 }
 function analyse(){
   const out=[...pool].filter(n=>by[n]&&!dis.has(n)&&!E.includes(n)&&!A.includes(n)&&(!myLane||off||canLane(by[n],myLane))).map(n=>score(by[n])).sort((a,b)=>b.s-a.s);
   res={out,e:E.length,a:A.length,lane:myLane,need:needs()};stale=false;
 }
-let dsig="";const sig=()=>JSON.stringify([E,A,myLane,off,[...dis]]);
+let dsig="";const sig=()=>JSON.stringify([E,A,AL,EL,myLane,off,[...dis]]);
 function renderRes(){
   const r=$("res");
   if(dsig&&dsig!==sig()){$("deep").innerHTML='<div class="stale">Draft changed. Tap Deep analysis for a fresh read.</div>';dsig=""}
@@ -470,11 +564,11 @@ function renderRes(){
   const hd=`<div class="note">Based on ${res.e} enemy and ${res.a} ally picks${res.lane?", lane: "+res.lane:""}. Scores shift as more heroes are revealed.${res.need.length?" Your team still needs "+res.need.join(", ")+".":""}</div>`;
   const top=res.out.slice(0,8);
   r.innerHTML=hd+(top.length?top.map((x,i)=>{
-    const w=x.why.sort((a,b)=>Math.abs(b[0])-Math.abs(a[0])).slice(0,5).map(([v,t])=>`<b class="${v<0?"neg":""}">${v>0?"+":"−"}${Math.abs(v).toFixed(1)}</b> ${hx(t)}`).join(" · ");
+    const w=x.why.sort((a,b)=>Math.abs(b[0])-Math.abs(a[0])).slice(0,6).map(([v,t])=>`<b class="${v<0?"neg":""}">${v>0?"+":"−"}${Math.abs(v).toFixed(1)}</b> ${hx(t)}`).join(" · ");
     return `<div class="card${i?"":" top"}"><div class="row"><span class="nm">${x.h.n}</span><span class="sc">${x.s.toFixed(1)}</span></div><div class="bar"><i style="width:${x.s}%"></i></div><div class="tg">${tags(x.h)}</div><div class="why">${w||"No strong signals, a neutral pick."}</div></div>`}).join(""):'<div class="msg">No active pool heroes fit this lane. Tick "Include heroes from other roles" or switch heroes on in the Pool tab.</div>');
 }
 function matchList(){return H.filter(h=>h.n.toLowerCase().includes(q)).sort((a,b)=>b.n.toLowerCase().startsWith(q)-a.n.toLowerCase().startsWith(q))}
-function pickHero(v){const cur=mode=="E"?E:A,oth=mode=="E"?A:E,max=mode=="E"?5:4,i=cur.indexOf(v);if(i>-1)cur.splice(i,1);else if(cur.length<max&&!oth.includes(v))cur.push(v)}
+function pickHero(v){const cur=mode=="E"?E:A,oth=mode=="E"?A:E,max=mode=="E"?5:4,i=cur.indexOf(v);if(i>-1){cur.splice(i,1);delete (mode=="E"?EL:AL)[v]}else if(cur.length<max&&!oth.includes(v))cur.push(v)}
 try{localStorage.removeItem("lp-auto")}catch(e){}
 function renderGrid(){
   const cur=mode=="E"?E:mode=="A"?A:null,oth=mode=="E"?A:mode=="A"?E:[];
@@ -483,7 +577,7 @@ function renderGrid(){
     return `<button class="h${on?" on":""}${tk?" tk":""}" data-a="hero" data-v="${h.n}"><s style="background:${RC[h.r]}"></s>${h.n}${mode!="P"&&pool.has(h.n)?"<em>★</em>":""}</button>`}).join("");
 }
 function render(){
-  $("sa").innerHTML=slots(A,4);$("se").innerHTML=slots(E,5);
+  $("sa").innerHTML=slots(A,4,"A");$("se").innerHTML=slots(E,5,"E");
   document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v==mode));
   $("lanes").innerHTML="<b>Your lane</b>"+[["","Any"],["roam","Roam"],["jungle","Jungle"],["mid","Mid"],["EXP lane","EXP"],["gold","Gold"]].map(([v,t])=>`<button data-a="lane" data-v="${v}"${v==myLane?' class="on"':""}>${t}</button>`).join("");
   renderRes();renderGrid();
@@ -501,11 +595,11 @@ function gprompt(){
   return `You are an expert Mobile Legends: Bang Bang draft coach. Be concrete and honest; if you are unsure about a hero's current patch changes, say so.
 Draft so far (it may be incomplete, I may be picking early):
 - My lane: ${myLane||"any"}
-- Enemy picks: ${E.join(", ")||"none yet"}
-- Ally picks: ${A.join(", ")||"none yet"}
+- Enemy picks: ${fmtL(E,EL)||"none yet"}
+- Ally picks: ${fmtL(A,AL)||"none yet"}
 - Heroes I can pick (my pool): ${pl.join(", ")}
 - My app's rule-based top picks: ${top}
-Think through crowd control, sustain and healing, damage types, skills, mobility, team needs and the likely remaining enemy picks.
+Think through every hero's skills, ultimates and cooldowns (hard CC, hooks, immunity, saves, anti-dash, channeled ults, resets), crowd control, sustain and healing, damage types, skills, mobility, team needs and the likely remaining enemy picks.
 Reply in plain text for a phone screen, under 450 words:
 1. My top 3 picks from the pool, with the reasons.
 2. For each pick: who counters it and who it counters in this draft.
@@ -527,13 +621,13 @@ async function gcall(o,prompt,wait){
   }
 }
 function deep(){dsig=sig();gcall($("deep"),gprompt(),"Analysing the draft…")}
-let dh="",dsig2="";const sig2=()=>JSON.stringify([E,A,myLane,dh]);
+let dh="",dsig2="";const sig2=()=>JSON.stringify([E,A,AL,EL,myLane,dh]);
 function hprompt(){
   return `You are an expert Mobile Legends: Bang Bang coach. Be concrete and honest; if you are unsure about a hero's current patch changes, say so.
 
-I have decided to play ${dh}${myLane?" in the "+myLane:""}. Analyse ONLY this hero in this draft and do not suggest other heroes.
-- Enemy picks: ${E.join(", ")||"none yet"}
-- Ally picks: ${A.join(", ")||"none yet"}
+I have decided to play ${dh}${myLane?" in the "+myLane:""}. Analyse ONLY this hero in this draft and do not suggest other heroes. Go skill by skill: which enemy skills and ultimates threaten it, which of its skills answer them, and the cooldown windows to fight in.
+- Enemy picks: ${fmtL(E,EL)||"none yet"}
+- Ally picks: ${fmtL(A,AL)||"none yet"}
 If the draft is incomplete, say what to watch for from the missing picks.
 
 Reply in plain text for a phone screen, under 450 words:
@@ -600,7 +694,7 @@ function render_hist(){
   if(bt)ins.push(`Best teammate (2+ games): ${hx(bt[0])}, ${pct(bt[1].w,bt[1].l)}%.`);
   o+=`<div class="note">${ins.join(" ")}</div>`;
   o+=tbl("By hero",byH,1,12)+tbl("By lane",tally(m=>[m.lane]),1,5)+tbl("Against enemy heroes (2+ games)",byE,2,12)+tbl("With teammates (2+ games)",byT,2,12);
-  o+='<div class="head">Recent matches</div>'+matches.slice(0,15).map((m,i)=>`<div class="card"><div class="row"><span class="nm">${hx(m.hero)} <span style="color:var(--${m.win?"go":"fo"})">${m.win?"Win":"Loss"}</span></span><button class="clr" data-a="delm" data-v="${i}" aria-label="Delete match">✕</button></div><div class="why">${hx(m.lane)}, ${new Date(m.date).toLocaleDateString()}<br>With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
+  o+='<div class="head">Recent matches</div>'+matches.slice(0,4).map((m,i)=>`<div class="card"><div class="row"><span class="nm">${hx(m.hero)} <span style="color:var(--${m.win?"go":"fo"})">${m.win?"Win":"Loss"}</span></span><button class="clr" data-a="delm" data-v="${i}" aria-label="Delete match">✕</button></div><div class="why">${hx(m.lane)}, ${new Date(m.date).toLocaleDateString()}<br>With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
   $("hlog").innerHTML=o;
 }
 let ml={hero:"",team:[],enemy:[]};
@@ -668,8 +762,9 @@ document.addEventListener("click",e=>{
   if(a=="mlane"){mLane=v;showMeta();return}if(a=="deep"){deep();return}if(a=="key"){saveKey();return}
   if(a!="mode"&&a!="go")stale=true;
   if(a=="go")analyse();else if(a=="lane")myLane=v;else if(a=="mode")mode=v;
-  else if(b.dataset.a=="clear"){E=[];A=[]}
-  else if(b.dataset.a=="rm"){E=E.filter(x=>x!=v);A=A.filter(x=>x!=v)}
+  else if(b.dataset.a=="clear"){E=[];A=[];AL={};EL={}}
+  else if(a=="sl"){const k=v.indexOf("|");cycleLane(v.slice(0,k),v.slice(k+1))}
+  else if(b.dataset.a=="rm"){E=E.filter(x=>x!=v);A=A.filter(x=>x!=v);delete AL[v];delete EL[v]}
   else if(mode=="P"){pool.has(v)?pool.delete(v):pool.add(v);save()}
   else{
     const typing=q!=="";pickHero(v);
@@ -686,3 +781,5 @@ $("in-dh").addEventListener("keydown",e=>{if(e.key!="Enter")return;e.preventDefa
 dhdraw();
 render();
 </script></body></html>
+
+</body></html>
