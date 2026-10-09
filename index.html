@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -64,6 +64,7 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;align-items:center;gap:4px;background:var(--pn);border:1px solid var(--go);border-radius:999px;padding:4px 4px 4px 12px;font-size:14px;color:var(--ink);margin-top:6px}.chip button{all:unset;cursor:pointer;padding:2px 8px;color:var(--mu)}.sg{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.sg button{background:var(--pn);border:1px solid var(--ln);color:var(--ink);border-radius:8px;padding:9px 12px;font:inherit;font-size:14px}
 .tg{font-size:12px;color:var(--mu);margin:2px 0 6px}.why b.neg{color:var(--fo)}.h.x{opacity:.4;text-decoration:line-through}.dh{margin-top:14px}.nav button{padding:9px 4px}
 .slot .sn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.slot .lc{font-size:10.5px;border:1px solid var(--ln);border-radius:6px;padding:2px 6px;margin:0 2px 0 4px;color:var(--mu);font-weight:400}.a .slot .lc.on{color:var(--al);border-color:var(--al);font-weight:700}.e .slot .lc.on{color:var(--fo);border-color:var(--fo);font-weight:700}
+.mvp{font-size:12px;font-weight:700;border:1px solid var(--go);color:var(--go);border-radius:6px;padding:1px 6px;margin-left:4px;vertical-align:middle}.mvpb{width:100%;padding:11px;margin-bottom:10px;font-size:14px}.mvpb.on{background:var(--go);border-color:var(--go);color:#fff}
 .mtit{font-size:18px;font-weight:700;margin-bottom:10px}.fld{display:block;font-size:13px;color:var(--mu);margin-bottom:10px}.fld input,.fld select{display:block;width:100%;margin:4px 0 0;padding:10px;font:inherit;color:var(--ink);background:var(--pn);border:1px solid var(--ln);border-radius:8px}
 :focus-visible{outline:2px solid var(--go);outline-offset:2px}
 </style></head><body><main>
@@ -528,7 +529,8 @@ function score(h){
     }
   }
   /* my own match history */
-  const g=matches.filter(m=>m.hero==h.n);
+  const mvN=matches.filter(m=>m.hero==h.n&&m.mvp).length;if(mvN)add(Math.min(3,mvN*.8),"MVP in "+mvN+" of your games");
+  const g=matches.filter(m=>m.hero==h.n&&!(m.mvp&&!m.win));
   if(g.length){const w=g.filter(m=>m.win).length;add(((w+2)/(g.length+4)-.5)*18,"your record: "+w+"-"+(g.length-w)+" with "+h.n);
     if(myLane){const gl=g.filter(m=>m.lane==myLane);if(gl.length){const w2=gl.filter(m=>m.win).length;add(((w2+1)/(gl.length+2)-.5)*8,w2+"-"+(gl.length-w2)+" in "+myLane)}}
     let mv=0;const bits=[];
@@ -677,24 +679,28 @@ const hx=x=>esc(String(x));
 const pct=(w,l)=>w+l?Math.round(100*w/(w+l)):0;
 function tally(fn){const t={};matches.forEach(m=>{(fn(m)||[]).forEach(k=>{if(!t[k])t[k]={w:0,l:0};t[k][m.win?"w":"l"]++})});return t}
 function tbl(title,t,min,lim){
-  const rows=Object.entries(t).filter(([k,x])=>x.w+x.l>=min).sort((a,b)=>(b[1].w+b[1].l)-(a[1].w+a[1].l)||pct(b[1].w,b[1].l)-pct(a[1].w,a[1].l)).slice(0,lim);
+  const rows=Object.entries(t).filter(([k,x])=>x.w+x.l>=min).sort((a,b)=>b[1].w/(b[1].w+b[1].l)-a[1].w/(a[1].w+a[1].l)||(b[1].w+b[1].l)-(a[1].w+a[1].l)||b[1].w-a[1].w).slice(0,lim);
   return rows.length?`<div class="head">${title}</div><table><tr><th>Name</th><th>W-L</th><th>WR</th></tr>`+rows.map(([k,x])=>`<tr><td>${hx(k)}</td><td>${x.w}-${x.l}</td><td>${pct(x.w,x.l)}%</td></tr>`).join("")+"</table>":"";
 }
 function pick(t,min,best){return Object.entries(t).filter(([k,x])=>x.w+x.l>=min).sort((a,b)=>best?pct(b[1].w,b[1].l)-pct(a[1].w,a[1].l):pct(a[1].w,a[1].l)-pct(b[1].w,b[1].l))[0]}
+function mvpRows(){const t={};matches.forEach(m=>{const k=m.hero;if(!t[k])t[k]={m:0,ml:0,g:0};t[k].g++;if(m.mvp){t[k].m++;if(!m.win)t[k].ml++}});return Object.entries(t).filter(([k,x])=>x.m>0).sort((a,b)=>b[1].m-a[1].m||b[1].m/b[1].g-a[1].m/a[1].g||b[1].g-a[1].g)}
+function mvpTbl(){const r=mvpRows();return `<div class="head">MVPs by hero</div>`+(r.length?`<table><tr><th>Name</th><th>MVPs</th><th>In losses</th><th>Rate</th></tr>`+r.map(([k,x])=>`<tr><td>${hx(k)}</td><td>${x.m}</td><td>${x.ml}</td><td>${Math.round(100*x.m/x.g)}%</td></tr>`).join("")+"</table>":'<div class="msg">No MVPs logged yet. Tap the MVP button when you log a match.</div>')}
 function render_hist(){
   const w=matches.filter(m=>m.win).length,l=matches.length-w;
   let sk=0,sw=null;for(const m of matches){if(sw===null)sw=m.win;if(m.win===sw)sk++;else break}
   const byH=tally(m=>[m.hero]),byE=tally(m=>m.enemy),byT=tally(m=>m.team);
-  let o=`<div class="stat"><div class="box"><div class="big">${pct(w,l)}%</div><div class="lbl">Win rate</div></div><div class="box"><div class="big">${w}-${l}</div><div class="lbl">Wins and losses</div></div></div>`;
+  const mv=matches.filter(m=>m.mvp).length,mvl=matches.filter(m=>m.mvp&&!m.win).length;
+  let o=`<div class="stat"><div class="box"><div class="big">${pct(w,l)}%</div><div class="lbl">Win rate</div></div><div class="box"><div class="big">${w}-${l}</div><div class="lbl">Wins and losses</div></div><div class="box"><div class="big">${mv}</div><div class="lbl">MVPs</div></div><div class="box"><div class="big">${mvl}</div><div class="lbl">MVPs in losses</div></div></div>`;
   if(!matches.length){$("hlog").innerHTML=o+'<div class="msg">No matches yet. Tap Log a match after your next game.</div>';return}
   const ins=[`Current streak: ${sk} ${sw?"win":"loss"}${sk>1?(sw?"s":"es"):""}.`];
   const bh=pick(byH,3,true),he=pick(byE,2,false),bt=pick(byT,2,true);
-  if(bh)ins.push(`Best hero (3+ games): ${hx(bh[0])}, ${pct(bh[1].w,bh[1].l)}%.`);
-  if(he)ins.push(`Hardest enemy (2+ games): ${hx(he[0])}, ${pct(he[1].w,he[1].l)}% for you.`);
+  if(bh&&pct(bh[1].w,bh[1].l)>50)ins.push(`Best hero (3+ games): ${hx(bh[0])}, ${pct(bh[1].w,bh[1].l)}%.`);
+  if(he&&pct(he[1].w,he[1].l)<50)ins.push(`Hardest enemy (2+ games): ${hx(he[0])}, ${pct(he[1].w,he[1].l)}% for you.`);
+  const mt=mvpRows()[0];if(mt)ins.push(`Most MVPs: ${hx(mt[0])}, ${mt[1].m}.`);
   if(bt)ins.push(`Best teammate (2+ games): ${hx(bt[0])}, ${pct(bt[1].w,bt[1].l)}%.`);
   o+=`<div class="note">${ins.join(" ")}</div>`;
-  o+=tbl("By hero",byH,1,12)+tbl("By lane",tally(m=>[m.lane]),1,5)+tbl("Against enemy heroes (2+ games)",byE,2,12)+tbl("With teammates (2+ games)",byT,2,12);
-  o+='<div class="head">Recent matches</div>'+matches.slice(0,4).map((m,i)=>`<div class="card"><div class="row"><span class="nm">${hx(m.hero)} <span style="color:var(--${m.win?"go":"fo"})">${m.win?"Win":"Loss"}</span></span><button class="clr" data-a="delm" data-v="${i}" aria-label="Delete match">✕</button></div><div class="why">${hx(m.lane)}, ${new Date(m.date).toLocaleDateString()}<br>With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
+  o+=tbl("By hero",byH,1,40)+mvpTbl()+tbl("By lane",tally(m=>[m.lane]),1,5)+tbl("Against enemy heroes (2+ games)",byE,2,25)+tbl("With teammates (2+ games)",byT,2,25);
+  o+='<div class="head">Recent matches</div>'+matches.slice(0,4).map((m,i)=>`<div class="card"><div class="row"><span class="nm">${hx(m.hero)} <span style="color:var(--${m.win?"go":"fo"})">${m.win?"Win":"Loss"}</span>${m.mvp?` <span class="mvp">${m.win?"MVP":"MVP loss"}</span>`:""}</span><span style="display:flex;gap:6px"><button class="clr" data-a="mvpm" data-v="${i}" aria-label="Toggle MVP">${m.mvp?"MVP ✓":"MVP"}</button><button class="clr" data-a="delm" data-v="${i}" aria-label="Delete match">✕</button></span></div><div class="why">${hx(m.lane)}, ${new Date(m.date).toLocaleDateString()}<br>With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
   $("hlog").innerHTML=o;
 }
 let ml={hero:"",team:[],enemy:[]};
@@ -725,14 +731,16 @@ function render_pool(){
     return `<div class="row" style="margin-top:14px;align-items:center"><div class="head" style="color:${RC[r]};margin:0">${t} (${k}/${L.length})</div><button class="clr" data-a="pgrp" data-v="${r}">${k?"All off":"All on"}</button></div><div class="grid" style="margin-top:6px">`+L.map(n=>`<button class="h${dis.has(n)?" x":""}" data-a="ptog" data-v="${hx(n)}"><s style="background:${RC[r]}"></s>${hx(n)}</button>`).join("")+"</div>";
   }).join("")||'<div class="msg">Your pool is empty. Add heroes from Draft, then My pool.</div>';
 }
+function mvpDraw(){const b=$("mvpb");if(!b)return;const r=$("lr").value;b.className="clr mvpb"+(ml.mvp?" on":"");b.setAttribute("aria-pressed",ml.mvp?"true":"false");b.textContent=ml.mvp?(r==="0"?"MVP loss ✓ (not my fault)":"MVP ✓"):(r==="0"?"Tap if you were MVP in this loss":"Tap if you were MVP")}
 function showModal(t){
   const old=$("modal");if(old)old.remove();
   if(t!="log")return;
-  ml={hero:"",team:[...A],enemy:[...E]};
+  ml={hero:"",team:[...A],enemy:[...E],mvp:false};
   const fld=f=>`<div class="fld">${FL[f]}<div class="chips" id="ch-${f}"></div><input id="in-${f}" enterkeyhint="go" autocomplete="off" placeholder="Type 2 or 3 letters"><div class="sg" id="sg-${f}"></div></div>`;
   document.body.insertAdjacentHTML("beforeend",`<div id="modal"><div><div class="mtit">Log a match</div>
 ${fld("hero")}
 <div class="row2"><label class="fld">Lane<select id="ll"><option value="">Choose</option><option>roam</option><option>jungle</option><option>mid</option><option>EXP lane</option><option>gold</option></select></label><label class="fld">Result<select id="lr"><option value="">Choose</option><option value="1">Win</option><option value="0">Loss</option></select></label></div>
+<button class="clr mvpb" id="mvpb" data-a="mvp" aria-pressed="false">Tap if you were MVP</button>
 ${fld("team")}${fld("enemy")}
 <label class="fld">Notes (optional)<input id="ln" placeholder="lag, hard carry, bad matchup"></label>
 <div class="row2"><button class="go" data-a="savem">Save match</button><button class="go alt" data-a="closem">Cancel</button></div></div></div>`);
@@ -742,11 +750,12 @@ ${fld("team")}${fld("enemy")}
     $("in-"+f).addEventListener("keydown",e=>{if(e.key!="Enter")return;e.preventDefault();const n=msug(f)[0];if(n)msel(f,n)});
   });
   if(myLane)$("ll").value=myLane;
+  $("lr").addEventListener("change",mvpDraw);mvpDraw();
 }
 function saveMatch(){
   const h=ml.hero,l=$("ll").value,r=$("lr").value;
   if(!h||!l||r===""){alert("Choose your hero, lane and the result.");return}
-  matches.unshift({hero:h,lane:l,win:r=="1",team:[...ml.team],enemy:[...ml.enemy],notes:$("ln").value.trim(),date:new Date().toISOString()});
+  matches.unshift({hero:h,lane:l,win:r=="1",mvp:!!ml.mvp,team:[...ml.team],enemy:[...ml.enemy],notes:$("ln").value.trim(),date:new Date().toISOString()});
   persist();showModal(null);render_hist();
 }
 function exportM(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(matches)],{type:"application/json"}));a.download="last-pick-matches.json";a.click()}
@@ -757,6 +766,7 @@ document.addEventListener("click",e=>{
   if(a=="ptog"){dis.has(v)?dis.delete(v):dis.add(v);savedis();stale=true;render_pool();return}
   if(a=="pgrp"){const L=[...pool].filter(n=>by[n]&&by[n].r==v),anyOn=L.some(n=>!dis.has(n));L.forEach(n=>anyOn?dis.add(n):dis.delete(n));savedis();stale=true;render_pool();return}
   if(a=="dhs"){dh=v;$("in-dh").value="";dhdraw();render();return}if(a=="dhx"){dh="";dhdraw();render();return}if(a=="deephero"){deepHero();return}
+  if(a=="mvp"){ml.mvp=!ml.mvp;mvpDraw();return}if(a=="mvpm"){const m=matches[+v];if(m){m.mvp=!m.mvp;persist();render_hist()}return}
   if(a=="delm"){if(confirm("Delete this match?")){matches.splice(+v,1);persist();render_hist()}return}if(a=="exp"){exportM();return}
   if(a=="view"){["draft","pool","meta","hist"].forEach(n=>$("v-"+n).hidden=n!=v);document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.v==v));if(v=="meta")showMeta();if(v=="hist")render_hist();if(v=="pool")render_pool();if(v=="draft")render();return}
   if(a=="mlane"){mLane=v;showMeta();return}if(a=="deep"){deep();return}if(a=="key"){saveKey();return}
