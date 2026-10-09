@@ -5,9 +5,9 @@
 <title>Last Pick – MLBB draft helper</title>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#eef1f8;--pn:#fff;--ink:#121a33;--mu:#5b6685;--al:#1f6fe0;--fo:#d2344a;--go:#a86a0a;--ln:#d5dbea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1226;--pn:#161d3a;--ink:#e8ecfa;--mu:#8e9ac0;--al:#4d9bff;--fo:#ff5a73;--go:#f2b84b;--ln:#263057}}
-:root[data-theme="dark"]{--bg:#0d1226;--pn:#161d3a;--ink:#e8ecfa;--mu:#8e9ac0;--al:#4d9bff;--fo:#ff5a73;--go:#f2b84b;--ln:#263057}
+:root{--bg:#eef1f8;--pn:#fff;--ink:#121a33;--mu:#5b6685;--al:#1f6fe0;--fo:#d2344a;--go:#a86a0a;--ln:#d5dbea;--win:#1f6fe0;--loss:#d2344a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1226;--pn:#161d3a;--ink:#e8ecfa;--mu:#8e9ac0;--al:#4d9bff;--fo:#ff5a73;--go:#f2b84b;--ln:#263057;--win:#3d8bf5;--loss:#f0506a}}
+:root[data-theme="dark"]{--bg:#0d1226;--pn:#161d3a;--ink:#e8ecfa;--mu:#8e9ac0;--al:#4d9bff;--fo:#ff5a73;--go:#f2b84b;--ln:#263057;--win:#3d8bf5;--loss:#f0506a}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.4 'Chakra Petch',system-ui,sans-serif}
@@ -66,11 +66,50 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 .slot .sn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.slot .lc{font-size:10.5px;border:1px solid var(--ln);border-radius:6px;padding:2px 6px;margin:0 2px 0 4px;color:var(--mu);font-weight:400}.a .slot .lc.on{color:var(--al);border-color:var(--al);font-weight:700}.e .slot .lc.on{color:var(--fo);border-color:var(--fo);font-weight:700}
 .mvp{font-size:12px;font-weight:700;border:1px solid var(--go);color:var(--go);border-radius:6px;padding:1px 6px;margin-left:4px;vertical-align:middle}.mvpb{width:100%;padding:11px;margin-bottom:10px;font-size:14px}.mvpb.on{background:var(--go);border-color:var(--go);color:#fff}
 .mtit{font-size:18px;font-weight:700;margin-bottom:10px}.fld{display:block;font-size:13px;color:var(--mu);margin-bottom:10px}.fld input,.fld select{display:block;width:100%;margin:4px 0 0;padding:10px;font:inherit;color:var(--ink);background:var(--pn);border:1px solid var(--ln);border-radius:8px}
+.lk{all:unset;cursor:pointer;text-decoration:underline;text-decoration-color:var(--ln);text-underline-offset:3px}
+.av{display:inline-grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;font-weight:700;font-size:15px;color:#fff;background:radial-gradient(circle at 30% 25%,color-mix(in srgb,var(--rc) 65%,#fff),var(--rc) 50%,color-mix(in srgb,var(--rc) 45%,#05081a));text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.av.sm{width:26px;height:26px;font-size:10px}.av.lg{width:52px;height:52px;font-size:18px}.av.pool{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--go)}
+.sel{font:inherit;font-size:13px;padding:7px 10px;border-radius:8px;border:1px solid var(--ln);background:var(--pn);color:var(--ink)}
+.chips2{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;margin:10px 0 4px;scrollbar-width:none}.chips2 button{flex:none;font:600 13px 'Chakra Petch',system-ui,sans-serif;border:1px solid var(--ln);background:transparent;color:var(--ink);border-radius:8px;padding:7px 12px;cursor:pointer}.chips2 button.on{background:var(--al);border-color:var(--al);color:#fff}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
+.hc{all:unset;cursor:pointer;display:flex;flex-direction:column;background:var(--pn);border:1px solid var(--ln);border-radius:12px;overflow:hidden;min-width:0}
+.hc:focus-visible{outline:2px solid var(--go);outline-offset:2px}
+.hc-art{position:relative;aspect-ratio:1/1;display:grid;place-items:center;font:700 34px 'Chakra Petch',system-ui,sans-serif;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.4);background:repeating-linear-gradient(135deg,rgba(255,255,255,.07) 0 6px,transparent 6px 14px),radial-gradient(circle at 30% 20%,color-mix(in srgb,var(--rc) 60%,#fff),var(--rc) 45%,color-mix(in srgb,var(--rc) 35%,#05081a))}
+.hc.un .hc-art{filter:saturate(.3) brightness(.75)}
+.hc-wr,.hc-mv{position:absolute;top:6px;font-size:11px;font-weight:700;background:rgba(0,0,0,.5);border-radius:6px;padding:2px 6px;text-shadow:none}.hc-wr{right:6px}.hc-mv{left:6px;color:#ffd77a}
+.hc-b{padding:7px 8px 9px;min-width:0}.hc-nm{display:block;font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hc-rl{display:inline-block;font-size:11px;color:var(--al);background:color-mix(in srgb,var(--al) 14%,transparent);border-radius:5px;padding:1px 6px;margin:3px 0}.hc-st{display:block;font-size:11.5px;color:var(--mu)}
+.hd-ban{position:relative;overflow:hidden;border-radius:16px;padding:14px 16px 16px;min-height:160px;color:#fff;background:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 8px,transparent 8px 18px),linear-gradient(160deg,var(--rc),color-mix(in srgb,var(--rc) 30%,#0b1022) 75%)}
+.hd-wm{position:absolute;right:-8px;bottom:-34px;font:700 150px/1 'Chakra Petch',system-ui,sans-serif;opacity:.16;pointer-events:none}
+.hd-bk{all:unset;cursor:pointer;font-size:22px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(0,0,0,.25)}
+.hd-nm{font-size:32px;font-weight:700;margin:22px 0 8px;text-shadow:0 2px 8px rgba(0,0,0,.35)}
+.hd-ch{display:flex;flex-wrap:wrap;gap:6px;position:relative}.hd-ch span{font-size:12px;font-weight:600;background:rgba(0,0,0,.3);border-radius:6px;padding:3px 8px}
+.ss3{display:grid;grid-template-columns:repeat(3,1fr);background:var(--pn);border:1px solid var(--ln);border-radius:14px;margin:10px 0;padding:12px 4px;text-align:center}.ss3 b{display:block;font-size:24px}.ss3 span{font-size:11px;letter-spacing:.5px;color:var(--mu);text-transform:uppercase}
+.sec{background:var(--pn);border:1px solid var(--ln);border-radius:14px;padding:12px;margin:10px 0}.sec h3{font-size:14px;margin:0 0 8px}
+.sec.hl{display:flex;align-items:center;gap:12px}.hl-n{font-size:18px;font-weight:700}
+.rb{display:grid;grid-template-columns:92px 1fr 30px;align-items:center;gap:8px;font-size:11px;letter-spacing:.5px;color:var(--mu);margin:8px 0}.rb .t{position:relative;height:6px;background:var(--ln);border-radius:3px}.rb .t i{position:absolute;left:0;top:0;bottom:0;background:var(--al);border-radius:3px}.rb b{color:var(--ink);font-size:13px;text-align:right}
+.seg{display:flex;gap:4px;background:var(--pn);border:1px solid var(--ln);border-radius:999px;padding:4px;margin:12px 0}.seg button{flex:1;border:0;background:transparent;color:var(--mu);font:600 13px 'Chakra Petch',system-ui,sans-serif;padding:8px 4px;border-radius:999px;cursor:pointer}.seg button.on{background:var(--al);color:#fff}
+.sb{display:flex;gap:2px;height:14px;margin:4px 0 8px}.sb i{border-radius:4px;min-width:4px}.sw{background:var(--win)}.sl{background:var(--loss)}
+.lg{display:flex;gap:16px;font-size:12.5px;color:var(--ink)}.lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.fs{display:flex;gap:5px;flex-wrap:wrap;padding-top:6px}.fq{position:relative;width:26px;height:26px;border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff}.fq.w{background:var(--win)}.fq.l{background:var(--loss)}.fq em{position:absolute;top:-8px;right:-5px;font-style:normal;font-size:12px;color:var(--go)}
+.lc{position:relative}.lc svg{display:block;width:100%;height:auto;touch-action:pan-y}.lc-tip{position:absolute;top:0;width:130px;background:var(--ink);color:var(--bg);font-size:12px;line-height:1.35;border-radius:8px;padding:6px 8px;pointer-events:none}
+.br{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) 92px;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--ln)}.br:last-child{border-bottom:0}
+.br.wd{grid-template-columns:minmax(0,1fr) 92px;row-gap:6px}.br.wd .bk{grid-column:1/-1}.br.wd .bn{white-space:normal}
+.bk{display:flex;align-items:center;gap:8px;min-width:0;font-size:13.5px}.bn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bt{position:relative;height:8px;background:var(--ln);border-radius:4px}.bt i{position:absolute;left:0;top:0;bottom:0;background:var(--win);border-radius:4px}.bt::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--mu)}
+.bv{font-size:13px;font-weight:700;text-align:right;white-space:nowrap}.bv small{font-weight:400;color:var(--mu);margin-left:6px}
+.rk-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.upd{font-size:12px;color:var(--mu);background:var(--pn);border:1px solid var(--ln);border-radius:8px;padding:5px 9px}
+.flt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0 6px}.flt label{font-size:11px;color:var(--mu)}.flt select{display:block;width:100%;margin-top:3px;padding:8px;font:inherit;font-size:13px;background:var(--pn);color:var(--ink);border:1px solid var(--ln);border-radius:8px}
+.tier-h{display:flex;align-items:baseline;gap:8px;background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:9px 12px;margin:16px 0 12px}.tier-h b{font-size:18px;color:var(--al)}.tier-h span{color:var(--mu);font-size:13px}
+.rk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:12px 6px}
+.rk-i{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}.rk-i:focus-visible{outline:2px solid var(--go);border-radius:8px}
+.rk-i .av{width:54px;height:54px;font-size:18px;margin-bottom:5px}.rk-n{font-size:12.5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rk-v{font-size:12.5px;font-weight:700}.rk-s{font-size:10.5px;color:var(--mu)}
+.nav button{font-size:13px;padding:9px 2px}
 :focus-visible{outline:2px solid var(--go);outline-offset:2px}
 </style></head><body><main>
 <h1>Last Pick</h1>
 <p class="sub">Mark the draft, get your best hero from your pool.</p>
-<nav class="nav"><button class="on" data-a="view" data-v="draft">Draft</button><button data-a="view" data-v="pool">Pool</button><button data-a="view" data-v="meta">Meta</button><button data-a="view" data-v="hist">History</button></nav>
+<nav class="nav"><button class="on" data-a="view" data-v="draft">Draft</button><button data-a="view" data-v="pool">Pool</button><button data-a="view" data-v="heroes">Heroes</button><button data-a="view" data-v="rank">Ranking</button><button data-a="view" data-v="hist">History</button></nav>
 <div id="v-draft"><div class="strip"><div class="col a"><h2>Allies</h2><div id="sa"></div></div><div class="col e"><h2>Enemies</h2><div id="se"></div></div></div>
 <p class="note" style="margin:6px 0 0">Optional: tap "lane" on a hero to set their lane. Skip it if you do not know yet.</p>
 <div class="lanes" id="lanes"></div>
@@ -87,8 +126,9 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 <div class="foot"><span>Scores combine hero ratings, team and enemy needs, patch tiers and your own match history. Not live win rates.</span><button class="clr" data-a="clear">Clear draft</button></div>
 </section></div>
 <div id="v-pool" hidden><h2 style="font-size:15px;margin:0 0 4px">My pool by role</h2><p class="note" id="pnote"></p><div id="pout"></div></div>
+<div id="v-heroes" hidden><div id="hv-grid-wrap"><div class="rk-head"><h2 style="font-size:15px;margin:0">My heroes</h2><select id="hv-s" class="sel" aria-label="Sort heroes"><option value="games">Most played</option><option value="wr">Win rate</option><option value="name">Name</option></select></div><div class="chips2" id="hv-chips"></div><input id="hv-q" type="search" placeholder="Search heroes" autocomplete="off" aria-label="Search heroes"><p class="note" id="hv-sum"></p><div class="hgrid" id="hv-grid"></div></div><div id="hv-detail" hidden></div></div>
+<div id="v-rank" hidden><div class="rk-head"><h2 style="font-size:15px;margin:0">Hero Ranking</h2><span class="upd" id="rk-upd"></span></div><div class="seg" id="rk-seg"></div><div class="flt"><label id="rk-tl">Time<select id="rk-t"><option value="all">All time</option><option value="30d">30 days</option><option value="7d">7 days</option><option value="1d">1 day</option></select></label><label>Role<select id="rk-r"><option value="">All</option><option value="T">Tank</option><option value="F">Fighter</option><option value="A">Assassin</option><option value="M">Mage</option><option value="X">Marksman</option><option value="S">Support</option></select></label><label id="rk-sl">Sort<select id="rk-s"><option value="wr">Win rate</option><option value="games">Games</option><option value="mvp">MVPs</option></select></label></div><div id="rk-out"></div><div id="rk-ml" hidden><div class="tier-h"><b>By lane</b><span>· patch picks and bans</span></div><div class="lanes" id="mlanes"></div><div id="mout"></div></div></div>
 <div id="v-hist" hidden><h2 style="font-size:15px;margin:0 0 8px">Match history</h2><button class="go" data-a="logm">Log a match</button><div id="hlog"></div><div class="row2" style="margin-top:14px"><button class="clr" data-a="exp">Export backup</button><label class="clr" style="text-align:center">Import backup<input id="imp" type="file" accept=".json,application/json" hidden></label></div></div>
-<div id="v-meta" hidden><h2 style="font-size:15px;margin:0">Current meta by lane</h2><div class="lanes" id="mlanes"></div><div id="mout"></div></div>
 </main>
 <script>
 const D=`Tigreal|T|P|cf
@@ -419,6 +459,7 @@ function score(h){
   /* patch meta */
   const tr=tierOf(h.n,myLane||lane);
   if(tr)add({S:3.2,A:2.1,B:1.1,C:0,D:-1}[tr]*(myLane?1:.7),tr+"-tier in "+(myLane||lane)+" this patch");
+  const mrk=MR[h.n];if(mrk)add({"S+":2,"S":1.2,"A":.5}[mrk.t]||0,mrk.t+"-tier in the hero ranking"+(mrk.wr?" ("+mrk.wr+"%)":""));
   /* what my team needs */
   const k5=(nA+1)/5,dfc=(t,have)=>Math.max(0,t*k5-have);
   add(1.5*Math.min(h.ctl,dfc(10,al.ctl)),"adds crowd control");
@@ -680,11 +721,11 @@ const pct=(w,l)=>w+l?Math.round(100*w/(w+l)):0;
 function tally(fn){const t={};matches.forEach(m=>{(fn(m)||[]).forEach(k=>{if(!t[k])t[k]={w:0,l:0};t[k][m.win?"w":"l"]++})});return t}
 function tbl(title,t,min,lim){
   const rows=Object.entries(t).filter(([k,x])=>x.w+x.l>=min).sort((a,b)=>b[1].w/(b[1].w+b[1].l)-a[1].w/(a[1].w+a[1].l)||(b[1].w+b[1].l)-(a[1].w+a[1].l)||b[1].w-a[1].w).slice(0,lim);
-  return rows.length?`<div class="head">${title}</div><table><tr><th>Name</th><th>W-L</th><th>WR</th></tr>`+rows.map(([k,x])=>`<tr><td>${hx(k)}</td><td>${x.w}-${x.l}</td><td>${pct(x.w,x.l)}%</td></tr>`).join("")+"</table>":"";
+  return rows.length?`<div class="head">${title}</div><table><tr><th>Name</th><th>W-L</th><th>WR</th></tr>`+rows.map(([k,x])=>`<tr><td>${lk(k)}</td><td>${x.w}-${x.l}</td><td>${pct(x.w,x.l)}%</td></tr>`).join("")+"</table>":"";
 }
 function pick(t,min,best){return Object.entries(t).filter(([k,x])=>x.w+x.l>=min).sort((a,b)=>best?pct(b[1].w,b[1].l)-pct(a[1].w,a[1].l):pct(a[1].w,a[1].l)-pct(b[1].w,b[1].l))[0]}
 function mvpRows(){const t={};matches.forEach(m=>{const k=m.hero;if(!t[k])t[k]={m:0,ml:0,g:0};t[k].g++;if(m.mvp){t[k].m++;if(!m.win)t[k].ml++}});return Object.entries(t).filter(([k,x])=>x.m>0).sort((a,b)=>b[1].m-a[1].m||b[1].m/b[1].g-a[1].m/a[1].g||b[1].g-a[1].g)}
-function mvpTbl(){const r=mvpRows();return `<div class="head">MVPs by hero</div>`+(r.length?`<table><tr><th>Name</th><th>MVPs</th><th>In losses</th><th>Rate</th></tr>`+r.map(([k,x])=>`<tr><td>${hx(k)}</td><td>${x.m}</td><td>${x.ml}</td><td>${Math.round(100*x.m/x.g)}%</td></tr>`).join("")+"</table>":'<div class="msg">No MVPs logged yet. Tap the MVP button when you log a match.</div>')}
+function mvpTbl(){const r=mvpRows();return `<div class="head">MVPs by hero</div>`+(r.length?`<table><tr><th>Name</th><th>MVPs</th><th>In losses</th><th>Rate</th></tr>`+r.map(([k,x])=>`<tr><td>${lk(k)}</td><td>${x.m}</td><td>${x.ml}</td><td>${Math.round(100*x.m/x.g)}%</td></tr>`).join("")+"</table>":'<div class="msg">No MVPs logged yet. Tap the MVP button when you log a match.</div>')}
 function render_hist(){
   const w=matches.filter(m=>m.win).length,l=matches.length-w;
   let sk=0,sw=null;for(const m of matches){if(sw===null)sw=m.win;if(m.win===sw)sk++;else break}
@@ -700,7 +741,7 @@ function render_hist(){
   if(bt)ins.push(`Best teammate (2+ games): ${hx(bt[0])}, ${pct(bt[1].w,bt[1].l)}%.`);
   o+=`<div class="note">${ins.join(" ")}</div>`;
   o+=tbl("By hero",byH,1,40)+mvpTbl()+tbl("By lane",tally(m=>[m.lane]),1,5)+tbl("Against enemy heroes (2+ games)",byE,2,25)+tbl("With teammates (2+ games)",byT,2,25);
-  o+='<div class="head">Recent matches</div>'+matches.slice(0,4).map((m,i)=>`<div class="card"><div class="row"><span class="nm">${hx(m.hero)} <span style="color:var(--${m.win?"go":"fo"})">${m.win?"Win":"Loss"}</span>${m.mvp?` <span class="mvp">${m.win?"MVP":"MVP loss"}</span>`:""}</span><span style="display:flex;gap:6px"><button class="clr" data-a="mvpm" data-v="${i}" aria-label="Toggle MVP">${m.mvp?"MVP ✓":"MVP"}</button><button class="clr" data-a="delm" data-v="${i}" aria-label="Delete match">✕</button></span></div><div class="why">${hx(m.lane)}, ${new Date(m.date).toLocaleDateString()}<br>With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
+  o+='<div class="head">Recent matches</div>'+matches.slice(0,4).map((m,i)=>`<div class="card"><div class="row"><span class="nm">${hx(m.hero)} <span style="color:var(--${m.win?"win":"loss"})">${m.win?"Win":"Loss"}</span>${m.mvp?` <span class="mvp">${m.win?"MVP":"MVP loss"}</span>`:""}</span><span style="display:flex;gap:6px"><button class="clr" data-a="mvpm" data-v="${i}" aria-label="Toggle MVP">${m.mvp?"MVP ✓":"MVP"}</button><button class="clr" data-a="delm" data-v="${i}" aria-label="Delete match">✕</button></span></div><div class="why">${hx(m.lane)}, ${new Date(m.date).toLocaleDateString()}<br>With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
   $("hlog").innerHTML=o;
 }
 let ml={hero:"",team:[],enemy:[]};
@@ -735,7 +776,7 @@ function mvpDraw(){const b=$("mvpb");if(!b)return;const r=$("lr").value;b.classN
 function showModal(t){
   const old=$("modal");if(old)old.remove();
   if(t!="log")return;
-  ml={hero:"",team:[...A],enemy:[...E],mvp:false};
+  ml={hero:(!$("v-heroes").hidden&&openHero)||"",team:[...A],enemy:[...E],mvp:false};
   const fld=f=>`<div class="fld">${FL[f]}<div class="chips" id="ch-${f}"></div><input id="in-${f}" enterkeyhint="go" autocomplete="off" placeholder="Type 2 or 3 letters"><div class="sg" id="sg-${f}"></div></div>`;
   document.body.insertAdjacentHTML("beforeend",`<div id="modal"><div><div class="mtit">Log a match</div>
 ${fld("hero")}
@@ -756,9 +797,116 @@ function saveMatch(){
   const h=ml.hero,l=$("ll").value,r=$("lr").value;
   if(!h||!l||r===""){alert("Choose your hero, lane and the result.");return}
   matches.unshift({hero:h,lane:l,win:r=="1",mvp:!!ml.mvp,team:[...ml.team],enemy:[...ml.enemy],notes:$("ln").value.trim(),date:new Date().toISOString()});
-  persist();showModal(null);render_hist();
+  persist();showModal(null);render_hist();refreshOpen();
 }
 function exportM(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(matches)],{type:"application/json"}));a.download="last-pick-matches.json";a.click()}
+/* ===== HERO PAGES + RANKING ===== */
+/* META RANKING: copy from your hero-ranking app after patches. Each tier is a comma list of "Hero WinRate" (win rate optional). */
+const META_RANK={updated:"2026-10-08",source:"your hero-ranking screenshot (1-day win rates)",tiers:{
+  "S+":"Aulus 59.9, Masha 59.7, Rafaela 58.9, Marcel 58.0, Argus 56.0, Minotaur 54.9, Gloo 54.3, Khufra 54.3, Popol and Kupa 54.2, Floryn 54.0",
+  "S":"Lolita 53.9, Carmilla 53.7, Valir 53.6, Obsidia 53.6, Diggie 53.3, Hirara 53.2, Bruno 53.1, Gord 53.0, Ling 52.7, Lukas 52.7, Benedetta 52.6, Edith 52.5, Estes 52.5, Zhask 52.4, Sun 52.3, Irithel 52.2, Hanabi 52.0",
+  "A":"Atlas 52.0, Barats 51.9, Kagura 51.9, Belerick 51.9, Yve 51.6, Kadita 51.4, Cyclops, Eudora, Minsitthar, Guinevere, Beatrix, Natan"}};
+const TIERD={"S+":"Win-rate King/Queen","S":"Excellent","A":"Balanced"},MYTD={"S+":"Your best","S":"Strong","A":"Balanced","B":"Shaky","C":"Struggling"};
+const MR={};Object.entries(META_RANK.tiers).forEach(([t,s])=>s.split(",").forEach(x=>{const m=x.trim().match(/^(.+?)(?:\s+([\d.]+))?$/);if(m&&by[m[1]])MR[m[1]]={t,wr:m[2]?+m[2]:null}}));
+const ini=n=>{const p=n.split(/[\s.\-]+/).filter(Boolean);return p.length>1?(p[0][0]+p[p.length-1][0]).toUpperCase():n.slice(0,2)};
+const av=(n,c="")=>`<span class="av ${c}" style="--rc:${by[n]?RC[by[n].r]:"#667"}" aria-hidden="true">${hx(ini(n))}</span>`;
+const DAY=864e5;
+let hvRole="",hvSort="games",hvQ="",openHero="",hvTab="ov",rkView="mine",rkTime="all",rkRole="",rkSort="wr";
+function statsFor(list){const t={};list.forEach(m=>{const k=m.hero;if(!t[k])t[k]={w:0,l:0,mv:0};t[k][m.win?"w":"l"]++;if(m.mvp)t[k].mv++});return t}
+function wrRows(list,fn){const t={};list.forEach(m=>{[...new Set(fn(m))].forEach(k=>{if(!k)return;if(!t[k])t[k]={w:0,l:0};t[k][m.win?"w":"l"]++})});return Object.entries(t).map(([k,x])=>({k,w:x.w,l:x.l})).sort((a,b)=>b.w/(b.w+b.l)-a.w/(a.w+a.l)||(b.w+b.l)-(a.w+a.l))}
+const lk=k=>by[k]?`<button class="lk" data-a="hopen" data-v="${hx(k)}">${hx(k)}</button>`:hx(k);
+function barList(rows,o={}){
+  if(!rows.length)return `<div class="msg">${o.empty||"Nothing logged yet."}</div>`;
+  return `<div class="bl">`+rows.map(r=>{const p=Math.round(100*r.w/(r.w+r.l));return `<div class="br${o.wide?" wd":""}"><span class="bk">${o.av&&by[r.k]?av(r.k,"sm"):""}<span class="bn">${o.link===false?hx(r.k):lk(r.k)}</span></span><span class="bt" role="img" aria-label="${p}% win rate"><i style="width:${p}%"></i></span><span class="bv">${p}%<small>${r.w}-${r.l}</small></span></div>`}).join("")+`</div><div class="note" style="margin:6px 0 0">Bars show win rate; the tick marks 50%.</div>`;
+}
+function splitBar(w,l){return `<div class="sb" role="img" aria-label="${w} wins, ${l} losses">${w?`<i class="sw" style="flex:${w}" title="Wins: ${w}"></i>`:""}${l?`<i class="sl" style="flex:${l}" title="Losses: ${l}"></i>`:""}</div><div class="lg"><span><i class="sw"></i>Wins ${w}</span><span><i class="sl"></i>Losses ${l}</span></div>`}
+function formStrip(ms){const r=ms.slice(0,10).reverse();return `<div class="fs">`+r.map(m=>`<span class="fq ${m.win?"w":"l"}" title="${m.win?"Win":"Loss"}${m.mvp?" · MVP":""} · ${new Date(m.date).toLocaleDateString()}">${m.win?"W":"L"}${m.mvp?"<em>★</em>":""}</span>`).join("")+`</div><div class="note" style="margin:6px 0 0">Last ${r.length} games, oldest to newest. ★ = MVP.</div>`}
+const LC={};let lcN=0;
+function wrLine(ms){
+  const r=[...ms].reverse(),W=320,H=150,L0=32,R0=12,T0=14,B0=22;let w=0;
+  const X=i=>L0+(W-L0-R0)*(i/(r.length-1)),Y=v=>T0+(H-T0-B0)*(1-v/100);
+  const p=r.map((m,i)=>{if(m.win)w++;const v=Math.round(100*w/(i+1));return{x:X(i),y:Y(v),v,t:(m.win?"Win":"Loss")+(m.mvp?" · MVP":"")+" · "+new Date(m.date).toLocaleDateString()}});
+  const id="lc"+(++lcN);LC[id]={W,p};const q=p[p.length-1];
+  const grid=[0,50,100].map(v=>`<line x1="${L0}" x2="${W-R0}" y1="${Y(v)}" y2="${Y(v)}" style="stroke:var(--ln)"${v==50?' stroke-dasharray="3 3"':""}/><text x="${L0-6}" y="${Y(v)+3}" text-anchor="end" style="fill:var(--mu);font-size:10px">${v}%</text>`).join("");
+  const d=p.map((z,i)=>(i?"L":"M")+z.x.toFixed(1)+" "+z.y.toFixed(1)).join(" ");
+  return `<div class="lc" data-lc="${id}"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Your win rate after each game, now ${q.v}%">${grid}<text x="${L0}" y="${H-6}" style="fill:var(--mu);font-size:10px">Game 1</text><text x="${W-R0}" y="${H-6}" text-anchor="end" style="fill:var(--mu);font-size:10px">Game ${p.length}</text><line class="lc-x" y1="${T0}" y2="${H-B0}" style="stroke:var(--mu);opacity:0"/><path d="${d}" fill="none" style="stroke:var(--win)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${q.x}" cy="${q.y}" r="4" style="fill:var(--win);stroke:var(--pn)" stroke-width="2"/><text x="${q.x-6}" y="${q.y<26?q.y+16:q.y-8}" text-anchor="end" style="fill:var(--ink);font-size:11px;font-weight:700">${q.v}%</text><circle class="lc-dot" r="4" cx="0" cy="0" style="fill:var(--win);stroke:var(--pn);opacity:0" stroke-width="2"/></svg><div class="lc-tip" hidden></div></div><div class="note" style="margin:4px 0 0">Your running win rate with this hero. Drag or hover for each game.</div>`;
+}
+function lcMove(e){const el=e.target&&e.target.closest&&e.target.closest(".lc");if(!el)return;const d=LC[el.dataset.lc];if(!d)return;const r=el.querySelector("svg").getBoundingClientRect(),vx=(e.clientX-r.left)/r.width*d.W;let bi=0,bd=1e9;d.p.forEach((z,i)=>{const dd=Math.abs(z.x-vx);if(dd<bd){bd=dd;bi=i}});const z=d.p[bi],cx=el.querySelector(".lc-x"),dot=el.querySelector(".lc-dot"),tip=el.querySelector(".lc-tip");cx.setAttribute("x1",z.x);cx.setAttribute("x2",z.x);cx.style.opacity=.5;dot.setAttribute("cx",z.x);dot.setAttribute("cy",z.y);dot.style.opacity=1;tip.hidden=false;tip.innerHTML=`Game ${bi+1}: <b>${z.v}%</b><br>${z.t}`;tip.style.left=Math.min(r.width-130,Math.max(0,z.x/d.W*r.width-65))+"px"}
+function lcOut(e){const el=e.target&&e.target.closest&&e.target.closest(".lc");if(!el||el.contains(e.relatedTarget))return;el.querySelector(".lc-tip").hidden=true;el.querySelector(".lc-x").style.opacity=0;el.querySelector(".lc-dot").style.opacity=0}
+const ROLEF=[["","All"],["played","Played"],["T","Tank"],["F","Fighter"],["A","Assassin"],["M","Mage"],["X","Marksman"],["S","Support"]];
+function render_heroes(){
+  const gw=$("hv-grid-wrap"),dt=$("hv-detail");
+  if(openHero&&by[openHero]){gw.hidden=true;dt.hidden=false;dt.innerHTML=heroDetail(openHero);return}
+  openHero="";gw.hidden=false;dt.hidden=true;dt.innerHTML="";
+  const st=statsFor(matches);
+  $("hv-chips").innerHTML=ROLEF.map(([v,t])=>`<button data-a="hchip" data-v="${v}"${v==hvRole?' class="on"':""}>${t}</button>`).join("");
+  let L=[...new Set([...pool,...Object.keys(st)])].filter(n=>by[n]);
+  if(hvRole=="played")L=L.filter(n=>st[n]);else if(hvRole)L=L.filter(n=>by[n].r==hvRole);
+  if(hvQ)L=L.filter(n=>n.toLowerCase().includes(hvQ));
+  const g=n=>st[n]?st[n].w+st[n].l:0,wr=n=>g(n)?st[n].w/g(n):-1;
+  L.sort(hvSort=="name"?(a,b)=>a.localeCompare(b):hvSort=="wr"?(a,b)=>wr(b)-wr(a)||g(b)-g(a)||a.localeCompare(b):(a,b)=>g(b)-g(a)||wr(b)-wr(a)||a.localeCompare(b));
+  $("hv-sum").textContent=`${Object.keys(st).filter(n=>by[n]).length} heroes played across ${matches.length} logged matches. Tap a hero for your stats with them.`;
+  $("hv-grid").innerHTML=L.length?L.map(n=>{const s=st[n],gg=g(n);return `<button class="hc${gg?"":" un"}" data-a="hopen" data-v="${hx(n)}"><span class="hc-art" style="--rc:${RC[by[n].r]}">${hx(ini(n))}${gg?`<span class="hc-wr">${pct(s.w,s.l)}%</span>`:""}${s&&s.mv?`<span class="hc-mv">★${s.mv}</span>`:""}</span><span class="hc-b"><span class="hc-nm">${hx(n)}</span><span class="hc-rl">${ROLEN[by[n].r]}</span><span class="hc-st">${gg?`${s.w}-${s.l} · ${gg} game${gg>1?"s":""}`:"Not played yet"}</span></span></button>`}).join(""):'<div class="msg">No heroes match.</div>';
+}
+function heroDetail(n){
+  const h=by[n],ms=matches.filter(m=>m.hero==n),g=ms.length,w=ms.filter(m=>m.win).length,l=g-w,mv=ms.filter(m=>m.mvp).length,mvl=ms.filter(m=>m.mvp&&!m.win).length;
+  const mr=MR[n],lt=tierOf(n,LN[h.r]);
+  const chips=[ROLEN[h.r],LAB[LN[h.r]]+(LN[h.r]=="EXP lane"?"":" lane"),h.rng=="r"?"Ranged":"Melee","Peaks "+SPK[h.spk],ULT[h.ult]].concat([...h.kit].map(f=>KITN[f]));
+  if(pool.has(n))chips.push(dis.has(n)?"In pool (switched off)":"In your pool ★");
+  let o=`<div class="hd-ban" style="--rc:${RC[h.r]}"><span class="hd-wm" aria-hidden="true">${hx(ini(n))}</span><button class="hd-bk" data-a="hback" aria-label="Back to heroes">←</button><div class="hd-nm">${hx(n)}</div><div class="hd-ch">${chips.map(c=>`<span>${hx(c)}</span>`).join("")}</div></div>`;
+  o+=`<div class="ss3"><div><b>${g?pct(w,l)+"%":"—"}</b><span>Your win rate</span></div><div><b>${g}</b><span>Games</span></div><div><b>${mv}</b><span>MVPs</span></div></div>`;
+  o+=`<div class="sec">`+[["Durability",h.tgh],["Offense",h.dmg],["Control",h.ctl],["Mobility",h.mob]].map(([t,v])=>`<div class="rb"><span>${t.toUpperCase()}</span><span class="t"><i style="width:${v*20}%"></i></span><b>${v*20}</b></div>`).join("")+`<div class="note" style="margin:6px 0 0">The app's own hero ratings (estimates).${mr?` Meta ranking: <b>${mr.t}</b>${mr.wr?`, ${mr.wr}% win rate`:""}.`:""}${lt?` ${lt}-tier in ${LN[h.r]} this patch.`:""}</div></div>`;
+  o+=`<div class="seg" role="tablist">`+[["ov","Overview"],["tm","Teammates"],["mu","Matchups"],["ma","Matches"]].map(([v,t])=>`<button role="tab" aria-selected="${v==hvTab}" data-a="htab" data-v="${v}"${v==hvTab?' class="on"':""}>${t}</button>`).join("")+`</div>`;
+  if(!g)return o+`<div class="sec"><div class="msg">No matches with ${hx(n)} yet. Log one and this page fills in by itself.</div><button class="go" data-a="logm">Log a match</button></div>`;
+  if(hvTab=="ov"){
+    o+=`<div class="sec"><h3>Results</h3>${splitBar(w,l)}<div class="note" style="margin:8px 0 0">${mv?`MVP in ${mv} of ${g} games${mvl?`, ${mvl} of them in losses (not your fault)`:""}.`:"No MVPs with this hero yet."}</div></div>`;
+    o+=`<div class="sec"><h3>Recent form</h3>${formStrip(ms)}</div>`;
+    if(g>=2)o+=`<div class="sec"><h3>Win rate over time</h3>${wrLine(ms)}</div>`;
+    o+=`<div class="sec"><h3>By lane</h3>${barList(wrRows(ms,m=>[m.lane]),{link:false})}</div>`;
+  }else if(hvTab=="tm"){
+    const al=wrRows(ms,m=>m.team.filter(x=>by[x])),best=al.find(r=>r.w+r.l>=2&&r.w>r.l)||al.find(r=>r.w>r.l);
+    const comp=wrRows(ms.filter(m=>m.team.some(x=>by[x])),m=>[m.team.filter(x=>by[x]).map(x=>ROLEN[by[x].r]).sort().join(" + ")]);
+    const rl=wrRows(ms,m=>m.team.filter(x=>by[x]).map(x=>"With "+(/^[AEIOU]/.test(ROLEN[by[x].r])?"an ":"a ")+ROLEN[by[x].r]));
+    if(best)o+=`<div class="sec hl">${av(best.k,"lg")}<div><span class="note" style="margin:0">Best partner</span><div class="hl-n">${lk(best.k)}</div><div class="note" style="margin:0">${best.w}-${best.l} together, ${pct(best.w,best.l)}%</div></div></div>`;
+    o+=`<div class="sec"><h3>Teammates</h3>${barList(al,{av:true,empty:"No teammates logged with this hero."})}</div>`;
+    o+=`<div class="sec"><h3>Best team comps</h3><div class="note">Your four allies' roles in each game.</div>${barList(comp,{link:false,wide:true})}</div>`;
+    o+=`<div class="sec"><h3>Ally roles</h3>${barList(rl,{link:false})}</div>`;
+  }else if(hvTab=="mu"){
+    const en=wrRows(ms,m=>m.enemy.filter(x=>by[x]));
+    const beat=en.filter(r=>r.w>=r.l),hard=en.filter(r=>r.w<r.l).sort((a,b)=>a.w/(a.w+a.l)-b.w/(b.w+b.l)||(b.w+b.l)-(a.w+a.l));
+    o+=`<div class="sec"><h3>You beat</h3>${barList(beat,{av:true,empty:"No winning matchups yet."})}</div>`;
+    o+=`<div class="sec"><h3>Trouble matchups</h3>${barList(hard,{av:true,empty:"No losing matchups. Nice."})}</div>`;
+    o+=`<div class="sec"><h3>Vs enemy roles</h3>${barList(wrRows(ms,m=>m.enemy.filter(x=>by[x]).map(x=>"Vs "+ROLEN[by[x].r])),{link:false})}</div>`;
+  }else{
+    o+=ms.map(m=>`<div class="card"><div class="row"><span class="nm" style="font-size:15px"><span style="color:var(--${m.win?"win":"loss"})">${m.win?"Win":"Loss"}</span>${m.mvp?` <span class="mvp">${m.win?"MVP":"MVP loss"}</span>`:""}</span><span class="why">${hx(m.lane)} · ${new Date(m.date).toLocaleDateString()}</span></div><div class="why">With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
+  }
+  return o;
+}
+function myTier(w,l){const a=(w+2)/(w+l+4);return a>=.65?"S+":a>=.55?"S":a>=.45?"A":a>=.35?"B":"C"}
+function inRange(m){if(rkTime=="all")return true;return Date.now()-new Date(m.date).getTime()<=({"30d":30,"7d":7,"1d":1}[rkTime])*DAY}
+function render_rank(){
+  $("rk-seg").innerHTML=[["mine","My ranking"],["meta","Meta"]].map(([v,t])=>`<button data-a="rkv" data-v="${v}"${v==rkView?' class="on"':""}>${t}</button>`).join("");
+  $("rk-tl").hidden=$("rk-sl").hidden=rkView!="mine";$("rk-ml").hidden=rkView!="meta";
+  const circ=(n,v,s,c)=>`<button class="rk-i" data-a="hopen" data-v="${hx(n)}">${av(n,c)}<span class="rk-n">${hx(n)}</span><span class="rk-v">${v}</span>${s?`<span class="rk-s">${s}</span>`:""}</button>`;
+  if(rkView=="meta"){
+    $("rk-upd").textContent="Updated: "+META_RANK.updated;
+    let o="";["S+","S","A"].forEach(t=>{const L=Object.entries(MR).filter(([n,x])=>x.t==t&&(!rkRole||by[n].r==rkRole)).sort((a,b)=>(b[1].wr||0)-(a[1].wr||0));if(L.length)o+=`<div class="tier-h"><b>${t} Tier</b><span>· ${TIERD[t]}</span></div><div class="rk-grid">`+L.map(([n,x])=>circ(n,x.wr?x.wr.toFixed(1)+"%":"—",pool.has(n)?"★ in pool":"",pool.has(n)?"pool":"")).join("")+"</div>"});
+    $("rk-out").innerHTML=`<div class="note">Source: ${hx(META_RANK.source)}. Gold ring = in your pool. Tap a hero for your own stats.</div>`+(o||'<div class="msg">No meta heroes for this role.</div>');
+    showMeta();return;
+  }
+  const ms=matches.filter(inRange),st=statsFor(ms);
+  $("rk-upd").textContent=matches.length?"Updated: "+new Date(matches[0].date).toLocaleDateString():"No matches yet";
+  const L=Object.entries(st).filter(([n])=>by[n]&&(!rkRole||by[n].r==rkRole));
+  if(!L.length){$("rk-out").innerHTML='<div class="msg">No matches in this time range'+(rkRole?" for this role":"")+'. Log matches in History and your ranking builds itself.</div>';return}
+  const tw=L.reduce((a,[,x])=>a+x.w,0),tl=L.reduce((a,[,x])=>a+x.l,0),tm=L.reduce((a,[,x])=>a+x.mv,0);
+  const srt=rkSort=="games"?(a,b)=>(b[1].w+b[1].l)-(a[1].w+a[1].l)||b[1].w-a[1].w:rkSort=="mvp"?(a,b)=>b[1].mv-a[1].mv||(b[1].w+b[1].l)-(a[1].w+a[1].l):(a,b)=>b[1].w/(b[1].w+b[1].l)-a[1].w/(a[1].w+a[1].l)||(b[1].w+b[1].l)-(a[1].w+a[1].l);
+  let o=`<div class="ss3"><div><b>${pct(tw,tl)}%</b><span>Win rate</span></div><div><b>${tw+tl}</b><span>Games</span></div><div><b>${tm}</b><span>MVPs</span></div></div>`;
+  if(!rkRole)o+=`<div class="sec"><h3>Win rate by role</h3>${barList(wrRows(ms,m=>by[m.hero]?[ROLEN[by[m.hero].r]]:[]),{link:false})}</div>`;
+  ["S+","S","A","B","C"].forEach(t=>{const T=L.filter(([,x])=>myTier(x.w,x.l)==t).sort(srt);if(T.length)o+=`<div class="tier-h"><b>${t} Tier</b><span>· ${MYTD[t]}</span></div><div class="rk-grid">`+T.map(([n,x])=>{const g=x.w+x.l;return circ(n,pct(x.w,x.l)+"%",`${g} game${g>1?"s":""}${x.mv?` · ★${x.mv}`:""}`)}).join("")+"</div>"});
+  $("rk-out").innerHTML=o+`<div class="note" style="margin-top:12px">Tiers use your win rate with a small-sample adjustment, so one 1-0 game does not make a hero your best.</div>`;
+}
+function goView(v){["draft","pool","heroes","rank","hist"].forEach(n=>$("v-"+n).hidden=n!=v);document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.v==v));if(v=="hist")render_hist();if(v=="pool")render_pool();if(v=="draft")render();if(v=="heroes")render_heroes();if(v=="rank")render_rank();try{window.scrollTo(0,0)}catch(x){}}
+function refreshOpen(){if(!$("v-heroes").hidden)render_heroes();if(!$("v-rank").hidden)render_rank()}
 document.addEventListener("click",e=>{
   const b=e.target.closest("[data-a]");if(!b)return;const v=b.dataset.v;
   const a=b.dataset.a;
@@ -768,7 +916,8 @@ document.addEventListener("click",e=>{
   if(a=="dhs"){dh=v;$("in-dh").value="";dhdraw();render();return}if(a=="dhx"){dh="";dhdraw();render();return}if(a=="deephero"){deepHero();return}
   if(a=="mvp"){ml.mvp=!ml.mvp;mvpDraw();return}if(a=="mvpm"){const m=matches[+v];if(m){m.mvp=!m.mvp;persist();render_hist()}return}
   if(a=="delm"){if(confirm("Delete this match?")){matches.splice(+v,1);persist();render_hist()}return}if(a=="exp"){exportM();return}
-  if(a=="view"){["draft","pool","meta","hist"].forEach(n=>$("v-"+n).hidden=n!=v);document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.v==v));if(v=="meta")showMeta();if(v=="hist")render_hist();if(v=="pool")render_pool();if(v=="draft")render();return}
+  if(a=="view"){if(v=="heroes")openHero="";goView(v);return}
+  if(a=="hopen"){openHero=v;hvTab="ov";goView("heroes");return}if(a=="hback"){openHero="";render_heroes();try{window.scrollTo(0,0)}catch(x){}return}if(a=="htab"){hvTab=v;render_heroes();return}if(a=="hchip"){hvRole=v;render_heroes();return}if(a=="rkv"){rkView=v;render_rank();return}
   if(a=="mlane"){mLane=v;showMeta();return}if(a=="deep"){deep();return}if(a=="key"){saveKey();return}
   if(a!="mode"&&a!="go")stale=true;
   if(a=="go")analyse();else if(a=="lane")myLane=v;else if(a=="mode")mode=v;
@@ -788,6 +937,12 @@ $("off").addEventListener("change",e=>{off=e.target.checked;stale=true;render()}
 $("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();renderGrid()});
 $("in-dh").addEventListener("input",dhdraw);
 $("in-dh").addEventListener("keydown",e=>{if(e.key!="Enter")return;e.preventDefault();const n=dhsug()[0];if(n){dh=n;$("in-dh").value="";dhdraw();render()}});
+$("hv-q").addEventListener("input",e=>{hvQ=e.target.value.trim().toLowerCase();render_heroes()});
+$("hv-s").addEventListener("change",e=>{hvSort=e.target.value;render_heroes()});
+$("rk-t").addEventListener("change",e=>{rkTime=e.target.value;render_rank()});
+$("rk-r").addEventListener("change",e=>{rkRole=e.target.value;render_rank()});
+$("rk-s").addEventListener("change",e=>{rkSort=e.target.value;render_rank()});
+document.addEventListener("pointermove",lcMove);document.addEventListener("pointerdown",lcMove);document.addEventListener("pointerout",lcOut);
 dhdraw();
 render();
 </script></body></html>
