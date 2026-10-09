@@ -81,7 +81,7 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 .hc-rl{display:inline-block;font-size:11px;color:var(--al);background:color-mix(in srgb,var(--al) 14%,transparent);border-radius:5px;padding:1px 6px;margin:3px 0}.hc-st{display:block;font-size:11.5px;color:var(--mu)}
 .hd-ban{position:relative;overflow:hidden;border-radius:16px;padding:14px 16px 16px;min-height:160px;color:#fff;background:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 8px,transparent 8px 18px),linear-gradient(160deg,var(--rc),color-mix(in srgb,var(--rc) 30%,#0b1022) 75%)}
 .hd-wm{position:absolute;right:-8px;bottom:-34px;font:700 150px/1 'Chakra Petch',system-ui,sans-serif;opacity:.16;pointer-events:none}
-.hd-bk{all:unset;cursor:pointer;font-size:22px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(0,0,0,.25)}
+.hd-bk{all:unset;cursor:pointer;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(0,0,0,.25);color:#fff}.hd-bk svg{display:block;width:20px;height:20px}
 .hd-nm{font-size:32px;font-weight:700;margin:22px 0 8px;text-shadow:0 2px 8px rgba(0,0,0,.35)}
 .hd-ch{display:flex;flex-wrap:wrap;gap:6px;position:relative}.hd-ch span{font-size:12px;font-weight:600;background:rgba(0,0,0,.3);border-radius:6px;padding:3px 8px}
 .ss3{display:grid;grid-template-columns:repeat(3,1fr);background:var(--pn);border:1px solid var(--ln);border-radius:14px;margin:10px 0;padding:12px 4px;text-align:center}.ss3 b{display:block;font-size:24px}.ss3 span{font-size:11px;letter-spacing:.5px;color:var(--mu);text-transform:uppercase}
@@ -96,8 +96,7 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 .br{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) 92px;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--ln)}.br:last-child{border-bottom:0}
 .br.wd{grid-template-columns:minmax(0,1fr) 92px;row-gap:6px}.br.wd .bk{grid-column:1/-1}.br.wd .bn{white-space:normal}
 .bk{display:flex;align-items:center;gap:8px;min-width:0;font-size:13.5px}.bn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bt{position:relative;height:8px;background:var(--ln);border-radius:4px}.bt i{position:absolute;left:0;top:0;bottom:0;background:var(--win);border-radius:4px}.bt::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--mu)}
-.bv{font-size:13px;font-weight:700;text-align:right;white-space:nowrap}.bv small{font-weight:400;color:var(--mu);margin-left:6px}
+.bt{position:relative;height:8px;background:var(--ln);border-radius:4px}.bt i{position:absolute;left:0;top:0;bottom:0;background:var(--win);border-radius:4px}.bv{font-size:13px;font-weight:700;text-align:right;white-space:nowrap}.bv small{font-weight:400;color:var(--mu);margin-left:6px}
 .rk-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.upd{font-size:12px;color:var(--mu);background:var(--pn);border:1px solid var(--ln);border-radius:8px;padding:5px 9px}
 .flt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0 6px}.flt label{font-size:11px;color:var(--mu)}.flt select{display:block;width:100%;margin-top:3px;padding:8px;font:inherit;font-size:13px;background:var(--pn);color:var(--ink);border:1px solid var(--ln);border-radius:8px}
 .tier-h{display:flex;align-items:baseline;gap:8px;background:var(--pn);border:1px solid var(--ln);border-radius:10px;padding:9px 12px;margin:16px 0 12px}.tier-h b{font-size:18px;color:var(--al)}.tier-h span{color:var(--mu);font-size:13px}
@@ -106,6 +105,12 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 .rk-i .av{width:54px;height:54px;font-size:18px;margin-bottom:5px}.rk-n{font-size:12.5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rk-v{font-size:12.5px;font-weight:700}.rk-s{font-size:10.5px;color:var(--mu)}
 .nav button{font-size:13px;padding:9px 2px}
 :focus-visible{outline:2px solid var(--go);outline-offset:2px}
+/* role name colours */
+:root{--rT:#0e7490;--rS:#15803d;--rF:#d9480f;--rM:#7c3aed;--rX:#a16207;--rA:#be123c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--rT:#22d3ee;--rS:#34e07a;--rF:#ff6b2c;--rM:#b06cff;--rX:#ffd426;--rA:#ff3d7f}}
+:root[data-theme="dark"]{--rT:#22d3ee;--rS:#34e07a;--rF:#ff6b2c;--rM:#b06cff;--rX:#ffd426;--rA:#ff3d7f}
+.r-T{color:var(--rT)}.r-S{color:var(--rS)}.r-F{color:var(--rF)}.r-M{color:var(--rM)}.r-X{color:var(--rX)}.r-A{color:var(--rA)}
+.hd-nm.r-T,.hd-nm.r-S,.hd-nm.r-F,.hd-nm.r-M,.hd-nm.r-X,.hd-nm.r-A{color:#fff}
 </style></head><body><main>
 <h1>Last Pick</h1>
 <p class="sub">Mark the draft, get your best hero from your pool.</p>
@@ -408,11 +413,16 @@ const KIT="Tigreal:K;Franco:KG:2;Atlas:KG;Johnson:K;Grock:KD;Hylos:K:2;Khufra:KD
 const KM={};KIT.split(";").forEach(e=>{const[n,f,c]=e.split(":");KM[n]={kit:f||"",cd:c?+c:0}});
 const CDDEF={T:3,S:3,M:2,X:2,F:2,A:2};
 H.forEach(h=>{const k=KM[h.n]||{kit:"",cd:0};h.kit=k.kit;h.cd=k.cd||CDDEF[h.r]});
+/* ===== HERO COUNTERS (estimates; edit if wrong). "Hero>victim,victim" = Hero counters those heroes ===== */
+const CTR="Khufra>Fanny,Lancelot,Gusion,Ling,Hayabusa,Benedetta,Paquito,Aamon,Joy,Karina,Natalia;Atlas>Pharsa,Yve,Odette,Lunox,Kagura,Harley,Cyclops;Franco>Pharsa,Yve,Lylia,Cici,Beatrix,Brody,Hanabi,Moskov,Miya;Belerick>Moskov,Miya,Brody,Beatrix,Hanabi;Baxia>Estes,Floryn,Rafaela,Moskov,Hanabi,Miya;Minotaur>Pharsa,Yve,Odette,Lunox,Cyclops,Harley,Eudora;Lolita>Beatrix,Brody,Hanabi,Moskov,Lesley,Pharsa;Lesley>Pharsa,Yve,Odette,Kagura,Eudora,Harley,Cyclops;Gusion>Pharsa,Yve,Odette,Lylia,Eudora,Kagura;Fanny>Hanabi,Beatrix,Brody,Pharsa,Yve;Lancelot>Pharsa,Yve,Odette,Beatrix,Brody,Hanabi;Hayabusa>Pharsa,Yve,Odette,Eudora,Kagura;Aamon>Pharsa,Yve,Odette,Lylia,Harley;Karina>Pharsa,Yve,Odette,Eudora,Harley;Helcurt>Pharsa,Yve,Cyclops;Natalia>Pharsa,Yve,Odette,Kagura;Saber>Pharsa,Yve,Odette,Lesley,Hanabi,Beatrix;Chou>Kagura,Pharsa,Yve;Martis>Pharsa,Yve,Odette,Kagura";
+const CBY={},CTO={};
+CTR.split(";").forEach(e=>{const[c,v]=e.split(">");if(!by[c])return;v.split(",").forEach(x=>{if(!by[x])return;(CBY[x]=CBY[x]||new Set()).add(c);(CTO[c]=CTO[c]||new Set()).add(x)})});
 const KITN={K:"hard CC",G:"hook",I:"immunity",U:"team protect",R:"save ult",D:"anti-dash",V:"stealth",C:"channeled ult",X:"resets",A:"anti-heal"};
 const ULT={E:"engage ult",T:"teamfight ult",P:"pick-off ult",G:"global ult",S:"self-buff ult",H:"heal/save ult",N:"minor ult"},ROLEN={T:"Tank",S:"Support",F:"Fighter",M:"Mage",X:"Marksman",A:"Assassin"},SPK={e:"early",m:"mid",l:"late"};
 const tags=h=>ROLEN[h.r]+" · "+(h.rng=="r"?"ranged":"melee")+" · peaks "+SPK[h.spk]+" · "+ULT[h.ult]+" ("+["","short","medium","long"][h.cd]+" CD)"+(h.kit?" · "+[...h.kit].map(f=>KITN[f]).join(", "):"");
 const LN={T:"roam",S:"roam",A:"jungle",M:"mid",F:"EXP lane",X:"gold"};
-const RC={T:"#3aa6a0",S:"#8f7cd6",A:"#e0793a",M:"#4d8fe0",F:"#c4a23a",X:"#d65b8a"};
+const RC={T:"#0ea5c4",S:"#1fa855",F:"#f26419",M:"#8b3dff",X:"#e8a800",A:"#e11d63"};
+const rcl=n=>by[n]?" r-"+by[n].r:"";
 let pool=new Set(),E=[],A=[],mode="E",q="",res=null,myLane="",off=false,stale=false;
 try{const sv=localStorage.getItem("lp-pool");pool=new Set(sv?JSON.parse(sv):MY)}catch(e){pool=new Set(MY)}
 let dis=new Set();try{const dv=localStorage.getItem("lp-dis");if(dv)dis=new Set(JSON.parse(dv))}catch(e){}
@@ -463,7 +473,9 @@ function score(h){
   /* what my team needs */
   const k5=(nA+1)/5,dfc=(t,have)=>Math.max(0,t*k5-have);
   add(1.5*Math.min(h.ctl,dfc(10,al.ctl)),"adds crowd control");
-  add(1.7*Math.min(Math.max(0,h.tgh-1),dfc(12,al.tgh)),"adds frontline");
+  /* mostly-skirmisher allies: trim the frontline/engage bonuses a little (not a lot) */
+  const skN=A.filter(n=>{const x=by[n];return x&&(x.r=="F"||x.r=="A")&&x.tgh<=3}).length,skMost=nA>=2&&skN/nA>=.6;
+  add((skMost?1.45:1.7)*Math.min(Math.max(0,h.tgh-1),dfc(12,al.tgh)),"adds frontline");
   add(1.2*Math.min(Math.max(0,h.dmg-1),dfc(18,al.dmg)),"adds damage");
   const tot=al.ph+al.mg;
   if(tot>0){const sk=(al.ph-al.mg)/tot,ti=h.d=="P"?1:h.d=="M"?-1:0,v=-sk*ti*5*Math.min(1,tot/8);
@@ -473,7 +485,7 @@ function score(h){
     if(al.sp.l>=2&&!al.sp.e&&h.spk=="e")add(3.5,"early pressure for a late-game team");
     if(al.sp.e>=3&&h.spk=="e")add(-2.5,"team is already early-game heavy");
     const eng=al.u.E||0;
-    if(!eng&&h.ult=="E")add(5*wa,"engage your team lacks");else if(eng>=2&&h.ult=="E")add(-2.5,"team already has engage");
+    if(!eng&&h.ult=="E")add((skMost?4:5)*wa,"engage your team lacks");else if(eng>=2&&h.ult=="E")add(-2.5,"team already has engage");
     if(!al.heal&&(h.ult=="H"||h.t.includes("h")))add(4*wa,"healing and sustain for the team");
   }
   if(nA>=3){
@@ -498,6 +510,16 @@ function score(h){
     if(en.sp.l>=3&&h.spk=="e")add(we*3.5,"early pressure vs their late-game team");
     if(en.sp.e>=3&&(h.spk=="l"||h.tgh>=4))add(we*3,"safe scaling vs their early-game team");
     if((en.u.E||0)>=2&&h.ctl>=3)add(we*2,"CC to stop their engage");
+  }
+  /* hero counters: penalty when an enemy counters you, a smaller bonus when you counter their heroes */
+  if(nE){
+    const cBy=E.filter(n=>CBY[h.n]&&CBY[h.n].has(n)),cTo=E.filter(n=>CTO[h.n]&&CTO[h.n].has(n)),jn=l=>l.slice(0,3).join(", ");
+    if(cBy.length)add(-Math.min(8,3.5*cBy.length),"countered by "+jn(cBy));
+    if(cTo.length)add(Math.min(4.5,1.5*cTo.length),"counters "+jn(cTo));
+    if(h.r=="T"){
+      const tkC=E.filter(n=>{const x=by[n];return x.r=="T"&&/[KG]/.test(x.kit)&&!cBy.includes(n)});
+      if(tkC.length)add(-Math.min(2.4,1.2*tkC.length)*(h.mob>=3?1:.5)*(h.kit.includes("I")?.6:1),"enemy tank "+jn(tkC)+" can disrupt your tank");
+    }
   }
   /* skills, ultimates and cooldowns */
   const kE=E.map(n=>by[n]),kA=A.map(n=>by[n]),kh=(l,f)=>l.filter(x=>x.kit.includes(f)),hk=f=>h.kit.includes(f);
@@ -589,7 +611,7 @@ function needs(){
 }
 function slots(list,max,side){
   const M=side=="A"?AL:EL;let o="";
-  for(let i=0;i<max;i++){const n=list[i];o+=n?`<div class="slot f"><span class="sn">${hx(n)}</span><button class="lc${M[n]?" on":""}" data-a="sl" data-v="${side}|${hx(n)}" aria-label="Set lane for ${hx(n)}">${M[n]?LAB[M[n]]:"lane"}</button><button data-a="rm" data-v="${hx(n)}" aria-label="Remove ${hx(n)}">✕</button></div>`:`<div class="slot">—</div>`}
+  for(let i=0;i<max;i++){const n=list[i];o+=n?`<div class="slot f"><span class="sn${rcl(n)}">${hx(n)}</span><button class="lc${M[n]?" on":""}" data-a="sl" data-v="${side}|${hx(n)}" aria-label="Set lane for ${hx(n)}">${M[n]?LAB[M[n]]:"lane"}</button><button data-a="rm" data-v="${hx(n)}" aria-label="Remove ${hx(n)}">✕</button></div>`:`<div class="slot">—</div>`}
   return o;
 }
 function analyse(){
@@ -608,7 +630,7 @@ function renderRes(){
   const top=res.out.slice(0,8);
   r.innerHTML=hd+(top.length?top.map((x,i)=>{
     const w=x.why.sort((a,b)=>Math.abs(b[0])-Math.abs(a[0])).slice(0,6).map(([v,t])=>`<b class="${v<0?"neg":""}">${v>0?"+":"−"}${Math.abs(v).toFixed(1)}</b> ${hx(t)}`).join(" · ");
-    return `<div class="card${i?"":" top"}"><div class="row"><span class="nm">${x.h.n}</span><span class="sc">${x.s.toFixed(1)}</span></div><div class="bar"><i style="width:${x.s}%"></i></div><div class="tg">${tags(x.h)}</div><div class="why">${w||"No strong signals, a neutral pick."}</div></div>`}).join(""):'<div class="msg">No active pool heroes fit this lane. Tick "Include heroes from other roles" or switch heroes on in the Pool tab.</div>');
+    return `<div class="card${i?"":" top"}"><div class="row"><span class="nm${rcl(x.h.n)}">${x.h.n}</span><span class="sc">${x.s.toFixed(1)}</span></div><div class="bar"><i style="width:${x.s}%"></i></div><div class="tg">${tags(x.h)}</div><div class="why">${w||"No strong signals, a neutral pick."}</div></div>`}).join(""):'<div class="msg">No active pool heroes fit this lane. Tick "Include heroes from other roles" or switch heroes on in the Pool tab.</div>');
 }
 function matchList(){return H.filter(h=>h.n.toLowerCase().includes(q)).sort((a,b)=>b.n.toLowerCase().startsWith(q)-a.n.toLowerCase().startsWith(q))}
 function pickHero(v){const cur=mode=="E"?E:A,oth=mode=="E"?A:E,max=mode=="E"?5:4,i=cur.indexOf(v);if(i>-1){cur.splice(i,1);delete (mode=="E"?EL:AL)[v]}else if(cur.length<max&&!oth.includes(v))cur.push(v)}
@@ -617,7 +639,7 @@ function renderGrid(){
   const cur=mode=="E"?E:mode=="A"?A:null,oth=mode=="E"?A:mode=="A"?E:[];
   $("grid").innerHTML=matchList().map(h=>{
     const on=mode=="P"?pool.has(h.n):cur.includes(h.n),tk=!on&&(mode=="P"?false:oth.includes(h.n));
-    return `<button class="h${on?" on":""}${tk?" tk":""}" data-a="hero" data-v="${h.n}"><s style="background:${RC[h.r]}"></s>${h.n}${mode!="P"&&pool.has(h.n)?"<em>★</em>":""}</button>`}).join("");
+    return `<button class="h${on?" on":""}${tk?" tk":""}${rcl(h.n)}" data-a="hero" data-v="${h.n}"><s style="background:${RC[h.r]}"></s>${h.n}${mode!="P"&&pool.has(h.n)?"<em>★</em>":""}</button>`}).join("");
 }
 function render(){
   $("sa").innerHTML=slots(A,4,"A");$("se").innerHTML=slots(E,5,"E");
@@ -709,7 +731,7 @@ function showMeta(){
   $("mlanes").innerHTML=LB.map(([v,t])=>`<button data-a="mlane" data-v="${v}"${v==mLane?' class="on"':""}>${t}</button>`).join("");
   const L=META.lanes[mLane];
   const rows=L.list.split(",").map(x=>{const m=x.trim().match(/^(.+)\s+([SABCD])$/);if(!m)return"";const n=m[1],t=m[2];
-    return `<div class="card"><div class="row"><span class="nm">${esc(n)}${pool.has(n)?" ★":""}</span><span class="tier t${t=="S"||t=="A"?t:"B"}">${t}</span></div></div>`}).join("");
+    return `<div class="card"><div class="row"><span class="nm${rcl(n)}">${esc(n)}${pool.has(n)?" ★":""}</span><span class="tier t${t=="S"||t=="A"?t:"B"}">${t}</span></div></div>`}).join("");
   $("mout").innerHTML=`<div class="note">${esc(META.patch)}, updated ${esc(META.updated)}. ★ = in your pool. Source: ${esc(META.source)}.</div>`+rows+`<div class="note">Most banned in this lane: ${esc(L.ban)}. ${esc(META.note)}</div>`;
 }
 
@@ -741,7 +763,7 @@ function render_hist(){
   if(bt)ins.push(`Best teammate (2+ games): ${hx(bt[0])}, ${pct(bt[1].w,bt[1].l)}%.`);
   o+=`<div class="note">${ins.join(" ")}</div>`;
   o+=tbl("By hero",byH,1,40)+mvpTbl()+tbl("By lane",tally(m=>[m.lane]),1,5)+tbl("Against enemy heroes (2+ games)",byE,2,25)+tbl("With teammates (2+ games)",byT,2,25);
-  o+='<div class="head">Recent matches</div>'+matches.slice(0,4).map((m,i)=>`<div class="card"><div class="row"><span class="nm">${hx(m.hero)} <span style="color:var(--${m.win?"win":"loss"})">${m.win?"Win":"Loss"}</span>${m.mvp?` <span class="mvp">${m.win?"MVP":"MVP loss"}</span>`:""}</span><span style="display:flex;gap:6px"><button class="clr" data-a="mvpm" data-v="${i}" aria-label="Toggle MVP">${m.mvp?"MVP ✓":"MVP"}</button><button class="clr" data-a="delm" data-v="${i}" aria-label="Delete match">✕</button></span></div><div class="why">${hx(m.lane)}, ${new Date(m.date).toLocaleDateString()}<br>With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
+  o+='<div class="head">Recent matches</div>'+matches.slice(0,4).map((m,i)=>`<div class="card"><div class="row"><span class="nm"><span class="${rcl(m.hero).trim()}">${hx(m.hero)}</span> <span style="color:var(--${m.win?"win":"loss"})">${m.win?"Win":"Loss"}</span>${m.mvp?` <span class="mvp">${m.win?"MVP":"MVP loss"}</span>`:""}</span><span style="display:flex;gap:6px"><button class="clr" data-a="mvpm" data-v="${i}" aria-label="Toggle MVP">${m.mvp?"MVP ✓":"MVP"}</button><button class="clr" data-a="delm" data-v="${i}" aria-label="Delete match">✕</button></span></div><div class="why">${hx(m.lane)}, ${new Date(m.date).toLocaleDateString()}<br>With: ${hx(m.team.join(", ")||"-")}<br>Vs: ${hx(m.enemy.join(", ")||"-")}${m.notes?"<br>Note: "+hx(m.notes):""}</div></div>`).join("");
   $("hlog").innerHTML=o;
 }
 let ml={hero:"",team:[],enemy:[]};
@@ -769,7 +791,7 @@ function render_pool(){
   $("pout").innerHTML=ROLES.map(([r,t])=>{
     const L=mine.filter(n=>by[n].r==r).sort();if(!L.length)return"";
     const k=L.filter(n=>!dis.has(n)).length;
-    return `<div class="row" style="margin-top:14px;align-items:center"><div class="head" style="color:${RC[r]};margin:0">${t} (${k}/${L.length})</div><button class="clr" data-a="pgrp" data-v="${r}">${k?"All off":"All on"}</button></div><div class="grid" style="margin-top:6px">`+L.map(n=>`<button class="h${dis.has(n)?" x":""}" data-a="ptog" data-v="${hx(n)}"><s style="background:${RC[r]}"></s>${hx(n)}</button>`).join("")+"</div>";
+    return `<div class="row" style="margin-top:14px;align-items:center"><div class="head" style="color:var(--r${r});margin:0">${t} (${k}/${L.length})</div><button class="clr" data-a="pgrp" data-v="${r}">${k?"All off":"All on"}</button></div><div class="grid" style="margin-top:6px">`+L.map(n=>`<button class="h${dis.has(n)?" x":""}" data-a="ptog" data-v="${hx(n)}"><s style="background:${RC[r]}"></s>${hx(n)}</button>`).join("")+"</div>";
   }).join("")||'<div class="msg">Your pool is empty. Add heroes from Draft, then My pool.</div>';
 }
 function mvpDraw(){const b=$("mvpb");if(!b)return;const r=$("lr").value;b.className="clr mvpb"+(ml.mvp?" on":"");b.setAttribute("aria-pressed",ml.mvp?"true":"false");b.textContent=ml.mvp?(r==="0"?"MVP loss ✓ (not my fault)":"MVP ✓"):(r==="0"?"Tap if you were MVP in this loss":"Tap if you were MVP")}
@@ -817,7 +839,7 @@ function wrRows(list,fn){const t={};list.forEach(m=>{[...new Set(fn(m))].forEach
 const lk=k=>by[k]?`<button class="lk" data-a="hopen" data-v="${hx(k)}">${hx(k)}</button>`:hx(k);
 function barList(rows,o={}){
   if(!rows.length)return `<div class="msg">${o.empty||"Nothing logged yet."}</div>`;
-  return `<div class="bl">`+rows.map(r=>{const p=Math.round(100*r.w/(r.w+r.l));return `<div class="br${o.wide?" wd":""}"><span class="bk">${o.av&&by[r.k]?av(r.k,"sm"):""}<span class="bn">${o.link===false?hx(r.k):lk(r.k)}</span></span><span class="bt" role="img" aria-label="${p}% win rate"><i style="width:${p}%"></i></span><span class="bv">${p}%<small>${r.w}-${r.l}</small></span></div>`}).join("")+`</div><div class="note" style="margin:6px 0 0">Bars show win rate; the tick marks 50%.</div>`;
+  return `<div class="bl">`+rows.map(r=>{const p=Math.round(100*r.w/(r.w+r.l));return `<div class="br${o.wide?" wd":""}"><span class="bk">${o.av&&by[r.k]?av(r.k,"sm"):""}<span class="bn${rcl(r.k)}">${o.link===false?hx(r.k):lk(r.k)}</span></span><span class="bt" role="img" aria-label="${p}% win rate"><i style="width:${p}%"></i></span><span class="bv">${p}%<small>${r.w}-${r.l}</small></span></div>`}).join("")+`</div><div class="note" style="margin:6px 0 0">Bars show win rate.</div>`;
 }
 function splitBar(w,l){return `<div class="sb" role="img" aria-label="${w} wins, ${l} losses">${w?`<i class="sw" style="flex:${w}" title="Wins: ${w}"></i>`:""}${l?`<i class="sl" style="flex:${l}" title="Losses: ${l}"></i>`:""}</div><div class="lg"><span><i class="sw"></i>Wins ${w}</span><span><i class="sl"></i>Losses ${l}</span></div>`}
 function formStrip(ms){const r=ms.slice(0,10).reverse();return `<div class="fs">`+r.map(m=>`<span class="fq ${m.win?"w":"l"}" title="${m.win?"Win":"Loss"}${m.mvp?" · MVP":""} · ${new Date(m.date).toLocaleDateString()}">${m.win?"W":"L"}${m.mvp?"<em>★</em>":""}</span>`).join("")+`</div><div class="note" style="margin:6px 0 0">Last ${r.length} games, oldest to newest. ★ = MVP.</div>`}
@@ -846,14 +868,14 @@ function render_heroes(){
   const g=n=>st[n]?st[n].w+st[n].l:0,wr=n=>g(n)?st[n].w/g(n):-1;
   L.sort(hvSort=="name"?(a,b)=>a.localeCompare(b):hvSort=="wr"?(a,b)=>wr(b)-wr(a)||g(b)-g(a)||a.localeCompare(b):(a,b)=>g(b)-g(a)||wr(b)-wr(a)||a.localeCompare(b));
   $("hv-sum").textContent=`${Object.keys(st).filter(n=>by[n]).length} heroes played across ${matches.length} logged matches. Tap a hero for your stats with them.`;
-  $("hv-grid").innerHTML=L.length?L.map(n=>{const s=st[n],gg=g(n);return `<button class="hc${gg?"":" un"}" data-a="hopen" data-v="${hx(n)}"><span class="hc-art" style="--rc:${RC[by[n].r]}">${hx(ini(n))}${gg?`<span class="hc-wr">${pct(s.w,s.l)}%</span>`:""}${s&&s.mv?`<span class="hc-mv">★${s.mv}</span>`:""}</span><span class="hc-b"><span class="hc-nm">${hx(n)}</span><span class="hc-rl">${ROLEN[by[n].r]}</span><span class="hc-st">${gg?`${s.w}-${s.l} · ${gg} game${gg>1?"s":""}`:"Not played yet"}</span></span></button>`}).join(""):'<div class="msg">No heroes match.</div>';
+  $("hv-grid").innerHTML=L.length?L.map(n=>{const s=st[n],gg=g(n);return `<button class="hc${gg?"":" un"}" data-a="hopen" data-v="${hx(n)}"><span class="hc-art" style="--rc:${RC[by[n].r]}">${hx(ini(n))}${gg?`<span class="hc-wr">${pct(s.w,s.l)}%</span>`:""}${s&&s.mv?`<span class="hc-mv">★${s.mv}</span>`:""}</span><span class="hc-b"><span class="hc-nm${rcl(n)}">${hx(n)}</span><span class="hc-rl">${ROLEN[by[n].r]}</span><span class="hc-st">${gg?`${s.w}-${s.l} · ${gg} game${gg>1?"s":""}`:"Not played yet"}</span></span></button>`}).join(""):'<div class="msg">No heroes match.</div>';
 }
 function heroDetail(n){
   const h=by[n],ms=matches.filter(m=>m.hero==n),g=ms.length,w=ms.filter(m=>m.win).length,l=g-w,mv=ms.filter(m=>m.mvp).length,mvl=ms.filter(m=>m.mvp&&!m.win).length;
   const mr=MR[n],lt=tierOf(n,LN[h.r]);
   const chips=[ROLEN[h.r],LAB[LN[h.r]]+(LN[h.r]=="EXP lane"?"":" lane"),h.rng=="r"?"Ranged":"Melee","Peaks "+SPK[h.spk],ULT[h.ult]].concat([...h.kit].map(f=>KITN[f]));
   if(pool.has(n))chips.push(dis.has(n)?"In pool (switched off)":"In your pool ★");
-  let o=`<div class="hd-ban" style="--rc:${RC[h.r]}"><span class="hd-wm" aria-hidden="true">${hx(ini(n))}</span><button class="hd-bk" data-a="hback" aria-label="Back to heroes">←</button><div class="hd-nm">${hx(n)}</div><div class="hd-ch">${chips.map(c=>`<span>${hx(c)}</span>`).join("")}</div></div>`;
+  let o=`<div class="hd-ban" style="--rc:${RC[h.r]}"><span class="hd-wm" aria-hidden="true">${hx(ini(n))}</span><button class="hd-bk" data-a="hback" aria-label="Back to heroes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="hd-nm">${hx(n)}</div><div class="hd-ch">${chips.map(c=>`<span>${hx(c)}</span>`).join("")}</div></div>`;
   o+=`<div class="ss3"><div><b>${g?pct(w,l)+"%":"—"}</b><span>Your win rate</span></div><div><b>${g}</b><span>Games</span></div><div><b>${mv}</b><span>MVPs</span></div></div>`;
   o+=`<div class="sec">`+[["Durability",h.tgh],["Offense",h.dmg],["Control",h.ctl],["Mobility",h.mob]].map(([t,v])=>`<div class="rb"><span>${t.toUpperCase()}</span><span class="t"><i style="width:${v*20}%"></i></span><b>${v*20}</b></div>`).join("")+`<div class="note" style="margin:6px 0 0">The app's own hero ratings (estimates).${mr?` Meta ranking: <b>${mr.t}</b>${mr.wr?`, ${mr.wr}% win rate`:""}.`:""}${lt?` ${lt}-tier in ${LN[h.r]} this patch.`:""}</div></div>`;
   o+=`<div class="seg" role="tablist">`+[["ov","Overview"],["tm","Teammates"],["mu","Matchups"],["ma","Matches"]].map(([v,t])=>`<button role="tab" aria-selected="${v==hvTab}" data-a="htab" data-v="${v}"${v==hvTab?' class="on"':""}>${t}</button>`).join("")+`</div>`;
@@ -887,7 +909,7 @@ function inRange(m){if(rkTime=="all")return true;return Date.now()-new Date(m.da
 function render_rank(){
   $("rk-seg").innerHTML=[["mine","My ranking"],["meta","Meta"]].map(([v,t])=>`<button data-a="rkv" data-v="${v}"${v==rkView?' class="on"':""}>${t}</button>`).join("");
   $("rk-tl").hidden=$("rk-sl").hidden=rkView!="mine";$("rk-ml").hidden=rkView!="meta";
-  const circ=(n,v,s,c)=>`<button class="rk-i" data-a="hopen" data-v="${hx(n)}">${av(n,c)}<span class="rk-n">${hx(n)}</span><span class="rk-v">${v}</span>${s?`<span class="rk-s">${s}</span>`:""}</button>`;
+  const circ=(n,v,s,c)=>`<button class="rk-i" data-a="hopen" data-v="${hx(n)}">${av(n,c)}<span class="rk-n${rcl(n)}">${hx(n)}</span><span class="rk-v">${v}</span>${s?`<span class="rk-s">${s}</span>`:""}</button>`;
   if(rkView=="meta"){
     $("rk-upd").textContent="Updated: "+META_RANK.updated;
     let o="";["S+","S","A"].forEach(t=>{const L=Object.entries(MR).filter(([n,x])=>x.t==t&&(!rkRole||by[n].r==rkRole)).sort((a,b)=>(b[1].wr||0)-(a[1].wr||0));if(L.length)o+=`<div class="tier-h"><b>${t} Tier</b><span>· ${TIERD[t]}</span></div><div class="rk-grid">`+L.map(([n,x])=>circ(n,x.wr?x.wr.toFixed(1)+"%":"—",pool.has(n)?"★ in pool":"",pool.has(n)?"pool":"")).join("")+"</div>"});
