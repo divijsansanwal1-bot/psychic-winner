@@ -267,7 +267,7 @@ Kalea|S|M|csh
 Obsidia|M|M|pb
 Sora|F|P|mb
 Marcel|T|P|cf
-Hirara|M|M|mb
+Hirara|A|P|b
 Chip|S|M|mch`;
 const MY="Minotaur,Zetian,Masha,Gusion,Kagura,Sun,Cyclops,Alpha,Lapu-Lapu,Leomord,Selena,Aldous,Vale,Hanzo,Belerick,Kimmy,Thamuz,Minsitthar,Kadita,Faramis,Badang,Khufra,Granger,Guinevere,Esmeralda,Terizla,X.Borg,Ling,Dyrroth,Silvanna,Cici,Suyou,Lukas,Kalea,Obsidia,Sora,Marcel,Rafaela,Layla,Lolita,Hayabusa,Freya,Gord,Chou,Aurora,Vexana,Roger,Cecilion,Carmilla,Yu Zhong,Benedetta,Yve,Gloo,Phoveus,Aulus,Aamon,Valentina,Miya,Balmond,Saber,Alice,Nana,Tigreal,Karina,Franco,Bane,Clint,Floryn,Yin,Melissa,Xavier,Julian,Fredrinn,Novaria,Arlott,Ixia,Nolan,Alucard,Baxia,Lunox,Eudora,Kaja,Paquito,Hirara,Brody,Helcurt,Moskov,Argus,Odette,Lancelot,Hylos,Lesley,Angela,Valir,Martis,Hanabi,Chang'e".split(",");
 const H=D.split("\n").map(l=>{const[n,r,d,t]=l.split("|");return{n,r,d,t}}).sort((a,b)=>a.n.localeCompare(b.n));
@@ -403,13 +403,13 @@ Kalea|3333|r|m|T
 Obsidia|4122|r|l|S
 Sora|4334|m|m|S
 Marcel|2542|m|m|E
-Hirara|4224|r|m|S
+Hirara|4224|m|m|S
 Chip|2333|r|m|G`;
 const XRM={};XR.split("\n").forEach(l=>{const[n,k,r,sp,u]=l.split("|");XRM[n]={dmg:+k[0],tgh:+k[1],ctl:+k[2],mob:+k[3],rng:r,spk:sp,ult:u}});
 const XDEF={T:"2532|m|m|E",S:"1322|r|m|H",X:"4112|r|l|S",M:"4122|r|m|T",A:"4244|m|m|S",F:"4323|m|m|S"};
 H.forEach(h=>{let x=XRM[h.n];if(!x){const[k,r,sp,u]=XDEF[h.r].split("|");x={dmg:+k[0],tgh:+k[1],ctl:+k[2],mob:+k[3],rng:r,spk:sp,ult:u}}Object.assign(h,x)});
 /* ===== SKILL DATA (estimates; edit if wrong). Name:flags:ultCD. Flags: K hard CC, G hook/pull, I immunity/untargetable, U team cleanse/shield, R save/heal ult, D anti-dash, V stealth, C channeled ult, X reset/execute, A anti-heal. Ult CD 1 short, 2 medium, 3 long ===== */
-const KIT="Tigreal:K;Franco:KG:2;Atlas:KG;Johnson:K;Grock:KD;Hylos:K:2;Khufra:KD:2;Minotaur:K;Gloo:K:2;Baxia:A:2;Belerick:K;Uranus::2;Lolita:KU;Akai:K;Gatotkaca:K;Edith:K;Barats:KG:2;Angela:RU:2;Estes:R;Rafaela:RK;Diggie:UR;Mathilda:U;Floryn:R;Faramis:R;Carmilla:K;Kaja:KGD:2;Kalea:KR;Chip:U;Miya:I;Moskov:K;Hanabi:I;Lesley:VX;Wanwan:IX:1;Popol and Kupa:K:3;Brody:K;Beatrix::1;Eudora:K;Gord:KC:3;Kagura:K:1;Aurora:K:3;Lunox:I:1;Vale:K;Vexana:K:3;Zhask::3;Pharsa:C:3;Yve:C:3;Odette:KC:3;Lylia::1;Alice:K;Cyclops:K;Luo Yi:K:3;Valir:KI:3;Kadita:KI:3;Selena:K;Nana:K;Zhuxin:K;Harley::1;Novaria::3;Zilong:G;Chou:KI;Freya:K;Alpha:K;Ruby:KG;Thamuz:G;Martis:KXI:1;Paquito:K:1;Yu Zhong:K:3;Silvanna:KD;Aldous:X:3;Badang:K;Jawhead:KG;Lapu-Lapu:K;Guinevere:K;Phoveus:KD;Arlott:KX:1;Julian:K:1;Lukas:K;Khaleed:K;Yin:K:3;Fredrinn:K;Terizla:K:3;Hilda:K;Roger::1;Minsitthar:KDG:3;Argus:I;Cici::1;Joy:IX:1;Benedetta:I:1;Ling:IX:1;Hayabusa:IX;Lancelot:IX:1;Saber:KX;Karina:X:1;Helcurt:VK:3;Gusion:X:1;Natalia:V;Fanny:X:1;Nolan:X:1;Suyou:X;Aamon:VX:1;Hanzo::2;Zetian:K";
+const KIT="Tigreal:K;Franco:KG:2;Atlas:KG;Johnson:K;Grock:KD;Hylos:K:2;Khufra:KD:2;Minotaur:K;Gloo:K:2;Baxia:A:2;Belerick:K;Uranus::2;Lolita:KU;Akai:K;Gatotkaca:K;Edith:K;Barats:KG:2;Angela:RU:2;Estes:R;Rafaela:RK;Diggie:UR;Mathilda:U;Floryn:R;Faramis:R;Carmilla:K;Kaja:KGD:2;Kalea:KR;Chip:U;Miya:I;Moskov:K;Hanabi:I;Lesley:VX;Wanwan:IX:1;Popol and Kupa:K:3;Brody:K;Beatrix::1;Eudora:K;Gord:KC:3;Kagura:K:1;Aurora:K:3;Lunox:I:1;Vale:K;Vexana:K:3;Zhask::3;Pharsa:C:3;Yve:C:3;Odette:KC:3;Lylia::1;Alice:K;Cyclops:K;Luo Yi:K:3;Valir:KI:3;Kadita:KI:3;Selena:K;Nana:K;Zhuxin:K;Harley::1;Novaria::3;Zilong:G;Chou:KI;Freya:K;Alpha:K;Ruby:KG;Thamuz:G;Martis:KXI:1;Paquito:K:1;Yu Zhong:K:3;Silvanna:KD;Aldous:X:3;Badang:K;Jawhead:KG;Lapu-Lapu:K;Guinevere:K;Phoveus:KD;Arlott:KX:1;Julian:K:1;Lukas:K;Khaleed:K;Yin:K:3;Fredrinn:K;Terizla:K:3;Hilda:K;Roger::1;Minsitthar:KDG:3;Argus:KI;Cici::1;Joy:IX:1;Benedetta:I:1;Ling:IX:1;Hayabusa:IX;Lancelot:IX:1;Saber:KX;Karina:X:1;Helcurt:VK:3;Gusion:X:1;Natalia:V;Fanny:X:1;Nolan:X:1;Suyou:X;Aamon:VX:1;Hanzo::2;Zetian:K;Masha:K:2;Marcel:K:3;Hirara:I;Aulus:I;Bruno:K:2;Obsidia:D:2";
 const KM={};KIT.split(";").forEach(e=>{const[n,f,c]=e.split(":");KM[n]={kit:f||"",cd:c?+c:0}});
 const CDDEF={T:3,S:3,M:2,X:2,F:2,A:2};
 H.forEach(h=>{const k=KM[h.n]||{kit:"",cd:0};h.kit=k.kit;h.cd=k.cd||CDDEF[h.r]});
@@ -417,6 +417,94 @@ H.forEach(h=>{const k=KM[h.n]||{kit:"",cd:0};h.kit=k.kit;h.cd=k.cd||CDDEF[h.r]})
 const CTR="Khufra>Fanny,Lancelot,Gusion,Ling,Hayabusa,Benedetta,Paquito,Aamon,Joy,Karina,Natalia;Atlas>Pharsa,Yve,Odette,Lunox,Kagura,Harley,Cyclops;Franco>Pharsa,Yve,Lylia,Cici,Beatrix,Brody,Hanabi,Moskov,Miya;Belerick>Moskov,Miya,Brody,Beatrix,Hanabi;Baxia>Estes,Floryn,Rafaela,Moskov,Hanabi,Miya;Minotaur>Pharsa,Yve,Odette,Lunox,Cyclops,Harley,Eudora;Lolita>Beatrix,Brody,Hanabi,Moskov,Lesley,Pharsa;Lesley>Pharsa,Yve,Odette,Kagura,Eudora,Harley,Cyclops;Gusion>Pharsa,Yve,Odette,Lylia,Eudora,Kagura;Fanny>Hanabi,Beatrix,Brody,Pharsa,Yve;Lancelot>Pharsa,Yve,Odette,Beatrix,Brody,Hanabi;Hayabusa>Pharsa,Yve,Odette,Eudora,Kagura;Aamon>Pharsa,Yve,Odette,Lylia,Harley;Karina>Pharsa,Yve,Odette,Eudora,Harley;Helcurt>Pharsa,Yve,Cyclops;Natalia>Pharsa,Yve,Odette,Kagura;Saber>Pharsa,Yve,Odette,Lesley,Hanabi,Beatrix;Chou>Kagura,Pharsa,Yve;Martis>Pharsa,Yve,Odette,Kagura";
 const CBY={},CTO={};
 CTR.split(";").forEach(e=>{const[c,v]=e.split(">");if(!by[c])return;v.split(",").forEach(x=>{if(!by[x])return;(CBY[x]=CBY[x]||new Set()).add(c);(CTO[c]=CTO[c]||new Set()).add(x)})});
+/* ===== PATCH 2.2.16 DRAFT DATA (researched 9 Oct 2026 from mlbbhub, mlcounters and mlbb.io; all three are built on Moonton's own matchup stats). Edit any string below by hand after a patch. ===== */
+const PATCHV="2.2.16";
+const PATCHNOTE="Current patch: 2.2.16 (Season 42, 16 Sep 2026). Changes: Masha was reworked into a 3-HP-bar berserker fighter; Bruno's ult now stuns (0.5s) and slows; Marcel can now interrupt location-targeted skills; Aulus, Argus, Lukas, Kalea, Cici, Alpha, Kagura, Karina, Kaja and Aldous were buffed; Melissa, Miya, Hanabi, Paquito and Yi Sun-shin were nerfed; Sun's roaming build was reined in. Hirara (Jun 2026) and Marcel (Mar 2026) are the newest heroes.";
+/* Win rate % (all ranks, last 7 days). Used as a small meta signal. */
+const WRS="Aldous:50.63;Alpha:47.92;Alucard:47.10;Argus:55.77;Arlott:47.82;Aulus:59.76;Badang:50.27;Balmond:46.30;Bane:50.95;Chou:44.51;Cici:48.98;Dyrroth:47.89;Freya:47.89;Guinevere:51.36;Hilda:50.39;Jawhead:47.37;Khaleed:50.66;Lapu-Lapu:48.62;Leomord:50.39;Lukas:52.80;Martis:47.14;Masha:59.47;Minsitthar:51.25;Paquito:50.28;Phoveus:48.15;Roger:48.77;Ruby:49.56;Silvanna:50.89;Sora:49.77;Sun:52.25;Terizla:50.78;Thamuz:48.59;X.Borg:49.84;Yin:48.67;Yu Zhong:49.10;Zilong:45.60;Fredrinn:51.28;Akai:50.31;Atlas:51.83;Barats:51.94;Baxia:47.03;Belerick:52.16;Edith:52.68;Esmeralda:47.31;Franco:41.26;Gatotkaca:44.79;Gloo:53.99;Grock:46.72;Hylos:48.39;Johnson:48.26;Khufra:54.50;Minotaur:54.98;Tigreal:44.42;Uranus:49.17;Alice:50.93;Lolita:53.96;Angela:49.39;Carmilla:53.71;Chip:47.10;Diggie:53.31;Estes:52.84;Faramis:51.30;Floryn:54.12;Kaja:49.50;Kalea:44.89;Marcel:58.00;Mathilda:44.96;Rafaela:59.21;Aurora:48.47;Cecilion:50.96;Chang'e:47.92;Cyclops:51.23;Eudora:51.31;Gord:52.87;Harith:46.15;Kadita:51.47;Kagura:51.91;Lunox:48.75;Luo Yi:47.79;Lylia:49.57;Nana:47.22;Novaria:49.63;Odette:49.54;Pharsa:47.24;Vale:49.94;Valentina:45.71;Valir:53.53;Vexana:49.42;Xavier:49.84;Yve:51.84;Zetian:50.81;Zhask:52.24;Zhuxin:50.31;Beatrix:51.21;Brody:50.72;Bruno:53.00;Claude:49.18;Clint:50.73;Granger:42.98;Hanabi:52.04;Irithel:52.36;Ixia:49.85;Karrie:48.42;Layla:49.04;Lesley:48.20;Melissa:48.31;Miya:49.58;Moskov:50.26;Natan:51.28;Obsidia:53.59;Popol and Kupa:54.24;Wanwan:48.23;Kimmy:48.68;Yi Sun-shin:49.76;Aamon:49.62;Benedetta:52.44;Fanny:41.88;Gusion:48.25;Hanzo:49.41;Harley:47.63;Hayabusa:47.98;Helcurt:46.88;Hirara:53.31;Joy:48.71;Julian:49.90;Karina:47.47;Lancelot:42.68;Ling:52.42;Natalia:50.92;Nolan:48.80;Saber:49.59;Selena:48.92;Suyou:49.54";
+/* Win-rate change from 8 min games to 20+ min games, in points. Plus = scales late, minus = strongest early. Heroes at +6.5 or more count as late, -6.5 or less as early. */
+const GLS="Aldous:21.7;Alpha:6.9;Alucard:12.7;Argus:11.6;Aulus:-9.9;Badang:-5.3;Balmond:7.1;Bane:-6.2;Chou:6.3;Cici:2.6;Dyrroth:-4.0;Guinevere:-11.1;Hilda:10.4;Khaleed:-9.5;Lapu-Lapu:-13.2;Lukas:2.3;Masha:-2.4;Paquito:-6.9;Phoveus:4.8;Roger:10.6;Ruby:-10.3;Silvanna:3.3;Sora:-11.1;Sun:4.8;Terizla:-9.7;Thamuz:3.9;X.Borg:-5.0;Yin:7.1;Yu Zhong:2.8;Zilong:11.7;Fredrinn:8.1;Akai:1.7;Atlas:-6.7;Barats:-15.8;Baxia:-2.6;Belerick:-6.7;Edith:-3.1;Esmeralda:-3.1;Franco:12.2;Gatotkaca:5.4;Gloo:-5.9;Grock:4.1;Hylos:9.9;Johnson:14.2;Khufra:1.7;Minotaur:-1.3;Tigreal:6.0;Uranus:-6.5;Alice:2.6;Angela:4.2;Carmilla:-9.1;Chip:4.0;Diggie:-10.6;Estes:-16.7;Floryn:-13.7;Kaja:-4.8;Kalea:3.0;Lolita:1.0;Marcel:-13.2;Mathilda:15.3;Rafaela:-2.4;Aurora:1.8;Cecilion:-2.4;Chang'e:6.8;Cyclops:10.3;Eudora:-5.0;Gord:-10.1;Kadita:-4.2;Kagura:-8.7;Lunox:7.8;Lylia:-5.1;Nana:2.5;Novaria:2.1;Odette:2.1;Pharsa:2.5;Vale:9.0;Valentina:2.9;Valir:-5.6;Vexana:-7.7;Xavier:-3.1;Yve:-10.7;Zetian:5.5;Zhask:2.0;Zhuxin:2.3;Beatrix:-3.2;Brody:-19.9;Bruno:1.6;Claude:3.8;Clint:-16.9;Granger:-6.6;Hanabi:-4.7;Irithel:-1.4;Ixia:-10.0;Karrie:10.8;Layla:15.6;Lesley:16.3;Melissa:10.0;Miya:10.3;Moskov:5.3;Natan:-10.1;Obsidia:-0.7;Popol and Kupa:-13.2;Wanwan:14.2;Kimmy:-11.0;Yi Sun-shin:-12.2;Aamon:-1.8;Benedetta:-10.4;Fanny:15.9;Gusion:10.5;Hanzo:3.0;Harley:3.6;Hayabusa:0.7;Helcurt:11.7;Hirara:-10.8;Joy:5.9;Julian:-5.1;Karina:20.7;Lancelot:18.7;Ling:12.5;Natalia:21.8;Nolan:-8.9;Saber:-2.0;Selena:-0.6;Suyou:-6.9";
+const WRM={},GL={};
+WRS.split(";").forEach(e=>{const i=e.lastIndexOf(":"),n=e.slice(0,i);if(by[n])WRM[n]=+e.slice(i+1)});
+GLS.split(";").forEach(e=>{const i=e.lastIndexOf(":"),n=e.slice(0,i);if(by[n])GL[n]=+e.slice(i+1)});
+H.forEach(h=>{if(WRM[h.n]!=null)h.wr=WRM[h.n];if(GL[h.n]!=null){h.gl=GL[h.n];if(h.gl>=6.5)h.spk="l";else if(h.gl<=-6.5)h.spk="e"}});
+/* Hero counters. "Counter>Victim:edge". The edge is the win-rate points the counter gains (Moonton matchup data). 1.5 to 1.8 = rough guide-based estimate. */
+const CT2S="Kalea>Aldous:2.5;Lukas>Aldous:2.5;Khufra>Aldous:1.5;Kalea>Alucard:1.5;Kalea>Arlott:2.5;Freya>Aulus:2.9;Harley>Aulus:2.2;Harith>Aulus:1.8;Zilong>Aulus:1.7;Baxia>Aulus:2.5;Aulus>Gloo:4.0;Aulus>Sun:2.5;Aulus>Badang:2.5;Aulus>Lukas:2.5;Cici>Balmond:4.6;Kalea>Chou:2.5;Sun>Cici:3.8;Aamon>Cici:3.7;Estes>Cici:2.5;X.Borg>Cici:2.5;Cici>Thamuz:3.8;Cici>Akai:2.5;Cici>Belerick:2.5;Masha>Dyrroth:3.0;Masha>Yu Zhong:2.8;Masha>Guinevere:2.1;Masha>Gloo:2.5;Freya>Masha:3.3;Gloo>Jawhead:2.8;Kalea>Khaleed:2.5;Hirara>Lapu-Lapu:2.5;Lapu-Lapu>Sora:2.5;Leomord>Eudora:2.1;Valentina>Lukas:2.9;Baxia>Lukas:2.9;Cici>Lukas:2.5;Zhuxin>Lukas:2.5;Lukas>Ling:3.3;Lukas>Natalia:2.5;Lukas>Fanny:2.5;Lukas>Arlott:2.5;Marcel>Martis:2.4;Estes>Masha:2.7;Chip>Masha:2.5;Baxia>Masha:2.5;Granger>Masha:2.5;Minsitthar>Hirara:2.0;Minsitthar>Kalea:2.5;Minsitthar>Lancelot:1.5;Minsitthar>Ling:1.5;Minsitthar>Fanny:1.5;Esmeralda>Paquito:3.0;Khufra>Paquito:2.5;Chip>Paquito:3.0;Melissa>Paquito:2.5;Paquito>Natalia:3.0;Paquito>X.Borg:2.5;Paquito>Karina:2.5;Phoveus>Hirara:2.7;Phoveus>Sora:2.5;Phoveus>Kalea:2.5;Phoveus>Lancelot:1.5;Belerick>Silvanna:2.3;Kalea>Silvanna:3.8;Khufra>Sora:2.9;Alice>Sora:2.5;Melissa>Sora:2.5;Ruby>Sora:2.5;Lukas>Sora:2.0;Sora>Estes:4.1;Sora>Faramis:2.5;Sora>Alucard:2.5;Hirara>Sun:2.9;Hirara>X.Borg:2.5;Sun>Kalea:2.5;Eudora>Yin:2.0;Belerick>Zilong:3.0;Kalea>Zilong:2.5;Marcel>Akai:3.5;Marcel>Atlas:5.4;Atlas>Eudora:2.6;Barats>Eudora:2.5;Baxia>Obsidia:5.3;Baxia>Estes:1.5;Lesley>Belerick:3.1;Karrie>Belerick:2.5;X.Borg>Belerick:2.5;Brody>Belerick:2.5;Beatrix>Belerick:2.7;Bruno>Belerick:2.9;Yve>Belerick:2.8;Belerick>Miya:2.4;Belerick>Kimmy:2.5;Belerick>Zhask:2.5;Belerick>Johnson:2.5;Belerick>Franco:2.5;Belerick>Saber:2.5;Esmeralda>Marcel:2.5;Franco>Fanny:1.5;Franco>Hayabusa:1.5;Faramis>Gloo:4.6;Moskov>Gloo:4.4;Joy>Gloo:3.7;Alice>Gloo:2.5;Gloo>Aamon:3.5;Gloo>Johnson:2.5;Gloo>Odette:2.9;Gloo>Chang'e:2.9;Gloo>Zetian:2.2;Marcel>Khufra:2.5;Khufra>Eudora:2.5;Khufra>Fanny:1.5;Khufra>Lancelot:1.5;Alice>Minotaur:2.5;Lylia>Minotaur:2.5;Ixia>Minotaur:2.5;Minotaur>Kalea:1.5;Zetian>Tigreal:2.6;Tigreal>Kalea:2.5;Uranus>Hirara:2.5;Alice>Kalea:2.5;Angela>Marcel:4.9;Floryn>Marcel:4.2;Lesley>Marcel:4.0;Cyclops>Marcel:2.5;Carmilla>Chip:4.1;Carmilla>Kalea:2.5;Chip>Selena:2.5;Diggie>Kalea:2.5;Diggie>Obsidia:2.5;Estes>Obsidia:2.5;Faramis>Kalea:2.5;Eudora>Floryn:2.5;Eudora>Irithel:2.5;Eudora>Zilong:2.0;Odette>Kaja:4.0;Lunox>Kaja:2.8;Zhask>Kaja:2.5;Hanabi>Kaja:2.5;Kaja>Valir:3.0;Kaja>Kimmy:2.5;Kaja>Grock:2.5;Hanabi>Kalea:2.5;Natalia>Kalea:4.0;Hirara>Aurora:2.5;Cyclops>Hirara:2.2;Odette>Hirara:2.5;Odette>Obsidia:2.5;Xavier>Hirara:2.2;Saber>Hirara:2.5;Marcel>Kadita:2.8;Valentina>Zetian:2.5;Floryn>Zetian:2.5;Mathilda>Zetian:2.5;Lylia>Kalea:2.5;Zetian>Natalia:2.8;Obsidia>Benedetta:3.0;Obsidia>Helcurt:2.5;Obsidia>Hayabusa:2.5;Kalea>Helcurt:2.5;Kalea>Fanny:2.5;Helcurt>Popol and Kupa:1.5;Hirara>Hanzo:2.3;Hirara>Joy:2.5;Hirara>Ixia:2.5;Karina>Kalea:2.0";
+const CT2={};
+function addCt(c,v,d){if(!by[c]||!by[v]||c==v)return;(CT2[c]=CT2[c]||{})[v]=Math.max((CT2[c]&&CT2[c][v])||0,d)}
+CT2S.split(";").forEach(e=>{const i=e.lastIndexOf(":"),p=e.slice(0,i).split(">");addCt(p[0],p[1],+e.slice(i+1))});
+/* the older guide-based list fills the gaps, but never overrides a stat-backed pair that points the other way */
+CTR.split(";").forEach(e=>{const[c,v]=e.split(">");v.split(",").forEach(x=>{if(!(CT2[x]&&CT2[x][c]))addCt(c,x,1.8)})});
+/* Teammate synergy. "A~B:edge" = win-rate points the pair gains together (negative = bad pairing). */
+const SYS="Aldous~Belerick:2.5;Aulus~Cici:3.5;Aulus~Masha:3.8;Aulus~Granger:2.5;Aulus~Sora:2.9;Aulus~Obsidia:2.5;Arlott~Chip:6.4;Chip~Odette:5.2;Chip~Masha:5.0;Chip~Lukas:4.3;Lukas~Floryn:2.5;Lukas~Phoveus:2.5;Gloo~Bane:2.8;Gloo~Sun:2.5;Gloo~Helcurt:2.5;Hirara~Joy:8.9;Hirara~Angela:4.5;Hirara~Lunox:4.0;Hirara~Valentina:5.0;Hirara~Floryn:2.5;Hirara~Bruno:2.5;Hirara~Barats:2.5;Kaja~Aurora:4.1;Marcel~Saber:3.8;Marcel~Natalia:3.5;Marcel~Kalea:3.1;Natalia~Belerick:2.6;Natalia~Minotaur:3.1;Natalia~Zetian:2.5;Angela~Belerick:2.5;Belerick~Saber:2.5;Minotaur~Saber:2.5;Minotaur~Chou:2.5;Eudora~Zhuxin:5.3;Freya~Obsidia:2.5;Masha~Obsidia:2.5;Lapu-Lapu~Paquito:2.5;Paquito~Khaleed:2.5;Paquito~Yve:2.5;Sora~Bane:2.5;Sora~Julian:2.5;Kalea~Floryn:2.5;Kalea~Minsitthar:2.5;Zetian~Harley:2.5;Aamon~Zetian:2.5;Fanny~Masha:2.5;Belerick~Minsitthar:2.5;Atlas~Yve:1.5;Atlas~Pharsa:1.5;Atlas~Novaria:1.5;Gloo~Khufra:-2.5;Gloo~Khaleed:-2.5;Belerick~Khufra:-2.5;Fredrinn~Belerick:-2.5;Roger~Hirara:-2.5";
+const SY={};
+SYS.split(";").forEach(e=>{const i=e.lastIndexOf(":"),p=e.slice(0,i).split("~"),d=+e.slice(i+1);if(!by[p[0]]||!by[p[1]])return;(SY[p[0]]=SY[p[0]]||{})[p[1]]=d;(SY[p[1]]=SY[p[1]]||{})[p[0]]=d});
+/* Short skill notes for new, reworked or often-misremembered heroes. They go into the Gemini prompts and the hero page. */
+const NOTES={
+"Masha":"Reworked in 2.2.16 into a sustained berserker fighter with 3 HP bars (she dies only when the last is gone). Wound turns into a Feral state with big attack speed, move speed and resilience and wide claw basics. S1 slow wave, S2 dash claw (cooldown resets when she loses a life), ult is a charge that stuns and knocks back nearby enemies.",
+"Marcel":"Support released Mar 2026. Passive Platinum Snap deals true damage, immobilises and shields an ally (12s per target). S1 slows, S2 gives haste and a dash, ult Golden Hour freezes everyone except him for 3s and freezes projectiles. In 2.2.16 he can interrupt location-targeted skills (Eudora's ult, Vexana's S2). Weak to sustain supports and Lesley.",
+"Hirara":"Newest assassin and jungler (Jun 2026) and the most banned hero. Combo skills including Falling Maple (untargetable) and Infernal Torrent. Stat counters: Saber, Phoveus, Minsitthar, Cyclops, Odette. Pairs best with Joy.",
+"Aulus":"Revamped fighter (Apr 2026), buffed in 2.2.16. Passive Fighting Spirit stacks attack speed. S1 Charge gives move speed and control immunity if he is not hard-CC'd within 2s. S2 fan slash plus slow, ult repeated axe swings then a big slash. Strongest early and weaker in very long games.",
+"Kaja":"Revamped support (Aug 2026). Passive Paralysis slows and reduces damage of enemies he hits. S1 heal ring, S2 dash/knockback then flight over terrain, ult Divine Binding lassos and drags a group.",
+"Kalea":"Support/fighter (2025), buffed in 2.2.16. Water zones heal, S1 slam slows 40% for 1.5s, S2 charge knocks up, ult tail grab and slam (cannot grab CC-immune targets). Low win rate and countered by many heroes.",
+"Obsidia":"Marksman (2025). Bone Shards (max 25) are fired by basic attacks, S1 needle, S2 huge brief move speed, ult sticks to a marked target and blocks its displacement (anti-dash).",
+"Sora":"Fighter/assassin (2025). Ult ascends to Thunder (HP converts to attack, assassin) or Torrent (attack converts to HP, tank). Cloudstep stacks (5) unlock True Art leaps. Very strong early.",
+"Zetian":"Mage (2025). 3-wave S1, S2 Phoenix Spirit slows and shreds magic defense, passive knockback-stun plus shield (120s cooldown), ult is a global reveal with magic damage, 0.8s stun on stationary targets and 40% team move speed.",
+"Bruno":"Marksman reworked in 2.2.16. Ult Worldie now applies a 0.5s stun and a large decaying slow to the first target hit, no longer reduces physical defense, and knocks back to max range.",
+"Argus":"Fighter. Ult grants temporary death immunity then heals. S1 chain pull, S2 dash that now stuns (2.2.16 buff). Strong late.",
+"Eudora":"Revamped Jan 2026. Lightning burst, stun, location-targeted ult that Marcel can now interrupt. Very high ban rate.",
+"Lukas":"Fighter. Transform ult gives bonus HP and sustain, chase dashes and a stun. Very high ban rate, buffed in 2.2.16.",
+"Chip":"Support/tank. Portals teleport the team. Huge pair synergy with Arlott, Odette, Masha and Lukas.",
+"Sun":"Clones (ult) shred defense. His roaming build was reined in during 2.2.16.",
+"Gloo":"Tank. Splits, ult attaches to an enemy, shares HP. Hard-countered by Faramis, Moskov, Aulus and Joy. Bad with Khufra or Khaleed.",
+"Belerick":"Tank. Taunt ult AoE, thorn passive. Statistically beaten by Lesley, Karrie, Cici, X.Borg and Brody. Very high ban rate.",
+"Khufra":"Tank. Bouncing ball stops dashes (anti-dash), ult pulls enemies.",
+"Minsitthar":"Fighter/tank. Ult zone disables dashes and blinks (anti-mobility).",
+"Phoveus":"Magic fighter. Ult repeatedly leaps onto dashing enemies (anti-dash).",
+"Rafaela":"Support. Heal, speed boost, revive passive, line stun ult. Top win rate.",
+"Paquito":"Fighter nerfed in 2.2.16. Combo stacks, knockback and stun.",
+"Hanabi":"Marksman nerfed in 2.2.16 (bounce damage falloff). CC-immune shield.",
+"Melissa":"Marksman nerfed in 2.2.16 (skill 1 attack speed and duration cut).",
+"Miya":"Marksman nerfed in 2.2.16 (single-target damage cut). Stealth ult.",
+"Yi Sun-shin":"Nerfed in 2.2.16. Global ult arrows.",
+"Brody":"Early-game marksman: his win rate falls about 20 points as games get longer.",
+"Aldous":"Fighter that scales hardest into late game (about +22 win-rate points by 20+ minutes). Ult is a map-wide dash to a target.",
+"Natalia":"Assassin that scales very hard late (+22 points). Stealth.",
+"Lancelot":"Assassin with many dashes and a low win rate. Khufra, Minsitthar and Phoveus shut it down.",
+"Fanny":"Assassin that needs a late game and has a low win rate. Cable mobility is shut down by Khufra, Chou and Kalea.",
+"Granger":"Marksman with the lowest win rate in the data. Burst bullets, ult dash.",
+"Franco":"Tank with the lowest win rate in the roster. Hook pull and suppress ult.",
+"Baxia":"Tank with anti-heal. Strong niche counter to sustain and lifesteal heroes (Obsidia, Lukas, Masha, Aulus)."
+};
+const hxn=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function heroBrief(n){
+  const h=by[n];if(!h)return"- "+n;
+  const f=x=>(x>0?"+":"")+x.toFixed(1),bits=[];
+  bits.push(ROLEN[h.r]+", "+(h.d=="P"?"physical":h.d=="M"?"magic":"mixed damage")+", "+(h.rng=="r"?"ranged":"melee"));
+  bits.push("peaks "+SPK[h.spk]+(h.gl!=null?" ("+f(h.gl)+" win-rate points from 8 to 20+ min games)":""));
+  if(h.wr)bits.push(h.wr+"% win rate this patch");
+  if(h.kit)bits.push([...h.kit].map(k=>KITN[k]).join(", "));
+  const cb=Object.keys(CT2).filter(c=>CT2[c][n]).sort((a,b)=>CT2[b][n]-CT2[a][n]).slice(0,5),ct=Object.keys(CT2[n]||{}).sort((a,b)=>CT2[n][b]-CT2[n][a]).slice(0,5);
+  const sp=Object.keys(SY[n]||{}).sort((a,b)=>SY[n][b]-SY[n][a]),sy=sp.filter(x=>SY[n][x]>0).slice(0,4),bad=sp.filter(x=>SY[n][x]<0);
+  let o="- "+n+": "+bits.join("; ");
+  if(cb.length)o+=". Countered by "+cb.map(x=>x+" "+f(CT2[x][n])).join(", ");
+  if(ct.length)o+=". Counters "+ct.map(x=>x+" "+f(CT2[n][x])).join(", ");
+  if(sy.length)o+=". Works well with "+sy.map(x=>x+" "+f(SY[n][x])).join(", ");
+  if(bad.length)o+=". Poor with "+bad.join(", ");
+  if(NOTES[n])o+=". "+NOTES[n];
+  return o;
+}
+function intelSec(n){
+  const h=by[n],f=x=>(x>0?"+":"")+x.toFixed(1);
+  const cb=Object.keys(CT2).filter(c=>CT2[c][n]).sort((a,b)=>CT2[b][n]-CT2[a][n]).slice(0,6),ct=Object.keys(CT2[n]||{}).sort((a,b)=>CT2[n][b]-CT2[n][a]).slice(0,6);
+  const sp=Object.keys(SY[n]||{}).sort((a,b)=>SY[n][b]-SY[n][a]),sy=sp.filter(x=>SY[n][x]>0).slice(0,5),bad=sp.filter(x=>SY[n][x]<0);
+  const ln=(t,l,m)=>l.length?`<div class="why" style="margin:6px 0"><b>${t}</b> ${l.map(x=>hxn(x)+" "+f(m(x))).join(", ")}</div>`:"";
+  return `<div class="sec"><h3>Draft intel (patch ${PATCHV})</h3>`+
+    (h.wr?`<div class="why" style="margin:0 0 6px"><b>Win rate</b> ${h.wr}%${h.gl!=null?` · <b>Scaling</b> ${f(h.gl)} points from 8 min to 20+ min games`:""}</div>`:"")+
+    ln("Countered by",cb,x=>CT2[x][n])+ln("Counters",ct,x=>CT2[n][x])+ln("Works well with",sy,x=>SY[n][x])+ln("Avoid pairing with",bad,x=>SY[n][x])+
+    (NOTES[n]?`<div class="note" style="margin:8px 0 0">${hxn(NOTES[n])}</div>`:"")+
+    `<div class="note" style="margin:8px 0 0">Numbers are win-rate points from Moonton matchup data. Values around 1.5 to 1.8 are rough guide-based estimates.</div></div>`;
+}
 const KITN={K:"hard CC",G:"hook",I:"immunity",U:"team protect",R:"save ult",D:"anti-dash",V:"stealth",C:"channeled ult",X:"resets",A:"anti-heal"};
 const ULT={E:"engage ult",T:"teamfight ult",P:"pick-off ult",G:"global ult",S:"self-buff ult",H:"heal/save ult",N:"minor ult"},ROLEN={T:"Tank",S:"Support",F:"Fighter",M:"Mage",X:"Marksman",A:"Assassin"},SPK={e:"early",m:"mid",l:"late"};
 const tags=h=>ROLEN[h.r]+" · "+(h.rng=="r"?"ranged":"melee")+" · peaks "+SPK[h.spk]+" · "+ULT[h.ult]+" ("+["","short","medium","long"][h.cd]+" CD)"+(h.kit?" · "+[...h.kit].map(f=>KITN[f]).join(", "):"");
@@ -513,9 +601,11 @@ function score(h){
   }
   /* hero counters: penalty when an enemy counters you, a smaller bonus when you counter their heroes */
   if(nE){
-    const cBy=E.filter(n=>CBY[h.n]&&CBY[h.n].has(n)),cTo=E.filter(n=>CTO[h.n]&&CTO[h.n].has(n)),jn=l=>l.slice(0,3).join(", ");
-    if(cBy.length)add(-Math.min(8,3.5*cBy.length),"countered by "+jn(cBy));
-    if(cTo.length)add(Math.min(4.5,1.5*cTo.length),"counters "+jn(cTo));
+    const jn=l=>l.slice(0,3).join(", "),ed=(c,v)=>(CT2[c]&&CT2[c][v])||0;
+    const cBy=E.filter(n=>ed(n,h.n)>0).sort((a,b)=>ed(b,h.n)-ed(a,h.n)),cTo=E.filter(n=>ed(h.n,n)>0).sort((a,b)=>ed(h.n,b)-ed(h.n,a));
+    const eb=cBy.reduce((a,n)=>a+ed(n,h.n),0),et=cTo.reduce((a,n)=>a+ed(h.n,n),0);
+    if(cBy.length)add(-Math.min(10,eb*1.5),"countered by "+cBy.slice(0,3).map(n=>n+" (+"+ed(n,h.n).toFixed(1)+")").join(", "));
+    if(cTo.length)add(Math.min(6,et*0.9),"counters "+cTo.slice(0,3).map(n=>n+" (+"+ed(h.n,n).toFixed(1)+")").join(", "));
     if(h.r=="T"){
       const tkC=E.filter(n=>{const x=by[n];return x.r=="T"&&/[KG]/.test(x.kit)&&!cBy.includes(n)});
       if(tkC.length)add(-Math.min(2.4,1.2*tkC.length)*(h.mob>=3?1:.5)*(h.kit.includes("I")?.6:1),"enemy tank "+jn(tkC)+" can disrupt your tank");
@@ -557,6 +647,18 @@ function score(h){
     if(prot.length&&h.mob>=4&&h.rng=="m")add(2,nm(prot)+" keeps you alive while diving");
     if(/[RU]/.test(h.kit)&&kA.filter(x=>x.mob>=4&&x.rng=="m").length>=2)add(2,"protects your divers");
     if(hk("G")&&kA.filter(x=>x.t.includes("b")).length>=2)add(2,"your hook sets up your team's burst");
+  }
+  /* teammate synergy from pair stats: pairings often swing win rate more than single counters */
+  if(nA){
+    const sy=A.filter(n=>SY[h.n]&&SY[h.n][n]!=null).map(n=>[n,SY[h.n][n]]).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1]));
+    if(sy.length){const tt=sy.reduce((a,x)=>a+x[1],0);add(Math.max(-6,Math.min(9,tt*1.6)),(tt>=0?"synergy with ":"poor fit with ")+sy.slice(0,3).map(x=>x[0]+" ("+(x[1]>0?"+":"")+x[1].toFixed(1)+")").join(", "))}
+  }
+  /* current-patch win rate */
+  if(h.wr)add(Math.max(-2.5,Math.min(2.5,(h.wr-50)*.2)),h.wr+"% win rate this patch");
+  /* picking early: many heroes can still counter this one */
+  if(nE<4){
+    const risky=Object.keys(CT2).filter(c=>CT2[c][h.n]>=2.4&&!E.includes(c)&&!A.includes(c));
+    if(risky.length>=3)add(-0.35*(Math.min(6,risky.length)-2)*((4-nE)/4),"many heroes can still counter it ("+risky.slice(0,3).join(", ")+")");
   }
   /* lanes: only used for heroes you tagged */
   const myL=inferLane();
@@ -626,7 +728,7 @@ function renderRes(){
   if(!pool.size){r.innerHTML='<div class="msg">Your pool is empty. Open the My pool tab and tap the heroes you play.</div>';return}
   if(!res){r.innerHTML='<div class="msg">Add the picks you can see (none is fine), choose your lane, then tap Analyse draft.</div>';return}
   if(stale){r.innerHTML='<div class="stale">Draft changed. Tap Analyse draft for fresh picks.</div>';return}
-  const hd=`<div class="note">Based on ${res.e} enemy and ${res.a} ally picks${res.lane?", lane: "+res.lane:""}. Scores shift as more heroes are revealed.${res.need.length?" Your team still needs "+res.need.join(", ")+".":""}</div>`;
+  const hd=`<div class="note">Based on ${res.e} enemy and ${res.a} ally picks${res.lane?", lane: "+res.lane:""}. Scores shift as more heroes are revealed. Hero data: patch ${PATCHV}.${res.need.length?" Your team still needs "+res.need.join(", ")+".":""}</div>`;
   const top=res.out.slice(0,8);
   r.innerHTML=hd+(top.length?top.map((x,i)=>{
     const w=x.why.sort((a,b)=>Math.abs(b[0])-Math.abs(a[0])).slice(0,6).map(([v,t])=>`<b class="${v<0?"neg":""}">${v>0?"+":"−"}${Math.abs(v).toFixed(1)}</b> ${hx(t)}`).join(" · ");
@@ -657,6 +759,7 @@ const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 function gprompt(){
   const pl=[...pool].filter(n=>by[n]&&!dis.has(n)&&!E.includes(n)&&!A.includes(n)&&(!myLane||off||canLane(by[n],myLane)));
   const top=res?res.out.slice(0,5).map(x=>x.h.n+" "+x.s).join(", "):"not run";
+  const cand=res?res.out.slice(0,8).map(x=>x.h.n):pl.slice(0,8);
   return `You are an expert Mobile Legends: Bang Bang draft coach. Be concrete and honest; if you are unsure about a hero's current patch changes, say so.
 Draft so far (it may be incomplete, I may be picking early):
 - My lane: ${myLane||"any"}
@@ -664,6 +767,13 @@ Draft so far (it may be incomplete, I may be picking early):
 - Ally picks: ${fmtL(A,AL)||"none yet"}
 - Heroes I can pick (my pool): ${pl.join(", ")}
 - My app's rule-based top picks: ${top}
+
+${PATCHNOTE}
+Hero knowledge for this draft. It is current researched data, so trust it over your own memory where they differ. The numbers are win-rate points from Moonton matchup data (about 1.5 to 1.8 means a rough guide-based estimate):
+${[...E,...A].map(heroBrief).join("\n")||"(no picks yet)"}
+Top candidates from my pool:
+${cand.map(heroBrief).join("\n")}
+
 Think through every hero's skills, ultimates and cooldowns (hard CC, hooks, immunity, saves, anti-dash, channeled ults, resets), crowd control, sustain and healing, damage types, skills, mobility, team needs and the likely remaining enemy picks.
 Reply in plain text for a phone screen, under 450 words:
 1. My top 3 picks from the pool, with the reasons.
@@ -693,6 +803,11 @@ function hprompt(){
 I have decided to play ${dh}${myLane?" in the "+myLane:""}. Analyse ONLY this hero in this draft and do not suggest other heroes. Go skill by skill: which enemy skills and ultimates threaten it, which of its skills answer them, and the cooldown windows to fight in.
 - Enemy picks: ${fmtL(E,EL)||"none yet"}
 - Ally picks: ${fmtL(A,AL)||"none yet"}
+
+${PATCHNOTE}
+Hero knowledge (current researched data, so trust it over your own memory; numbers are win-rate points from Moonton matchup data, about 1.5 to 1.8 means a rough estimate):
+${[dh,...E,...A].map(heroBrief).join("\n")}
+
 If the draft is incomplete, say what to watch for from the missing picks.
 
 Reply in plain text for a phone screen, under 450 words:
@@ -878,6 +993,7 @@ function heroDetail(n){
   let o=`<div class="hd-ban" style="--rc:${RC[h.r]}"><span class="hd-wm" aria-hidden="true">${hx(ini(n))}</span><button class="hd-bk" data-a="hback" aria-label="Back to heroes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="hd-nm">${hx(n)}</div><div class="hd-ch">${chips.map(c=>`<span>${hx(c)}</span>`).join("")}</div></div>`;
   o+=`<div class="ss3"><div><b>${g?pct(w,l)+"%":"—"}</b><span>Your win rate</span></div><div><b>${g}</b><span>Games</span></div><div><b>${mv}</b><span>MVPs</span></div></div>`;
   o+=`<div class="sec">`+[["Durability",h.tgh],["Offense",h.dmg],["Control",h.ctl],["Mobility",h.mob]].map(([t,v])=>`<div class="rb"><span>${t.toUpperCase()}</span><span class="t"><i style="width:${v*20}%"></i></span><b>${v*20}</b></div>`).join("")+`<div class="note" style="margin:6px 0 0">The app's own hero ratings (estimates).${mr?` Meta ranking: <b>${mr.t}</b>${mr.wr?`, ${mr.wr}% win rate`:""}.`:""}${lt?` ${lt}-tier in ${LN[h.r]} this patch.`:""}</div></div>`;
+  o+=intelSec(n);
   o+=`<div class="seg" role="tablist">`+[["ov","Overview"],["tm","Teammates"],["mu","Matchups"],["ma","Matches"]].map(([v,t])=>`<button role="tab" aria-selected="${v==hvTab}" data-a="htab" data-v="${v}"${v==hvTab?' class="on"':""}>${t}</button>`).join("")+`</div>`;
   if(!g)return o+`<div class="sec"><div class="msg">No matches with ${hx(n)} yet. Log one and this page fills in by itself.</div><button class="go" data-a="logm">Log a match</button></div>`;
   if(hvTab=="ov"){
