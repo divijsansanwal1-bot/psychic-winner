@@ -693,14 +693,15 @@ function score(h){
       if(myL=="jungle"&&(pa.t.includes("b")||pa.t.includes("p"))&&/[KG]/.test(h.kit))add(1.5,"your CC sets up "+pa.n+"'s damage");
     }
   }
-  /* my own match history */
-  const mvN=matches.filter(m=>m.hero==h.n&&m.mvp).length;if(mvN)add(Math.min(3,mvN*.8),"MVP in "+mvN+" of your games");
+  /* my own match history. HW scales every history effect (1 = the old full strength, 0 = ignore history) */
+  const HW=.3;
+  const mvN=matches.filter(m=>m.hero==h.n&&m.mvp).length;if(mvN)add(Math.min(3,mvN*.8)*HW,"MVP in "+mvN+" of your games");
   const g=matches.filter(m=>m.hero==h.n&&!(m.mvp&&!m.win));
-  if(g.length){const w=g.filter(m=>m.win).length;add(((w+2)/(g.length+4)-.5)*18,"your record: "+w+"-"+(g.length-w)+" with "+h.n);
-    if(myLane){const gl=g.filter(m=>m.lane==myLane);if(gl.length){const w2=gl.filter(m=>m.win).length;add(((w2+1)/(gl.length+2)-.5)*8,w2+"-"+(gl.length-w2)+" in "+myLane)}}
+  if(g.length){const w=g.filter(m=>m.win).length;add(((w+2)/(g.length+4)-.5)*18*HW,"your record: "+w+"-"+(g.length-w)+" with "+h.n);
+    if(myLane){const gl=g.filter(m=>m.lane==myLane);if(gl.length){const w2=gl.filter(m=>m.win).length;add(((w2+1)/(gl.length+2)-.5)*8*HW,w2+"-"+(gl.length-w2)+" in "+myLane)}}
     let mv=0;const bits=[];
     E.forEach(e=>{const gm=g.filter(m=>m.enemy.includes(e));if(gm.length){const w3=gm.filter(m=>m.win).length;mv+=((w3+1)/(gm.length+2)-.5)*10;bits.push(e+" "+w3+"-"+(gm.length-w3))}});
-    if(bits.length)add(Math.max(-5,Math.min(5,mv)),"your history vs "+bits.join(", "));
+    if(bits.length)add(Math.max(-5,Math.min(5,mv))*HW,"your history vs "+bits.join(", "));
   }
   s+=(h.dmg+h.tgh+h.ctl+h.mob)*0.01;
   return{h,s:Math.round(Math.max(0,Math.min(100,s))*10)/10,why};
