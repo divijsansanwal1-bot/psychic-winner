@@ -1,4 +1,3 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -111,6 +110,20 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 :root[data-theme="dark"]{--rT:#22d3ee;--rS:#34e07a;--rF:#ff6b2c;--rM:#b06cff;--rX:#ffd426;--rA:#ff3d7f}
 .r-T{color:var(--rT)}.r-S{color:var(--rS)}.r-F{color:var(--rF)}.r-M{color:var(--rM)}.r-X{color:var(--rX)}.r-A{color:var(--rA)}
 .hd-nm.r-T,.hd-nm.r-S,.hd-nm.r-F,.hd-nm.r-M,.hd-nm.r-X,.hd-nm.r-A{color:#fff}
+.topb{display:flex;gap:6px;justify-content:flex-end;margin:-30px 0 12px}.topb .clr{padding:5px 10px;font-size:12px}
+.bans{display:flex;align-items:center;gap:8px;margin:8px 0 0;font-size:13px;flex-wrap:wrap}.bans .chips{flex:1}.chip.bn2{border-color:var(--mu);text-decoration:line-through;text-decoration-color:var(--fo)}
+.gp{display:inline-block;font-size:12px;border-radius:999px;padding:3px 10px;margin:0 4px 4px 0;border:1px solid var(--ln)}.gp.ok{border-color:var(--win);color:var(--win)}.gp.bad{border-color:var(--fo);color:var(--fo);font-weight:700}.gp.mid{color:var(--mu)}
+.bi{all:unset;cursor:pointer;display:block;width:100%;box-sizing:border-box;background:var(--pn);border:1px solid var(--ln);border-radius:8px;padding:7px 9px;margin-bottom:5px;font-size:13px}.bi .tg{display:block;font-size:11px}
+.one{font-size:13px;font-weight:600;margin:4px 0 0}
+.flex{font-size:10px;font-weight:700;border:1px solid var(--al);color:var(--al);border-radius:5px;padding:0 5px;vertical-align:middle;letter-spacing:.5px}.flex.sm{margin-left:auto;font-size:9px}
+.cfb{font-style:normal;font-size:10.5px;font-weight:700;border-radius:5px;padding:1px 6px;vertical-align:middle;margin-left:auto}.cfb.c4{background:var(--go);color:#fff}.cfb.c3{border:1px solid var(--go);color:var(--go)}.cfb.c2{color:var(--mu);border:1px solid var(--ln)}.cfb.c1{color:var(--mu);border:1px dashed var(--ln)}
+.nm .cfb,.nm .flex{font-size:11px;margin-left:4px}
+.qr{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:0 0 8px}.qk{font:600 12.5px 'Chakra Petch',system-ui,sans-serif;border:1px solid var(--ln);background:var(--pn);color:var(--ink);border-radius:999px;padding:5px 10px;cursor:pointer}.qk.pn{border-color:var(--go)}
+.tabs button.on[data-v="B"]{background:var(--mu);border-color:var(--mu);color:#fff}
+#posbox button{padding:7px 11px}
+textarea{width:100%;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--ln);background:var(--pn);color:var(--ink);margin-top:4px;resize:vertical}
+.clr:disabled{opacity:.4}
+@media (max-width:380px){.topb{margin-top:0}}
 </style></head><body><main>
 <h1>Last Pick</h1>
 <p class="sub">Mark the draft, get your best hero from your pool.</p>
@@ -133,7 +146,7 @@ table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:13px}th{te
 <div id="v-pool" hidden><h2 style="font-size:15px;margin:0 0 4px">My pool by role</h2><p class="note" id="pnote"></p><div id="pout"></div></div>
 <div id="v-heroes" hidden><div id="hv-grid-wrap"><div class="rk-head"><h2 style="font-size:15px;margin:0">My heroes</h2><select id="hv-s" class="sel" aria-label="Sort heroes"><option value="games">Most played</option><option value="wr">Win rate</option><option value="name">Name</option></select></div><div class="chips2" id="hv-chips"></div><input id="hv-q" type="search" placeholder="Search heroes" autocomplete="off" aria-label="Search heroes"><p class="note" id="hv-sum"></p><div class="hgrid" id="hv-grid"></div></div><div id="hv-detail" hidden></div></div>
 <div id="v-rank" hidden><div class="rk-head"><h2 style="font-size:15px;margin:0">Hero Ranking</h2><span class="upd" id="rk-upd"></span></div><div class="seg" id="rk-seg"></div><div class="flt"><label id="rk-tl">Time<select id="rk-t"><option value="all">All time</option><option value="30d">30 days</option><option value="7d">7 days</option><option value="1d">1 day</option></select></label><label>Role<select id="rk-r"><option value="">All</option><option value="T">Tank</option><option value="F">Fighter</option><option value="A">Assassin</option><option value="M">Mage</option><option value="X">Marksman</option><option value="S">Support</option></select></label><label id="rk-sl">Sort<select id="rk-s"><option value="wr">Win rate</option><option value="games">Games</option><option value="mvp">MVPs</option></select></label></div><div id="rk-out"></div><div id="rk-ml" hidden><div class="tier-h"><b>By lane</b><span>· patch picks and bans</span></div><div class="lanes" id="mlanes"></div><div id="mout"></div></div></div>
-<div id="v-hist" hidden><h2 style="font-size:15px;margin:0 0 8px">Match history</h2><button class="go" data-a="logm">Log a match</button><div id="hlog"></div><div class="row2" style="margin-top:14px"><button class="clr" data-a="exp">Export backup</button><label class="clr" style="text-align:center">Import backup<input id="imp" type="file" accept=".json,application/json" hidden></label></div></div>
+<div id="v-hist" hidden><h2 style="font-size:15px;margin:0 0 8px">Match history</h2><button class="go" data-a="logm">Log a match</button><div id="hlog"></div><div class="row2" style="margin-top:14px"><button class="clr" data-a="exp">Export full backup</button><label class="clr" style="text-align:center">Import backup<input id="imp" type="file" accept=".json,application/json" hidden></label></div></div>
 </main>
 <script>
 const D=`Tigreal|T|P|cf
@@ -581,9 +594,9 @@ function score(h){
   else if(nA){const open=["roam","jungle","mid","EXP lane","gold"].filter(l=>!taken.includes(l));
     if(taken.includes(lane))add(-9,"lane already taken ("+lane+")");else add(open.length<=2?9:6,"fills "+lane)}
   /* patch meta */
-  const tr=tierOf(h.n,myLane||lane);
+  const tr=metaOn?tierOf(h.n,myLane||lane):"";
   if(tr)add({S:3.2,A:2.1,B:1.1,C:0,D:-1}[tr]*(myLane?1:.7),tr+"-tier in "+(myLane||lane)+" this patch");
-  const mrk=MR[h.n];if(mrk)add({"S+":2,"S":1.2,"A":.5}[mrk.t]||0,mrk.t+"-tier in the hero ranking"+(mrk.wr?" ("+mrk.wr+"%)":""));
+  const mrk=metaOn&&MR[h.n];if(mrk)add({"S+":2,"S":1.2,"A":.5}[mrk.t]||0,mrk.t+"-tier in the hero ranking"+(mrk.wr?" ("+mrk.wr+"%)":""));
   /* what my team needs */
   const k5=(nA+1)/5,dfc=(t,have)=>Math.max(0,t*k5-have);
   add(1.5*Math.min(h.ctl,dfc(10,al.ctl)),"adds crowd control");
@@ -607,7 +620,7 @@ function score(h){
     if(al.rng>=3&&h.rng=="m"&&h.tgh>=3)add(2.5,"melee frontline for a ranged team");
     if(!al.w&&h.t.includes("w"))add(2,"wave clear");
   }
-  if(nA+nE<5)add(Math.min(3,(h.t.length+(h.ult=="N"?0:1))*0.6),"flexible while the draft is open");
+  if(nA+nE<5)add(PW().b*Math.min(3,(h.t.length+(h.ult=="N"?0:1))*0.6),"flexible while the draft is open");
   /* what the enemy is doing */
   if(nE){
     const divR=en.div/nE,ctlA=en.ctl/nE,fl=E.filter(n=>by[n].tgh>=4).length,sqC=E.filter(n=>by[n].tgh<=1).length,pSh=en.ph/((en.ph+en.mg)||1);
@@ -630,8 +643,8 @@ function score(h){
     const jn=l=>l.slice(0,3).join(", "),ed=(c,v)=>(CT2[c]&&CT2[c][v])||0;
     const cBy=E.filter(n=>ed(n,h.n)>0).sort((a,b)=>ed(b,h.n)-ed(a,h.n)),cTo=E.filter(n=>ed(h.n,n)>0).sort((a,b)=>ed(h.n,b)-ed(h.n,a));
     const eb=cBy.reduce((a,n)=>a+ed(n,h.n),0),et=cTo.reduce((a,n)=>a+ed(h.n,n),0);
-    if(cBy.length)add(-12*Math.tanh(eb*1.5/12),"countered by "+cBy.slice(0,5).map(n=>n+" (+"+ed(n,h.n).toFixed(1)+")").join(", "));
-    if(cTo.length)add(7*Math.tanh(et*0.9/7),"counters "+cTo.slice(0,5).map(n=>n+" (+"+ed(h.n,n).toFixed(1)+")").join(", "));
+    if(cBy.length)add(-PW().c*12*Math.tanh(eb*1.5/12),"countered by "+cBy.slice(0,5).map(n=>n+" (+"+ed(n,h.n).toFixed(1)+")").join(", "));
+    if(cTo.length)add(PW().c*7*Math.tanh(et*0.9/7),"counters "+cTo.slice(0,5).map(n=>n+" (+"+ed(h.n,n).toFixed(1)+")").join(", "));
     if(h.r=="T"){
       const tkC=E.filter(n=>{const x=by[n];return x.r=="T"&&/[KG]/.test(x.kit)&&!cBy.includes(n)});
       if(tkC.length)add(-Math.min(2.4,1.2*tkC.length)*(h.mob>=3?1:.5)*(h.kit.includes("I")?.6:1),"enemy tank "+jn(tkC)+" can disrupt your tank");
@@ -680,11 +693,11 @@ function score(h){
     if(sy.length){const tt=sy.reduce((a,x)=>a+x[1],0);add(tt>=0?10*Math.tanh(tt*1.6/10):-7*Math.tanh(-tt*1.6/7),(tt>=0?"synergy with ":"poor fit with ")+sy.slice(0,5).map(x=>x[0]+" ("+(x[1]>0?"+":"")+x[1].toFixed(1)+")").join(", "))}
   }
   /* current-patch win rate */
-  if(h.wr)add(Math.max(-2.5,Math.min(2.5,(h.wr-50)*.2)),h.wr+"% win rate this patch");
+  if(metaOn&&h.wr&&!h.lowS)add(Math.max(-2.5,Math.min(2.5,(h.wr-50)*.2)),h.wr+"% win rate this patch");
   /* picking early: many heroes can still counter this one */
   if(nE<4){
-    const risky=Object.keys(CT2).filter(c=>CT2[c][h.n]>=2.4&&!E.includes(c)&&!A.includes(c));
-    if(risky.length>=3)add(-0.35*(Math.min(6,risky.length)-2)*((4-nE)/4),"many heroes can still counter it ("+risky.slice(0,3).join(", ")+")");
+    const risky=Object.keys(CT2).filter(c=>CT2[c][h.n]>=2.4&&!E.includes(c)&&!A.includes(c)&&!B.includes(c));
+    if(risky.length>=3)add(-PW().b*0.35*(Math.min(6,risky.length)-2)*((4-nE)/4),"many heroes can still counter it ("+risky.slice(0,3).join(", ")+")");
   }
   /* lanes: only used for heroes you tagged */
   const myL=inferLane();
@@ -723,12 +736,14 @@ function score(h){
   const HW=.3;
   const mvN=matches.filter(m=>m.hero==h.n&&m.mvp).length;if(mvN)add(Math.min(3,mvN*.8)*HW,"MVP in "+mvN+" of your games");
   const g=matches.filter(m=>m.hero==h.n&&!(m.mvp&&!m.win));
-  if(g.length){const w=g.filter(m=>m.win).length;add(((w+2)/(g.length+4)-.5)*18*HW,"your record: "+w+"-"+(g.length-w)+" with "+h.n);
+  if(g.length){const w=g.filter(m=>m.win).length;add(((w+2)/(g.length+4)-.5)*18*HW,"your record: "+w+"-"+(g.length-w)+" with "+h.n+(g.length<5?" (small sample)":""));
     if(myLane){const gl=g.filter(m=>m.lane==myLane);if(gl.length){const w2=gl.filter(m=>m.win).length;add(((w2+1)/(gl.length+2)-.5)*8*HW,w2+"-"+(gl.length-w2)+" in "+myLane)}}
     let mv=0;const bits=[];
     E.forEach(e=>{const gm=g.filter(m=>m.enemy.includes(e));if(gm.length){const w3=gm.filter(m=>m.win).length;mv+=((w3+1)/(gm.length+2)-.5)*10;bits.push(e+" "+w3+"-"+(gm.length-w3))}});
     if(bits.length)add(Math.max(-5,Math.min(5,mv))*HW,"your history vs "+bits.join(", "));
   }
+  /* comfort: how well YOU play this hero */
+  if(pool.has(h.n))add(CFV[cfOf(h.n)],{4:"your Main hero",3:"comfortable for you",2:"",1:"still learning this hero"}[cfOf(h.n)]||"can play");
   s+=(h.dmg+h.tgh+h.ctl+h.mob)*0.01;
   return{h,s:Math.round(Math.max(0,Math.min(100,s))*10)/10,why};
 }
@@ -744,7 +759,7 @@ function slots(list,max,side){
   return o;
 }
 function analyse(){
-  const out=[...pool].filter(n=>by[n]&&!dis.has(n)&&!E.includes(n)&&!A.includes(n)&&(!myLane||off||canLane(by[n],myLane))).map(n=>score(by[n])).sort((a,b)=>b.s-a.s);
+  const out=[...pool].filter(n=>by[n]&&!dis.has(n)&&!E.includes(n)&&!A.includes(n)&&!B.includes(n)&&(!myLane||off||canLane(by[n],myLane))).map(n=>score(by[n])).sort((a,b)=>b.s-a.s);
   res={out,e:E.length,a:A.length,lane:myLane,need:needs()};stale=false;
 }
 let dsig="";const sig=()=>JSON.stringify([E,A,AL,EL,myLane,off,[...dis]]);
@@ -755,11 +770,12 @@ function renderRes(){
   if(!pool.size){r.innerHTML='<div class="msg">Your pool is empty. Open the My pool tab and tap the heroes you play.</div>';return}
   if(!res){r.innerHTML='<div class="msg">Add the picks you can see (none is fine), choose your lane, then tap Analyse draft.</div>';return}
   if(stale){r.innerHTML='<div class="stale">Draft changed. Tap Analyse draft for fresh picks.</div>';return}
-  const hd=`<div class="note">Based on ${res.e} enemy and ${res.a} ally picks${res.lane?", lane: "+res.lane:""}. Scores shift as more heroes are revealed. Hero data: patch ${PATCHV}.${res.need.length?" Your team still needs "+res.need.join(", ")+".":""}</div>`;
+  const hd=`<div class="note">Based on ${res.e} enemy and ${res.a} ally picks${B.length?", "+B.length+" bans":""}${res.lane?", lane: "+res.lane:""}, ${["1st","2nd","3rd","4th","5th"][pickPos-1]} pick${metaOn?"":", off-meta mode"}. Scores shift as more heroes are revealed. Hero data: patch ${PATCHV}.${res.need.length?" Your team still needs "+res.need.join(", ")+".":""}</div>`;
   const top=res.out.slice(0,8);
   r.innerHTML=hd+(top.length?top.map((x,i)=>{
     const w=x.why.sort((a,b)=>Math.abs(b[0])-Math.abs(a[0])).slice(0,6).map(([v,t])=>`<b class="${v<0?"neg":""}">${v>0?"+":"−"}${Math.abs(v).toFixed(1)}</b> ${hx(t)}`).join(" · ");
-    return `<div class="card${i?"":" top"}"><div class="row"><span class="nm${rcl(x.h.n)}">${x.h.n}</span><span class="sc">${x.s.toFixed(1)}</span></div><div class="bar"><i style="width:${x.s}%"></i></div><div class="tg">${tags(x.h)}</div><div class="why">${w||"No strong signals, a neutral pick."}</div></div>`}).join(""):'<div class="msg">No active pool heroes fit this lane. Tick "Include heroes from other roles" or switch heroes on in the Pool tab.</div>');
+    const one=x.why.filter(z=>z[0]>0).slice(0,3).map(z=>z[1]).join(" · ");
+    return `<div class="card${i?"":" top"}"><div class="row"><span class="nm${rcl(x.h.n)}">${x.h.n}${pool.has(x.h.n)?` <span class="cfb c${cfOf(x.h.n)}">${CFN[cfOf(x.h.n)]}</span>`:""}${isFlex(x.h.n)?' <span class="flex">FLEX</span>':""}</span><span class="sc">${x.s.toFixed(1)}</span></div>${one?`<div class="one">Why: ${hx(one)}</div>`:""}<div class="bar"><i style="width:${x.s}%"></i></div><div class="tg">${tags(x.h)}</div><div class="why">${w||"No strong signals, a neutral pick."}</div>${UN[x.h.n]?`<div class="note" style="margin:6px 0 0">📝 ${hx(UN[x.h.n])}</div>`:""}</div>`}).join("")+(top.length?'<button class="go alt" data-a="logdraft" style="margin-top:4px">Log this draft as a match</button>':""):'<div class="msg">No active pool heroes fit this lane. Tick "Include heroes from other roles" or switch heroes on in the Pool tab.</div>');
 }
 function matchList(){return H.filter(h=>h.n.toLowerCase().includes(q)).sort((a,b)=>b.n.toLowerCase().startsWith(q)-a.n.toLowerCase().startsWith(q))}
 function pickHero(v){const cur=mode=="E"?E:A,oth=mode=="E"?A:E,max=mode=="E"?5:4,i=cur.indexOf(v);if(i>-1){cur.splice(i,1);delete (mode=="E"?EL:AL)[v]}else if(cur.length<max&&!oth.includes(v))cur.push(v)}
@@ -784,7 +800,7 @@ function saveKey(){gkey=$("gk").value.trim();gmodel=$("gm").value.trim()||"gemin
   try{localStorage.setItem("lp-gkey",gkey);localStorage.setItem("lp-gmodel",gmodel);$("ks").textContent="Saved"}catch(e){$("ks").textContent="Could not save in this browser"}}
 const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 function gprompt(){
-  const pl=[...pool].filter(n=>by[n]&&!dis.has(n)&&!E.includes(n)&&!A.includes(n)&&(!myLane||off||canLane(by[n],myLane)));
+  const pl=[...pool].filter(n=>by[n]&&!dis.has(n)&&!E.includes(n)&&!A.includes(n)&&!B.includes(n)&&(!myLane||off||canLane(by[n],myLane)));
   const top=res?res.out.slice(0,5).map(x=>x.h.n+" "+x.s).join(", "):"not run";
   const cand=res?res.out.slice(0,8).map(x=>x.h.n):pl.slice(0,8);
   return `You are an expert Mobile Legends: Bang Bang draft coach. Be concrete and honest; if you are unsure about a hero's current patch changes, say so.
@@ -848,7 +864,7 @@ function deepHero(){
   if(!dh){$("deep2").innerHTML='<div class="stale">Pick your hero first: type 2 or 3 letters above the button.</div>';return}
   dsig2=sig2();gcall($("deep2"),hprompt(),"Analysing "+hx(dh)+"…");
 }
-function dhsug(){const t=$("in-dh").value.trim().toLowerCase();if(!t||dh)return[];return H.filter(h=>h.n.toLowerCase().includes(t)).sort((a,b)=>(b.n.toLowerCase().startsWith(t)-a.n.toLowerCase().startsWith(t))||(pool.has(b.n)-pool.has(a.n))).slice(0,6).map(h=>h.n)}
+function dhsug(){const t=$("in-dh").value.trim().toLowerCase();if(!t||dh)return[];return H.filter(h=>fz(t,h.n)>0).sort((a,b)=>(fz(t,b.n)-fz(t,a.n))||(pool.has(b.n)-pool.has(a.n))).slice(0,6).map(h=>h.n)}
 function dhdraw(){
   $("ch-dh").innerHTML=dh?`<span class="chip">${hx(dh)}<button data-a="dhx" aria-label="Remove ${hx(dh)}">✕</button></span>`:"";
   $("in-dh").style.display=dh?"none":"";
@@ -913,7 +929,7 @@ const MAXF={hero:1,team:4,enemy:5},FL={hero:"Your hero",team:"Your team (allies)
 function msug(f){
   const v=f=="hero"?(ml.hero?[ml.hero]:[]):ml[f],t=$("in-"+f).value.trim().toLowerCase();
   if(!t||v.length>=MAXF[f])return[];
-  return H.filter(h=>h.n.toLowerCase().includes(t)&&!v.includes(h.n)).sort((a,b)=>(b.n.toLowerCase().startsWith(t)-a.n.toLowerCase().startsWith(t))||(pool.has(b.n)-pool.has(a.n))).slice(0,6).map(h=>h.n);
+  return H.filter(h=>fz(t,h.n)>0&&!v.includes(h.n)).sort((a,b)=>(fz(t,b.n)-fz(t,a.n))||(pool.has(b.n)-pool.has(a.n))).slice(0,6).map(h=>h.n);
 }
 function mdraw(f){
   const v=f=="hero"?(ml.hero?[ml.hero]:[]):ml[f];
@@ -963,7 +979,7 @@ function saveMatch(){
   matches.unshift({hero:h,lane:l,win:r=="1",mvp:!!ml.mvp,team:[...ml.team],enemy:[...ml.enemy],notes:$("ln").value.trim(),date:new Date().toISOString()});
   persist();showModal(null);render_hist();refreshOpen();
 }
-function exportM(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(matches)],{type:"application/json"}));a.download="last-pick-matches.json";a.click()}
+function exportM(){const all={app:"last-pick",v:2,date:new Date().toISOString(),pool:[...pool],dis:[...dis],comfort:CF,notes:UN,pins:[...PINS],settings:{pickPos,metaOn,theme},matches};const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(all)],{type:"application/json"}));a.download="last-pick-backup.json";a.click()}
 /* ===== HERO PAGES + RANKING ===== */
 /* META RANKING: copy from your hero-ranking app after patches. Each tier is a comma list of "Hero WinRate" (win rate optional). */
 const META_RANK={updated:"2026-10-08",source:"your hero-ranking screenshot (1-day win rates)",tiers:{
@@ -1096,8 +1112,8 @@ document.addEventListener("click",e=>{
   }
   render();
 });
-$("imp").addEventListener("change",async ev=>{try{const j=JSON.parse(await ev.target.files[0].text());if(Array.isArray(j)){matches=j;persist();render_hist()}else throw 0}catch(x){alert("Could not read that backup file.")}ev.target.value=""});
-$("q").addEventListener("keydown",e=>{if(e.key!="Enter"||mode=="P")return;e.preventDefault();const cur=mode=="E"?E:A,oth=mode=="E"?A:E,f=matchList().find(h=>!cur.includes(h.n)&&!oth.includes(h.n));if(!f)return;pickHero(f.n);q="";e.target.value="";stale=true;render()});
+$("imp").addEventListener("change",async ev=>{try{const j=JSON.parse(await ev.target.files[0].text());if(Array.isArray(j)){matches=j;persist();render_hist()}else if(j&&j.app=="last-pick"){if(!confirm("Replace your pool, comfort levels, notes, pins and matches with this backup?"))return;matches=j.matches||[];persist();pool=new Set(j.pool||[]);save();dis=new Set(j.dis||[]);savedis();CF=j.comfort||{};sv("lp-cf",CF);UN=j.notes||{};sv("lp-notes",UN);PINS=new Set(j.pins||[]);sv("lp-pins",[...PINS]);const st=j.settings||{};if(st.pickPos){pickPos=st.pickPos;sv("lp-pos",pickPos)}if(st.metaOn!=null){metaOn=st.metaOn;sv("lp-meta",metaOn)}if(st.theme){theme=st.theme;sv("lp-theme",theme);applyTheme()}stale=true;render_hist();alert("Backup restored.")}else throw 0}catch(x){alert("Could not read that backup file.")}ev.target.value=""});
+$("q").addEventListener("keydown",e=>{if(e.key!="Enter"||mode=="P")return;e.preventDefault();const f=matchList().find(h=>!A.includes(h.n)&&!E.includes(h.n)&&!B.includes(h.n));if(!f)return;pushUndo();pickHero(f.n);q="";e.target.value="";stale=true;render()});
 $("off").addEventListener("change",e=>{off=e.target.checked;stale=true;render()});
 $("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();renderGrid()});
 $("in-dh").addEventListener("input",dhdraw);
@@ -1108,8 +1124,274 @@ $("rk-t").addEventListener("change",e=>{rkTime=e.target.value;render_rank()});
 $("rk-r").addEventListener("change",e=>{rkRole=e.target.value;render_rank()});
 $("rk-s").addEventListener("change",e=>{rkSort=e.target.value;render_rank()});
 document.addEventListener("pointermove",lcMove);document.addEventListener("pointerdown",lcMove);document.addEventListener("pointerout",lcOut);
+/* ===== EXTRAS (Oct 2026): comfort tiers, pick position, gap checklist, bans, notes, pins, fuzzy search, undo/swap, theme, stats refresh, install ===== */
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let CF=ld("lp-cf",{}),UN=ld("lp-notes",{}),PINS=new Set(ld("lp-pins",[])),RECENT=ld("lp-recent",[]);
+let pickPos=ld("lp-pos",3),metaOn=ld("lp-meta",true),theme=ld("lp-theme","auto");
+let B=[],undoS=[],roleF="",poolOnly=false,poolMode="on";
+const CFN={4:"Main",3:"Comfortable",2:"Can play",1:"Learning"},CFS={4:"M",3:"C",2:"P",1:"L"},CFV={4:6,3:3,2:0,1:-4};
+const cfOf=n=>CF[n]||2;
+/* pick position: c = weight on counters, b = weight on staying safe / flexible */
+const POSW={1:{c:.6,b:1.8},2:{c:.8,b:1.4},3:{c:1,b:1},4:{c:1.2,b:.6},5:{c:1.4,b:.25}};
+const PW=()=>POSW[pickPos]||POSW[3];
+const POSD={1:"1st pick: safe, flexible heroes that are hard to counter.",2:"2nd pick: mostly safe, a little countering.",3:"3rd pick: balance safety and counters.",4:"4th pick: lean on countering what you see.",5:"Last pick: go all in on counters and team gaps."};
+const flexL=n=>by[n]?LANES.filter(l=>canLane(by[n],l)):[];
+const isFlex=n=>flexL(n).length>=2;
+const daysAgo=s=>{const t=new Date(s).getTime();return isNaN(t)?null:Math.floor((Date.now()-t)/DAY)};
+
+/* ---- nicknames + fuzzy search ---- */
+const ALI={};Object.entries({lapu:"Lapu-Lapu",ll:"Lapu-Lapu",pk:"Popol and Kupa",popol:"Popol and Kupa",xb:"X.Borg",xborg:"X.Borg",yss:"Yi Sun-shin",yi:"Yi Sun-shin",gatot:"Gatotkaca",gk:"Gatotkaca",bene:"Benedetta",chang:"Chang'e",change:"Chang'e",luo:"Luo Yi",yz:"Yu Zhong",zl:"Zilong",mino:"Minotaur",esme:"Esmeralda",valen:"Valentina",nat:"Natalia",lance:"Lancelot",haya:"Hayabusa",kag:"Kagura",fred:"Fredrinn",bax:"Baxia",selly:"Selena",guin:"Guinevere",gwen:"Guinevere",lolli:"Lolita",tig:"Tigreal",franky:"Franco",khuf:"Khufra",mathi:"Mathilda",rafa:"Rafaela",mosk:"Moskov",bea:"Beatrix",obs:"Obsidia",hira:"Hirara",terry:"Terizla",yve:"Yve",cyc:"Cyclops",harl:"Harley",fanny:"Fanny",wan:"Wanwan",wanwan:"Wanwan",jj:"Julian",xav:"Xavier",pharsa:"Pharsa",luno:"Lunox",vexa:"Vexana",grang:"Granger",brod:"Brody",irit:"Irithel",carm:"Carmilla",dig:"Diggie",flo:"Floryn",aamo:"Aamon",hel:"Helcurt",sab:"Saber",ald:"Aldous",thamu:"Thamuz",dyr:"Dyrroth",paq:"Paquito",chou:"Chou",ari:"Arlott",arlot:"Arlott",fara:"Faramis",kad:"Kadita",kim:"Kimmy",min:"Minsitthar",sil:"Silvanna",syl:"Silvanna"}).forEach(([k,v])=>{if(by[v])ALI[k]=v});
+const nrm=x=>String(x).toLowerCase().replace(/[^a-z0-9]/g,"");
+function fz(q,n){
+  const t=nrm(q);if(!t)return 1;const s=nrm(n);
+  if(ALI[t]===n)return 100;
+  if(s.startsWith(t))return 90;
+  if(Object.keys(ALI).some(a=>ALI[a]===n&&a.startsWith(t)))return 85;
+  if(n.toLowerCase().split(/[\s\-.']+/).some(w=>nrm(w).startsWith(t)))return 80;
+  if(s.includes(t))return 60;
+  if(t.length>=3){let i=0;for(const c of s)if(c===t[i])i++;if(i===t.length)return 30}
+  return 0;
+}
+matchList=function(){
+  return H.map(h=>[h,fz(q,h.n)]).filter(([h,s])=>s>0&&(!roleF||h.r==roleF)&&(!poolOnly||pool.has(h.n))).sort((a,b)=>b[1]-a[1]||a[0].n.localeCompare(b[0].n)).map(x=>x[0]);
+};
+
+/* ---- draft: bans, recent, undo ---- */
+const snap=()=>JSON.stringify({E,A,AL,EL,B});
+function pushUndo(){const s=snap();if(undoS[undoS.length-1]!==s){undoS.push(s);if(undoS.length>40)undoS.shift()}}
+function doUndo(){const s=undoS.pop();if(!s)return;const o=JSON.parse(s);E=o.E;A=o.A;AL=o.AL;EL=o.EL;B=o.B;stale=true}
+function doSwap(){const nA=E.slice(0,4),nE=A.slice(),nAL={},nEL={};nA.forEach(n=>{if(EL[n])nAL[n]=EL[n]});nE.forEach(n=>{if(AL[n])nEL[n]=AL[n]});A=nA;E=nE;AL=nAL;EL=nEL;stale=true}
+function addRecent(n){RECENT=[n,...RECENT.filter(x=>x!=n)].slice(0,10);sv("lp-recent",RECENT)}
+pickHero=function(v){
+  if(mode=="B"){const i=B.indexOf(v);if(i>-1)B.splice(i,1);else if(B.length<10&&!A.includes(v)&&!E.includes(v)){B.push(v);addRecent(v)}return}
+  if(B.includes(v))return;
+  const cur=mode=="E"?E:A,oth=mode=="E"?A:E,max=mode=="E"?5:4,i=cur.indexOf(v);
+  if(i>-1){cur.splice(i,1);delete (mode=="E"?EL:AL)[v]}else if(cur.length<max&&!oth.includes(v)){cur.push(v);addRecent(v)}
+};
+
+/* ---- team gap checklist (allies) + quick enemy read ---- */
+function gapPanel(){
+  if(!A.length&&!E.length)return"";
+  const t=A.map(n=>by[n]).filter(Boolean),n=t.length;
+  const cnt=f=>t.filter(f).length;
+  const front=cnt(h=>h.tgh>=4),cc=cnt(h=>/[KG]/.test(h.kit)||h.ctl>=4),eng=cnt(h=>h.ult=="E"||h.kit.includes("G")),heal=cnt(h=>h.t.includes("h")||h.ult=="H"),wave=cnt(h=>h.t.includes("w"));
+  const ph=cnt(h=>h.d=="P"),mg=cnt(h=>h.d=="M"),mx=cnt(h=>h.d=="B");
+  const sp={e:cnt(h=>h.spk=="e"),m:cnt(h=>h.spk=="m"),l:cnt(h=>h.spk=="l")};
+  const taken=allyLanes(),open=LANES.filter(l=>!taken.includes(l));
+  const chip=(ok,txt)=>`<span class="gp ${ok?"ok":n>=2?"bad":"mid"}">${ok?"✓":n>=2?"⚠":"·"} ${txt}</span>`;
+  const warn=[];
+  if(n>=2&&!front)warn.push("0 frontline");
+  if(n>=2&&cc<1)warn.push("no hard CC");
+  if(n>=3&&!eng)warn.push("no engage");
+  if(ph>=3&&!mg&&!mx)warn.push(ph+" physical, no magic");
+  if(mg>=3&&!ph&&!mx)warn.push(mg+" magic, no physical");
+  if(n>=3&&sp.e>=3&&!sp.l)warn.push("all early game: end it fast or you fall off");
+  if(n>=3&&sp.l>=3&&!sp.e)warn.push("all late game: expect to be behind early");
+  let o=`<div class="sec gap"><h3>Your team so far${n?` (${n})`:""}</h3>`;
+  if(n){
+    o+=`<div class="gps">${chip(front>=1,"Frontline "+front)}${chip(cc>=(n>=3?2:1),"Hard CC "+cc)}${chip(eng>=1,"Engage "+eng)}${chip(heal>=1,"Sustain "+heal)}${chip(wave>=1,"Wave clear "+wave)}</div>`;
+    o+=`<div class="tg" style="margin:6px 0 2px">Damage: ${ph} physical · ${mg} magic${mx?" · "+mx+" mixed":""} &nbsp;|&nbsp; Power curve: ${sp.e} early · ${sp.m} mid · ${sp.l} late</div>`;
+  }
+  o+=`<div class="tg">Open lanes: ${open.length?open.map(l=>`<b>${LAB[l]}</b>`).join(", "):"none"}</div>`;
+  if(warn.length)o+=`<div class="stale" style="margin:6px 0 0">⚠ ${warn.join(" · ")}</div>`;
+  if(E.length){
+    const te=E.map(x=>by[x]).filter(Boolean),c2=f=>te.filter(f).length;
+    o+=`<div class="tg" style="margin-top:6px"><b style="color:var(--fo)">Enemy:</b> ${c2(h=>h.d=="P")} physical · ${c2(h=>h.d=="M")} magic · ${c2(h=>h.tgh>=4)} frontline · ${c2(h=>h.mob>=4&&h.rng=="m"&&h.tgh<=3)} divers · ${c2(h=>h.spk=="l")} late-game</div>`;
+  }
+  return o+`</div>`;
+}
+
+/* ---- ban ideas: heroes that hurt YOUR comfort picks, plus meta threats ---- */
+function banIdeas(){
+  const live=[...pool].filter(n=>by[n]&&!dis.has(n));
+  let mine=live.filter(n=>cfOf(n)>=3);if(!mine.length)mine=live;
+  if(myLane)mine=mine.filter(n=>canLane(by[n],myLane)).length?mine.filter(n=>canLane(by[n],myLane)):mine;
+  const gone=new Set([...A,...E,...B]);
+  const night=H.filter(h=>!gone.has(h.n)).map(h=>{const vs=mine.filter(p=>CT2[h.n]&&CT2[h.n][p]).map(p=>[p,CT2[h.n][p]*(cfOf(p)>=4?1.4:1)]);return{n:h.n,s:vs.reduce((a,x)=>a+x[1],0),vs:vs.sort((a,b)=>b[1]-a[1])}}).filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,5);
+  const bans={};Object.values(META.lanes).forEach(L=>{const m=String(L.ban).match(/^(.+?)\s+(\d+)%/);if(m&&by[m[1]])bans[m[1]]=+m[2]});
+  const meta=H.filter(h=>!gone.has(h.n)).map(h=>{const mr=MR[h.n];let s=(bans[h.n]||0)/10+(mr?{"S+":3,"S":1.5,"A":.5}[mr.t]:0)+(h.wr&&!h.lowS?Math.max(0,h.wr-52)*.4:0);const why=[];if(bans[h.n])why.push(bans[h.n]+"% ban rate");if(mr)why.push(mr.t+"-tier");if(h.wr&&h.wr>=53&&!h.lowS)why.push(h.wr+"% WR");return{n:h.n,s,why}}).filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,5);
+  const row=(x,why)=>`<button class="bi" data-a="bsug" data-v="${hx(x.n)}"><span class="${rcl(x.n).trim()}" style="font-weight:700">${hx(x.n)}</span><span class="tg" style="margin:0">${hx(why)}</span></button>`;
+  return `<details class="set" id="banbox"${B.length||E.length||A.length?"":" open"}><summary>Ban ideas</summary><div class="row2"><div><div class="head" style="margin-top:4px">Your nightmares</div>${night.length?night.map(x=>row(x,"counters "+x.vs.slice(0,3).map(v=>v[0]).join(", "))).join(""):'<div class="msg">Mark some heroes Main or Comfortable in Pool.</div>'}</div><div><div class="head" style="margin-top:4px">Meta threats</div>${meta.map(x=>row(x,x.why.join(" · "))).join("")}</div></div><div class="note">Tap one to add it to the bans. "Your nightmares" are heroes that counter your Main and Comfortable picks${myLane?" for "+myLane:""}.</div></details>`;
+}
+
+/* ---- staleness of the hand-made meta lists ---- */
+function staleNote(){
+  const d=daysAgo(META_RANK.updated),st=ld("lp-stats",null),sd=st?daysAgo(st.date):null;
+  let o=`Meta lists: patch ${PATCHV}, updated ${d==null?META_RANK.updated:d==0?"today":d+" day"+(d>1?"s":"")+" ago"}.`;
+  if(st)o+=` Live stats refreshed ${sd==0?"today":sd+" day"+(sd>1?"s":"")+" ago"} (${hx(st.rank)}, ${st.days} days).`;
+  const old=d!=null&&d>21;
+  return `<div class="${old?"stale":"note"}" style="margin:8px 0 0">${old?"⚠ ":""}${o}${old?" These may be out of date: update them after the next patch.":""}</div>`;
+}
+
+/* ---- draft view extras ---- */
+const _render=render;
+render=function(){
+  _render();
+  $("posbox").innerHTML=`<b>Your pick order</b>`+[1,2,3,4,5].map(i=>`<button data-a="pos" data-v="${i}"${i==pickPos?' class="on"':""}>${i}${["st","nd","rd","th","th"][i-1]}</button>`).join("")+`<div class="tg" style="width:100%;margin:2px 0 0">${POSD[pickPos]}</div>`;
+  $("sb").innerHTML=B.length?B.map(n=>`<span class="chip bn2">${hx(n)}<button data-a="rm" data-v="${hx(n)}" aria-label="Remove ban ${hx(n)}">✕</button></span>`).join(""):'<span class="tg" style="margin:0">No bans yet. Use the Ban tab below or tap a ban idea.</span>';
+  $("gapbox").innerHTML=gapPanel();
+  $("banideas").innerHTML=banIdeas();
+  $("stalebox").innerHTML=staleNote();
+  $("mt").checked=metaOn;
+  $("undo").disabled=!undoS.length;
+};
+const _renderGrid=renderGrid;
+renderGrid=function(){
+  const cur=mode=="E"?E:mode=="A"?A:mode=="B"?B:null,oth=mode=="P"?[]:[...A,...E,...B].filter(x=>!(cur||[]).includes(x));
+  const btn=h=>{const on=mode=="P"?pool.has(h.n):cur.includes(h.n),tk=!on&&oth.includes(h.n);
+    return `<button class="h${on?" on":""}${tk?" tk":""}${B.includes(h.n)&&mode!="B"?" x":""}${rcl(h.n)}" data-a="hero" data-v="${hx(h.n)}"><s style="background:${RC[h.r]}"></s>${hx(h.n)}${mode!="P"&&pool.has(h.n)?`<em>${CFS[cfOf(h.n)]}★</em>`:""}</button>`};
+  $("grid").innerHTML=matchList().map(btn).join("")||'<div class="msg">No heroes match. Try a shorter search or another role.</div>';
+  $("rf").innerHTML=[["","All"],...ROLES].map(([v,t])=>`<button data-a="rf" data-v="${v}"${v==roleF?' class="on"':""}>${t}</button>`).join("");
+  const qk=[...PINS].filter(n=>by[n]).concat(RECENT.filter(n=>by[n]&&!PINS.has(n))).slice(0,12);
+  $("qr").innerHTML=qk.length&&!q?`<span class="tg" style="margin:0 4px 0 0">Quick:</span>`+qk.map(n=>`<button class="qk${PINS.has(n)?" pn":""}" data-a="hero" data-v="${hx(n)}">${PINS.has(n)?"📌 ":""}${hx(n)}</button>`).join(""):"";
+  document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v==mode));
+};
+
+/* ---- hero page: comfort, pin, notes ---- */
+const _heroDetail=heroDetail;
+heroDetail=function(n){
+  const base=_heroDetail(n),fl=flexL(n);
+  const sec=`<div class="sec"><h3>Your settings for ${hx(n)}</h3>`+
+    (pool.has(n)?`<div class="tg">Comfort</div><div class="lanes" style="margin:4px 0 8px">`+[4,3,2,1].map(c=>`<button data-a="cfset" data-v="${c}|${hx(n)}"${cfOf(n)==c?' class="on"':""}>${CFN[c]}</button>`).join("")+`</div>`:`<div class="note">Add ${hx(n)} to your pool (Draft, then My pool) to set a comfort level.</div>`)+
+    `<button class="clr" data-a="pin" data-v="${hx(n)}">${PINS.has(n)?"📌 Pinned to the picker (tap to unpin)":"Pin to the picker"}</button>`+
+    (fl.length>=2?`<div class="tg" style="margin-top:8px"><span class="flex">FLEX</span> Can play ${fl.map(l=>LAB[l]).join(", ")}</div>`:"")+
+    `<label class="fld" style="margin:10px 0 0">My notes (builds, matchup tips)<textarea id="unote" data-h="${hx(n)}" rows="3" placeholder="e.g. Buy Dominance Ice vs heal. Avoid early fights vs Ling.">${hx(UN[n]||"")}</textarea></label><div class="tg" id="unsaved"></div></div>`;
+  return base.replace('<div class="seg" role="tablist">',sec+'<div class="seg" role="tablist">');
+};
+
+/* ---- pool view: comfort mode + coverage report ---- */
+function coverage(){
+  const live=[...pool].filter(n=>by[n]&&!dis.has(n)),comfy=live.filter(n=>cfOf(n)>=3);
+  const th=new Set();Object.values(META.lanes).forEach(L=>L.list.split(",").forEach(x=>{const m=x.trim().match(/^(.+)\s+([SA])$/);if(m&&by[m[1]])th.add(m[1])}));
+  Object.entries(MR).forEach(([n,x])=>{if(x.t!="A")th.add(n)});
+  const T=[...th].sort();if(!comfy.length)return `<div class="sec"><h3>Pool coverage</h3><div class="msg">Switch to Comfort mode above and mark your Main and Comfortable heroes. Then this shows which meta threats none of them can answer.</div></div>`;
+  const ans=t=>comfy.filter(p=>CT2[p]&&CT2[p][t]>=1.5);
+  const un=T.filter(t=>!ans(t).length),cov=T.length-un.length;
+  const learn=H.filter(h=>!comfy.includes(h.n)).map(h=>({n:h.n,c:un.filter(t=>CT2[h.n]&&CT2[h.n][t]>=1.5)})).filter(x=>x.c.length).sort((a,b)=>b.c.length-a.c.length||pool.has(b.n)-pool.has(a.n)).slice(0,6);
+  return `<div class="sec"><h3>Pool coverage</h3><div class="note">Your ${comfy.length} Main and Comfortable heroes answer <b>${cov} of ${T.length}</b> meta threats (S/A in the lane lists, S+/S in the ranking).</div>`+
+    (un.length?`<div class="head" style="font-size:13px">No answer yet</div><div class="tg">${un.map(t=>`<span class="${rcl(t).trim()}">${hx(t)}</span>`).join(", ")}</div>`:`<div class="msg">Every meta threat has an answer in your comfort pool. 👏</div>`)+
+    (learn.length?`<div class="head" style="font-size:13px">Learn next</div>`+learn.map(x=>`<div class="why" style="margin:4px 0">${lk(x.n)}${pool.has(x.n)?" ★ ("+CFN[cfOf(x.n)]+")":""}: counters ${x.c.slice(0,4).join(", ")}</div>`).join(""):"")+
+    `<div class="note">Uses the counter data built into the app (edges of 1.5+ win-rate points).</div></div>`;
+}
+const _render_pool=render_pool;
+render_pool=function(){
+  _render_pool();
+  const seg=`<div class="seg">`+[["on","On / off"],["cf","Comfort"]].map(([v,t])=>`<button data-a="pmode" data-v="${v}"${v==poolMode?' class="on"':""}>${t}</button>`).join("")+`</div>`;
+  if(poolMode=="cf"){
+    $("pnote").innerHTML="Tap a hero to cycle its comfort: Learning → Can play → Comfortable → Main. Main heroes get the biggest boost in suggestions. FLEX = can play 2+ lanes.";
+    document.querySelectorAll('#pout [data-a="ptog"]').forEach(b=>{const n=b.dataset.v;b.dataset.a="cfcyc";b.insertAdjacentHTML("beforeend",`<em class="cfb c${cfOf(n)}">${CFN[cfOf(n)]}</em>`)});
+  }
+  document.querySelectorAll('#pout .h').forEach(b=>{if(isFlex(b.dataset.v))b.insertAdjacentHTML("beforeend",'<span class="flex sm">FLEX</span>')});
+  $("pnote").insertAdjacentHTML("beforebegin",`<div id="pseg">${seg}</div>`);const old=document.querySelectorAll("#pseg");if(old.length>1)old[0].remove();
+  $("pout").insertAdjacentHTML("beforeend",coverage());
+};
+
+/* ---- ranking: low-sample flags, live stats refresh, trend arrows ---- */
+const BASEWR={};H.forEach(h=>{if(h.wr!=null)BASEWR[h.n]=h.wr});
+function applyStats(){
+  const S=ld("lp-stats",null);H.forEach(h=>{h.lowS=false;if(BASEWR[h.n]!=null)h.wr=BASEWR[h.n]});if(!S||!S.data)return;
+  H.forEach(h=>{const x=S.data[h.n];if(!x)return;h.lowS=x.pr!=null&&x.pr<0.3;if(x.wr!=null&&!h.lowS)h.wr=x.wr});
+}
+function findHero(nm){if(!nm)return null;if(by[nm])return nm;const t=nrm(nm);return H.find(h=>nrm(h.n)==t)?.n||null}
+function parseRone(j){
+  const recs=(j&&j.data&&(j.data.records||j.data))||[],out={};
+  (Array.isArray(recs)?recs:[]).forEach(r=>{const d=r.data||r,mh=d.main_hero&&(d.main_hero.data||d.main_hero),n=findHero((mh&&mh.name)||d.name||d.hero_name);if(!n)return;
+    const g=re=>{for(const k in d){if(re.test(k)&&d[k]!==null&&typeof d[k]!="object"&&!isNaN(+d[k]))return +d[k]}return null};
+    const p=v=>v==null?null:v<=1?Math.round(v*1000)/10:Math.round(v*10)/10;
+    out[n]={wr:p(g(/win_rate/)),pr:p(g(/appearance_rate|pick_rate/)),br:p(g(/ban_rate/))}});
+  return out;
+}
+async function refreshStats(){
+  const rank=$("rr").value,days=$("rd").value,o=$("rmsg");o.textContent="Fetching…";
+  try{
+    const r=await fetch(`https://arena.rone.dev/api/heroes/rank?days=${days}&rank=${rank}&sort_field=win_rate&size=200`);
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    const data=parseRone(await r.json()),n=Object.keys(data).length;
+    if(n<20)throw new Error("only "+n+" heroes came back");
+    const old=ld("lp-stats",null);if(old)sv("lp-stats-prev",old);
+    sv("lp-stats",{date:new Date().toISOString(),rank,days:+days,data});applyStats();stale=true;
+    o.textContent=`Updated ${n} heroes. Suggestions now use these win rates.`;render_rank();
+  }catch(e){o.textContent="Could not get live stats ("+e.message+"). Rone Arena may block requests from websites, or be down. Your built-in lists still work.";}
+}
+function trendOf(n){const S=ld("lp-stats",null);if(!S||!S.data[n]||S.data[n].wr==null)return null;const P=ld("lp-stats-prev",null);const base=P&&P.data[n]&&P.data[n].wr!=null?P.data[n].wr:BASEWR[n];return base==null?null:Math.round((S.data[n].wr-base)*10)/10}
+function statsPanel(){
+  const S=ld("lp-stats",null);
+  const mv=S?H.map(h=>({n:h.n,d:trendOf(h.n)})).filter(x=>x.d!=null&&Math.abs(x.d)>=0.5&&!(S.data[x.n]&&S.data[x.n].pr!=null&&S.data[x.n].pr<0.3)):[];
+  const up=[...mv].sort((a,b)=>b.d-a.d).slice(0,5),dn=[...mv].sort((a,b)=>a.d-b.d).slice(0,5);
+  const low=S?Object.entries(S.data).filter(([,x])=>x.pr!=null&&x.pr<0.3).map(([n])=>n):[];
+  return `<div class="sec"><h3>Live stats (optional)</h3><div class="flt" style="grid-template-columns:1fr 1fr auto;align-items:end"><label>Rank bracket<select id="rr">${[["all","All ranks"],["epic","Epic"],["legend","Legend"],["mythic","Mythic"],["honor","Mythical Honor"],["glory","Mythical Glory+"]].map(([v,t])=>`<option value="${v}"${S&&S.rank==v?" selected":""}>${t}</option>`).join("")}</select></label><label>Days<select id="rd">${[1,3,7,15,30].map(d=>`<option${(S?S.days:7)==d?" selected":""}>${d}</option>`).join("")}</select></label><button class="clr" data-a="refresh" style="height:36px">Refresh</button></div><div class="tg" id="rmsg">${S?`Last refresh: ${new Date(S.date).toLocaleString()} · ${Object.keys(S.data).length} heroes`:"Pulls win, pick and ban rates from the free Rone Arena API (unofficial, based on Moonton's data). Your hand-made lists stay the main source."}</div>`+
+  (up.length?`<div class="row2" style="margin-top:8px"><div><div class="head" style="font-size:13px">Rising ↑</div>${up.map(x=>`<div class="why">${lk(x.n)} <b style="color:var(--win)">↑${x.d}</b></div>`).join("")}</div><div><div class="head" style="font-size:13px">Falling ↓</div>${dn.map(x=>`<div class="why">${lk(x.n)} <b class="neg">↓${Math.abs(x.d)}</b></div>`).join("")}</div></div><div class="note">Change in win-rate points vs your previous refresh (or the built-in numbers).</div>`:"")+
+  (low.length?`<div class="note">Low sample, ignored for win rate: ${low.slice(0,12).join(", ")}${low.length>12?"…":""}</div>`:"")+`</div>`;
+}
+const _render_rank=render_rank;
+render_rank=function(){
+  _render_rank();
+  if(rkView=="meta"){$("rk-out").insertAdjacentHTML("afterbegin",statsPanel());
+    document.querySelectorAll("#rk-out .rk-i").forEach(b=>{const d=trendOf(b.dataset.v);if(d!=null&&Math.abs(d)>=0.5)b.querySelector(".rk-v").insertAdjacentHTML("beforeend",` <span style="color:var(--${d>0?"win":"loss"})">${d>0?"↑":"↓"}</span>`)});}
+  else document.querySelectorAll("#rk-out .rk-s").forEach(s=>{const m=s.textContent.match(/^(\d+) game/);if(m&&+m[1]<5)s.insertAdjacentHTML("beforeend",' · <span style="color:var(--go)">low sample</span>')});
+};
+
+/* ---- theme ---- */
+function applyTheme(){const r=document.documentElement;if(theme=="auto")delete r.dataset.theme;else r.dataset.theme=theme;const b=$("thm");if(b)b.textContent={auto:"◐ Auto",light:"☀ Light",dark:"☾ Dark"}[theme]}
+
+/* ---- install as an app (PWA) ---- */
+let instEv=null;
+function setupPWA(){
+  try{
+    const mk=s=>{const c=document.createElement("canvas");c.width=c.height=s;const x=c.getContext("2d"),g=x.createLinearGradient(0,0,s,s);g.addColorStop(0,"#1f6fe0");g.addColorStop(1,"#0d1226");x.fillStyle=g;x.fillRect(0,0,s,s);x.fillStyle="#f2b84b";x.font=`700 ${s*.42}px system-ui,sans-serif`;x.textAlign="center";x.textBaseline="middle";x.fillText("LP",s/2,s/2+s*.03);return c.toDataURL("image/png")};
+    const i192=mk(192),i512=mk(512),hd=document.head,add=(t,a)=>{const e=document.createElement(t);Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));hd.appendChild(e)};
+    add("link",{rel:"apple-touch-icon",href:i192});add("link",{rel:"icon",href:i192});
+    add("meta",{name:"apple-mobile-web-app-capable",content:"yes"});add("meta",{name:"mobile-web-app-capable",content:"yes"});add("meta",{name:"apple-mobile-web-app-title",content:"Last Pick"});add("meta",{name:"theme-color",content:"#0d1226"});
+    const url=location.href.split("#")[0];
+    const man={name:"Last Pick – MLBB draft helper",short_name:"Last Pick",start_url:url,scope:url.replace(/[^/]*$/,""),display:"standalone",background_color:"#0d1226",theme_color:"#0d1226",icons:[{src:i192,sizes:"192x192",type:"image/png"},{src:i512,sizes:"512x512",type:"image/png",purpose:"any maskable"}]};
+    add("link",{rel:"manifest",href:"data:application/manifest+json,"+encodeURIComponent(JSON.stringify(man))});
+    if("serviceWorker" in navigator&&location.protocol=="https:")navigator.serviceWorker.register("last-pick-sw.js").catch(()=>{});
+  }catch(e){}
+  addEventListener("beforeinstallprompt",e=>{e.preventDefault();instEv=e;const b=$("inst");if(b)b.hidden=false});
+}
+
+/* ---- one listener for the new buttons (runs before the main one) ---- */
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-a]");if(!b)return;const a=b.dataset.a,v=b.dataset.v;
+  const stop=()=>{e.stopImmediatePropagation();e.preventDefault()};
+  if((a=="hero"&&mode!="P")||a=="rm"||a=="clear"||a=="sl")pushUndo();
+  if(a=="rm"&&B.includes(v)){B=B.filter(x=>x!=v);stale=true;stop();render();return}
+  if(a=="clear")B=[];
+  if(a=="pos"){pickPos=+v;sv("lp-pos",pickPos);stale=true;stop();render();return}
+  if(a=="bsug"){pushUndo();if(B.length<10&&!B.includes(v)&&!A.includes(v)&&!E.includes(v)){B.push(v);addRecent(v)}stale=true;stop();render();return}
+  if(a=="undo"){doUndo();stop();render();return}
+  if(a=="swap"){pushUndo();doSwap();stop();render();return}
+  if(a=="rf"){roleF=v;stop();renderGrid();return}
+  if(a=="theme"){theme={auto:"light",light:"dark",dark:"auto"}[theme];sv("lp-theme",theme);applyTheme();stop();return}
+  if(a=="pmode"){poolMode=v;stop();render_pool();return}
+  if(a=="cfcyc"){CF[v]=cfOf(v)>=4?1:cfOf(v)+1;sv("lp-cf",CF);stale=true;stop();render_pool();return}
+  if(a=="cfset"){const k=v.indexOf("|");CF[v.slice(k+1)]=+v.slice(0,k);sv("lp-cf",CF);stale=true;stop();render_heroes();return}
+  if(a=="pin"){PINS.has(v)?PINS.delete(v):PINS.add(v);sv("lp-pins",[...PINS]);stop();render_heroes();return}
+  if(a=="refresh"){stop();refreshStats();return}
+  if(a=="install"){stop();if(instEv){instEv.prompt();instEv=null;b.hidden=true}return}
+  if(a=="logdraft"){stop();showModal("log");const top=dh||(res&&res.out[0]&&res.out[0].h.n)||"";if(top){ml.hero=top;mdraw("hero")}return}
+},true);
+document.addEventListener("input",e=>{
+  if(e.target.id=="unote"){const n=e.target.dataset.h,t=e.target.value;if(t.trim())UN[n]=t;else delete UN[n];sv("lp-notes",UN);$("unsaved").textContent="Saved"}
+  if(e.target.id=="mt"){metaOn=e.target.checked;sv("lp-meta",metaOn);stale=true;render()}
+  if(e.target.id=="po"){poolOnly=e.target.checked;renderGrid()}
+});
+
+/* ---- build the new bits of the page ---- */
+(function initExtras(){
+  $("sa").closest(".strip").insertAdjacentHTML("afterend",`<div class="bans"><b>Bans</b><div class="chips" id="sb"></div></div>`);
+  $("lanes").insertAdjacentHTML("afterend",`<div class="lanes" id="posbox"></div><div id="gapbox"></div>`);
+  $("off").closest(".opt").insertAdjacentHTML("afterend",`<label class="opt"><input type="checkbox" id="mt"> Use meta tiers and win rates (untick for off-meta: matchups, synergy and team needs only)</label><div id="banideas"></div>`);
+  document.querySelector(".tabs").insertAdjacentHTML("beforeend",`<button data-a="mode" data-v="B">Ban</button>`);
+  $("q").insertAdjacentHTML("afterend",`<div class="chips2" id="rf" style="margin:0 0 4px"></div><label class="opt"><input type="checkbox" id="po"> My pool only</label><div class="qr" id="qr"></div>`);
+  $("q").placeholder="Search heroes (nicknames work: pk, yss, lapu)";
+  document.querySelector("#v-draft .foot").insertAdjacentHTML("beforebegin",`<div class="row2" style="margin-top:10px"><button class="clr" id="undo" data-a="undo">↶ Undo</button><button class="clr" data-a="swap">⇄ Swap sides</button></div><div id="stalebox"></div>`);
+  document.querySelector("h1").insertAdjacentHTML("afterend",`<div class="topb"><button class="clr" id="thm" data-a="theme"></button><button class="clr" id="inst" data-a="install" hidden>⤓ Install app</button></div>`);
+  document.querySelector("details.set").insertAdjacentHTML("afterend",`<details class="set"><summary>Install Last Pick on your phone</summary><p>Android (Chrome): tap ⋮, then <b>Add to Home screen</b> or <b>Install app</b>. iPhone (Safari): tap Share, then <b>Add to Home Screen</b>.</p><p>It then opens full-screen like a normal app. For full offline use, also upload <b>last-pick-sw.js</b> next to this page on your site.</p></details>`);
+  applyStats();applyTheme();setupPWA();
+})();
+
 dhdraw();
 render();
 </script></body></html>
-
-</body></html>
